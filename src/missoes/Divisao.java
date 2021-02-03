@@ -58,7 +58,8 @@ public class Divisao {
 
     /**
      * Verificar se duas divisões são iguais.
-     * @return boolean
+     * @return true se as divisões forem iguais.
+     * @return false se as divisões forem diferentes.
      */
     @Override
     public boolean equals(Object obj) {
