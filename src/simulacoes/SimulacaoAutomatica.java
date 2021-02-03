@@ -5,10 +5,12 @@
  */
 package simulacoes;
 
+import interfaces.ISimulacaoAutomatica;
+
 /**
  *
  * @author tiago
  */
-public class SimulacaoAutomatica {
+public class SimulacaoAutomatica extends Simulacao implements ISimulacaoAutomatica{
     
 }

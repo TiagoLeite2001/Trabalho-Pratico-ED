@@ -6,11 +6,14 @@
 
 package simulacoes;
 
+import interfaces.ISimulacaoManual;
+
 /**
  * 
  *  Nome:João Carlos Abreu Lopes 
     Número:8190221
     Turma:T1
  */
-public class SimulacaoManual {
+public class SimulacaoManual extends Simulacao implements ISimulacaoManual {
+    
 }
