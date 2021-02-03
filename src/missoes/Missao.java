@@ -12,7 +12,6 @@ import linkedListSentinela.UnorderedLinkedList;
  * Esta classe guarda toda a informação relativa a uma missão.
  */
 public class Missao implements IMissao {
-
     private String codMissao;
     private UnorderedLinkedList<ICenario> versoes;
 
@@ -96,6 +95,7 @@ public class Missao implements IMissao {
      *
      * @return Número de versões da missão. 
      */
+    @Override
     public int getNumeroVersoes() {
         return this.versoes.size();
     }

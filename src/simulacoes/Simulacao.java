@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package simulacoes;
 
 import interfaces.ISimulacao;
@@ -18,17 +14,17 @@ public abstract class Simulacao implements ISimulacao {
     private UnorderedLinkedList<Divisao> trajeto;
     private boolean sucesso;
     private int pontosVida;
-    protected int versao;
+    private int versao;
     
     /**
-     * Construtor para uma simulacao.
+     * Construtor para uma simulação.
      */
     public Simulacao(){
     }
     
     /**
-     * Õbter o trajeto percorrido numa simulaçao.
-     * @return 
+     * Obter o trajeto percorrido numa simulação.
+     * @return Iterator para o trajeto
      */
     @Override
     public Iterator<Divisao> getTrajeto(){
@@ -37,7 +33,8 @@ public abstract class Simulacao implements ISimulacao {
     
     /**
      * Verificar se uma missão foi bem sucedida.
-     * @return 
+     * @return true se a missão foi cumprida com sucesso 
+     * @return false se a missão não foi cumprida com sucesso
      */
     @Override
     public boolean missaoSucedida(){
@@ -74,6 +71,7 @@ public abstract class Simulacao implements ISimulacao {
      * Introduzir a versao da missão.
      * @param versão. 
      */
+    @Override
     public void setVersao(int versao) {
         this.versao = versao;
     }
