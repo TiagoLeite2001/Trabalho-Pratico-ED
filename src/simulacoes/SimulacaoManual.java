@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 package simulacoes;
 
@@ -10,10 +5,20 @@ import interfaces.ISimulacaoManual;
 
 /**
  * 
- *  Nome:João Carlos Abreu Lopes 
-    Número:8190221
-    Turma:T1
  */
-public class SimulacaoManual extends Simulacao implements ISimulacaoManual {
+public class SimulacaoManual extends Simulacao implements ISimulacaoManual,Comparable<SimulacaoManual> {
+
+    @Override
+    public int compareTo(SimulacaoManual o) {
+        if(this.getPontosVida()>o.getPontosVida()){
+            return -1;
+        }
+        else if(this.getPontosVida()==o.getPontosVida()){
+            return 0;
+        }
+        else{
+            return 1;
+        }
+    }
     
 }

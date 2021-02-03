@@ -8,11 +8,9 @@ package missoes;
 import graph.WeightedAdjMatrixGraph;
 import interfaces.ICenario;
 import interfaces.ISimulacaoAutomatica;
-import interfaces.ISimulacaoManual;
 import java.util.Iterator;
 import linkedListSentinela.OrderedLinkedList;
 import linkedListSentinela.UnorderedLinkedList;
-import simulacoes.SimulacaoAutomatica;
 import simulacoes.SimulacaoManual;
 
 /**

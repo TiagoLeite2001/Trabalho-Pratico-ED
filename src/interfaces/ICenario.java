@@ -10,8 +10,6 @@ import graph.WeightedAdjMatrixGraph;
 import java.util.Iterator;
 import missoes.Alvo;
 import missoes.Divisao;
-import simulacoes.SimulacaoAutomatica;
-import simulacoes.SimulacaoManual;
 
 /**
  *
@@ -32,5 +30,5 @@ public interface ICenario {
 
     public ISimulacaoAutomatica getSimulacaoAutomatica();
 
-    public Iterator<ISimulacaoManual> getSimulacoesManuais();
+    public Iterator<SimulacaoManual> getSimulacoesManuais();
 }
