@@ -5,138 +5,140 @@
  */
 package json;
 
+import exceptions.ElementNotFoundException;
+import exceptions.InvalidDocumentException;
+import exceptions.InvalidWeightValueException;
+import exceptions.NullElementValueException;
+import exceptions.RepeatedElementException;
+import graph.WeightedAdjMatrixGraph;
+import interfaces.ICenario;
+import interfaces.IDivisao;
 import interfaces.IMissao;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.Reader;
+import linkedListSentinela.UnorderedLinkedList;
+import missoes.Alvo;
+import missoes.Cenario;
+import missoes.Divisao;
 import missoes.Missao;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 /**
  *
  * @author tiago
  */
 public class JsonImporter {
-    private String path;
-    private Integer numbOrders=0;
 
     /**
      * Constructor for JsonImporter.
      */
-    public JsonImporter(String path) {
-        this.path = path;
+    public JsonImporter() {}
+
+    /**
+     * Import JSON file.
+     * @return IOrders
+     */
+    public IMissao JsonImporter(String path) throws IOException, ParseException, 
+            FileNotFoundException, NullElementValueException, RepeatedElementException, 
+            ElementNotFoundException, InvalidWeightValueException {
+        IMissao missao = null;
+        missao = importFile(path);
+        return missao;
     }
 
     /**
      * Import JSON file.
      * @return IOrders
      */
-    public IMissao JsonImporter(){
-            IMissao missao = null;
-            //missao = importFile();
-            return missao;
-        }
-    
-
-    /**
-     * Import JSON file.
-     * @return IOrders
-     */
-   // private IMissao importFile(){
+    private IMissao importFile(String path) throws FileNotFoundException, IOException, 
+            ParseException, NullElementValueException, RepeatedElementException, 
+            ElementNotFoundException, InvalidWeightValueException{
         //String id = numbOrders.toString();
         
 
-//        JSONObject resultObject;
-//        JSONParser parser = new JSONParser();
-//
-//        Reader reader = new FileReader(path);
-//        resultObject = (JSONObject) parser.parse(reader);
-//
-//        JSONArray orders = (JSONArray) resultObject.get("orders");
-//        
-//        IMissao missao = new Missao("shbw");
-//        
-//        for (int i = 0; i < orders.size(); i++) {
-//            JSONObject jorder = (JSONObject) orders.get(i);
-//            JSONObject jcostumer = (JSONObject) jorder.get("customer");
-//
-//            Long l = (long) jcostumer.get("nif");
-//            Integer numb = l.intValue();
-//
-//            Costumer costumer = new Costumer((String) jcostumer.get("name"), numb);
-//            JSONObject jaddress = (JSONObject) jcostumer.get("address");
-//
-//
-//            l = (long) jaddress.get("number");
-//            numb = l.intValue();
-//
-//            Address address = new Address((String) jaddress.get("country"), numb,
-//                    (String) jaddress.get("street"), (String) jaddress.get("city"),
-//                    (String) jaddress.get("postal_code"));
-//            costumer.setAddress(address);
-//            //-----------------------------------
-//            JSONObject jreceiver = (JSONObject) jorder.get("destination");
-//
-//            l = (long) jreceiver.get("nif");
-//            numb = l.intValue();
-//
-//            Costumer receiver = new Costumer((String) jreceiver.get("name"), numb);
-//            JSONObject jreceiverAddress = (JSONObject) jreceiver.get("address");
-//
-//            l = (long) jreceiverAddress.get("number");
-//            numb = l.intValue();
-//
-//            Address receiverAddress = new Address((String) jreceiverAddress.get("country"), numb,
-//                    (String) jreceiverAddress.get("street"), (String) jreceiverAddress.get("city"),
-//                    (String) jreceiverAddress.get("postal_code"));
-//            receiver.setAddress(receiverAddress);
-//
-//            String orderID = (String) jorder.get("orderID");
-//
-//            Order order = new Order(costumer, receiver, orderID);
-//
-//            JSONArray jpackages = (JSONArray) jorder.get("packages");
-//
-//            for (int k = 0; k < jpackages.size(); k++) {
-//                JSONObject jpackage = (JSONObject) jpackages.get(k);
-//                Package pack = new Package(PackageSize.stringToPackageSize((String) jpackage.get("type")), (String) jpackage.get("packageID"));
-//
-//                JSONArray jitems = (JSONArray) jpackage.get("items");
-//
-//                for (int j = 0; j < jitems.size(); j++) {
-//                    JSONObject jitem = (JSONObject) jitems.get(j);
-//
-//                    String reference = (String) jitem.get("reference");
-//
-//                    l = (long) jitem.get("depth");
-//                    int depth = l.intValue();
-//
-//                    l = (long) jitem.get("length");
-//                    int length = l.intValue();
-//
-//                    l = (long) jitem.get("height");
-//                    int height = l.intValue();
-//
-//                    Double d = (double) jitem.get("weight");
-//                    float weight = d.floatValue();
-//
-//                    Item item = new Item(reference, depth, length, height, weight);
-//                    pack.addItem(item);
-//
-//                }
-//                order.addPackage(pack);
-//            }
-//            missao.addOrder(order);
-//        }
-//
-//        if (validateJSONFile((Orders) missao)) {
-//            return missao;
-//        } else {
-//            throw new InvalidDocumentException("O documento JSON inserido não é válido!");
-//        }
-//    }
-//
-//    /**
-//     * Validate imported JSON file.
-//     * @return true if document is correct.
-//     * @return false if document does not follow base struct.
-//     */
+        JSONObject resultObject;
+        JSONParser parser = new JSONParser();
+
+        Reader reader = new FileReader(path);
+        resultObject = (JSONObject) parser.parse(reader);
+        
+        JSONObject jCod = (JSONObject) resultObject.get("cod-missao");
+        
+        JSONObject jVersao = (JSONObject) resultObject.get("versao");
+        
+        JSONArray jEdificio = (JSONArray) resultObject.get("edificio");
+     
+        JSONArray jLigacoes = (JSONArray) resultObject.get("ligacoes");
+        
+        JSONArray jInimigos = (JSONArray) resultObject.get("inimigos");
+        
+        JSONArray jEntradasSaidas = (JSONArray) resultObject.get("entradas-saidas");
+        
+        JSONObject jAlvo = (JSONObject) resultObject.get("alvo");
+                
+       
+        IMissao missao = new Missao(jCod.toString());
+        
+        WeightedAdjMatrixGraph<IDivisao> edificio = new WeightedAdjMatrixGraph<>();
+        
+        for(int i=0; i<jEdificio.size();i++){
+            IDivisao divisao = new Divisao(jEdificio.get(i).toString());
+            
+            edificio.addVertex(divisao);
+        }
+        
+        for(int i=0; i<jLigacoes.size();i++){
+            JSONArray jLigacao = (JSONArray) jLigacoes.get(i);
+            
+            JSONObject jVertex1 = (JSONObject) jLigacao.get(0);
+            IDivisao divisao1 = new Divisao(jVertex1.toString());
+            
+            JSONObject jVertex2 = (JSONObject) jLigacao.get(1);
+            IDivisao divisao2 = new Divisao(jVertex2.toString());
+            
+            int poder=0;
+            
+            for(int j=0; j<jInimigos.size();j++){
+                JSONObject jInimigo = (JSONObject) jInimigos.get(i);
+                
+                IDivisao divisao = new Divisao(jInimigo.get("divisao").toString());
+                if(divisao1.equals(divisao)){
+                    poder += (int)jInimigo.get("poder");
+                }
+            }
+            
+            edificio.addEdge(divisao1, divisao2);
+        }
+        
+        UnorderedLinkedList<IDivisao> entradasSaidas = new UnorderedLinkedList<>();
+        
+        for(int i=0; i<jEntradasSaidas.size();i++){
+            
+            IDivisao divisao = new Divisao(jEntradasSaidas.get(i).toString());
+            entradasSaidas.addToRear(divisao);
+        }
+        
+        IDivisao alvoDivisao = new Divisao(jAlvo.get("divisao").toString());
+        
+        Alvo alvo = new Alvo(alvoDivisao, jAlvo.get("tipo").toString());
+        
+        ICenario cenario = new Cenario( (int)jVersao.get("versao"), edificio, entradasSaidas, alvo);
+        
+        
+        
+        return null;
+    }
+
+    /**
+     * Validate imported JSON file.
+     * @return true if document is correct.
+     * @return false if document does not follow base struct.
+     */
 //    private boolean validateJSONFile(Orders orders) {
 //
 //        IOrder[] listaOrders = orders.getOrders();
@@ -181,6 +183,6 @@ public class JsonImporter {
 //            }
 //        }
 //        return true;
-    //}
+//    }
 
 }

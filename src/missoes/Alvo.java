@@ -5,11 +5,13 @@
  */
 package missoes;
 
+import interfaces.IDivisao;
+
 /**
  *Esta classe guarda a informação de um alvo.
  */
 public class Alvo {
-    private Divisao divisao;
+    private IDivisao divisao;
     private String tipo;
     
     /**
@@ -17,7 +19,7 @@ public class Alvo {
      * @param divisao Divisão onde se encontra o alvo.
      * @param tipo Tipo de alvo.
      */
-    public Alvo(Divisao divisao, String tipo){
+    public Alvo(IDivisao divisao, String tipo){
         this.divisao = divisao;
         this.tipo = tipo;
     }
@@ -26,7 +28,7 @@ public class Alvo {
      * Obter a divisão onde se encontra o alvo.
      * @return Divisao.
      */
-    public Divisao getDivisao() {
+    public IDivisao getDivisao() {
         return divisao;
     }
     

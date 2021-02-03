@@ -1,6 +1,7 @@
 package missoes;
 
 import exceptions.NullElementValueException;
+import interfaces.IDivisao;
 import java.util.Iterator;
 import linkedListSentinela.UnorderedLinkedList;
 
@@ -8,7 +9,7 @@ import linkedListSentinela.UnorderedLinkedList;
  *
  * Esta classe guarda a informação de uma divisão do edificio.
  */
-public class Divisao {
+public class Divisao implements IDivisao{
 
     private String nome;
     private UnorderedLinkedList<Inimigo> inimigos;

@@ -6,7 +6,7 @@
 
 package interfaces;
 
-import graph.WeightedAdjMatrixGraph;
+import graph.WeightedAdjMatrixDiGraph;
 import java.util.Iterator;
 import missoes.Alvo;
 import missoes.Divisao;
@@ -29,13 +29,13 @@ public interface ICenario {
      * Obter o grafo do edificio.
      * @return edificio.
      */
-    public WeightedAdjMatrixGraph<Divisao> getEdificio();
+    public WeightedAdjMatrixDiGraph<IDivisao> getEdificio();
     
     /**
      * Obter o iterador das entradas e saidas.
      * @return iterador.
      */
-    public Iterator<Divisao> getEntradasSaidas();
+    public Iterator<IDivisao> getEntradasSaidas();
 
     /**
      * Obter o alvo do cenário.

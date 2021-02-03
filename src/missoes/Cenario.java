@@ -5,8 +5,9 @@
  */
 package missoes;
 
-import graph.WeightedAdjMatrixGraph;
+import graph.WeightedAdjMatrixDiGraph;
 import interfaces.ICenario;
+import interfaces.IDivisao;
 import interfaces.ISimulacaoAutomatica;
 import java.util.Iterator;
 import linkedListSentinela.OrderedLinkedList;
@@ -19,8 +20,8 @@ import simulacoes.SimulacaoManual;
  */
 public class Cenario implements ICenario{
     private int versao;
-    private WeightedAdjMatrixGraph<Divisao> edificio;
-    private UnorderedLinkedList<Divisao> entradasSaidas;
+    private WeightedAdjMatrixDiGraph<IDivisao> edificio;
+    private UnorderedLinkedList<IDivisao> entradasSaidas;
     private Alvo alvo;
     private ISimulacaoAutomatica simulacaoAutomatica;
     private OrderedLinkedList<SimulacaoManual> simulacoesManuais;
@@ -32,8 +33,8 @@ public class Cenario implements ICenario{
      * @param entradasEsaidas lista das entradas e saídas do cenário.
      * @param alvo alvo do cenário.
      */
-    public Cenario(int versao, WeightedAdjMatrixGraph<Divisao> edificio,
-            UnorderedLinkedList<Divisao> entradasSaidas, Alvo alvo){
+    public Cenario(int versao, WeightedAdjMatrixDiGraph<IDivisao> edificio,
+            UnorderedLinkedList<IDivisao> entradasSaidas, Alvo alvo){
         this.versao = versao;
         this.edificio = edificio;
         this.entradasSaidas = entradasSaidas;
@@ -56,7 +57,7 @@ public class Cenario implements ICenario{
      * @return edificio.
      */
     @Override
-    public WeightedAdjMatrixGraph<Divisao> getEdificio() {
+    public WeightedAdjMatrixDiGraph<IDivisao> getEdificio() {
         return edificio;
     }
     
@@ -65,7 +66,7 @@ public class Cenario implements ICenario{
      * @return iterador.
      */
     @Override
-    public Iterator<Divisao> getEntradasSaidas() {
+    public Iterator<IDivisao> getEntradasSaidas() {
         return entradasSaidas.iterator();
     }
 
