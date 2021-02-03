@@ -4,13 +4,11 @@
  * and open the template in the editor.
  */
 
-package simulacoes;
+package interfaces;
 
 /**
- * 
- *  Nome:João Carlos Abreu Lopes 
-    Número:8190221
-    Turma:T1
+ *
  */
-public class SimulacaoManual {
+public interface ISimulacaoManual extends ISimulacao {
+
 }

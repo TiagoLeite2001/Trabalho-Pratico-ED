@@ -58,6 +58,7 @@ public class Divisao {
 
     /**
      * Verificar se duas divisões são iguais.
+     *
      * @return boolean
      */
     @Override
@@ -73,6 +74,7 @@ public class Divisao {
 
     /**
      * Obter a informação do edificio.
+     *
      * @return informação do edificio
      */
     @Override
@@ -83,7 +85,7 @@ public class Divisao {
         Iterator<Inimigo> it = this.getInimigos();
 
         while (it.hasNext()) {
-            info+="\n Inimigos:";
+            info += "\n Inimigos:";
             info += "\n " + it.next().toString();
         }
         return info;
