@@ -1,14 +1,47 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package interfaces;
 
+import exceptions.NullElementValueException;
+import java.util.Iterator;
+import missoes.Inimigo;
+
 /**
- * 
+ *Interface para uma divisao do edificio.
  */
 public interface IDivisao {
-    
+
+    /**
+     * Obter o nome do inimigo.
+     *
+     * @return nome do inimigo
+     */
+    public String getNome();
+
+    /**
+     * Obter o iterator dos inimigos existentes na divisao.
+     *
+     * @return iterator
+     */
+    public Iterator<Inimigo> getInimigos();
+
+    /**
+     * Adicionar um inimigo na divisao.
+     *
+     * @param inimigo inimigo a ser adicionado
+     * @throws NullElementValueException
+     */
+    public void adicionarInimigo(Inimigo inimigo) throws NullElementValueException;
+
+    /**
+     * Verificar se duas divisões são iguais.
+     *
+     * @return boolean
+     */
+    public boolean equals(Object obj);
+
+    /**
+     * Obter a informação do edificio.
+     *
+     * @return informação do edificio
+     */
+    public String toString();
 }
