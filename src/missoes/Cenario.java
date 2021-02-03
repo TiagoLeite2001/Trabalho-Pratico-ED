@@ -11,6 +11,7 @@ import interfaces.ISimulacaoAutomatica;
 import java.util.Iterator;
 import linkedListSentinela.OrderedLinkedList;
 import linkedListSentinela.UnorderedLinkedList;
+import simulacoes.SimulacaoAutomatica;
 import simulacoes.SimulacaoManual;
 
 /**
@@ -112,6 +113,7 @@ public class Cenario implements ICenario{
      * Obter o número de entradas e saídas.
      * @return número de entradas e saídas.
      */
+    @Override
     public int getNumeroEntradasSaidas(){
         return this.entradasSaidas.size();
     }

@@ -6,7 +6,7 @@ import exceptions.VersionAlreadyExistException;
 import java.util.Iterator;
 
 /**
- *
+ * Interface da missao.
  */
 public interface IMissao {
 
