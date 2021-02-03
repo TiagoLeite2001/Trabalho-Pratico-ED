@@ -7,9 +7,8 @@
 package interfaces;
 
 /**
- *
- * @author JoaoLopes 8190221
+ * 
  */
 public interface IDivisao {
-
+    
 }
