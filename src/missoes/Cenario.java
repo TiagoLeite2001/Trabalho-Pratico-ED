@@ -39,8 +39,8 @@ public class Cenario implements ICenario{
         this.edificio = edificio;
         this.entradasSaidas = entradasSaidas;
         this.alvo = alvo;
-        this.simulacaoAutomatica = null;
-        this.simulacoesManuais = null;
+        this.simulacaoAutomatica = new SimulacaoAutomatica();
+        this.simulacoesManuais = new OrderedLinkedList<>() ;
     }
     
     /**
