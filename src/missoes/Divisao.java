@@ -11,8 +11,9 @@ import linkedListSentinela.UnorderedLinkedList;
  */
 public class Divisao implements IDivisao{
 
-    private String nome;
-    private UnorderedLinkedList<Inimigo> inimigos;
+    private final String nome;
+    private final UnorderedLinkedList<Inimigo> inimigos;
+    private int dano;
 
     /**
      * Contrutor para uma divisao.
@@ -22,13 +23,35 @@ public class Divisao implements IDivisao{
     public Divisao(String nome) {
         this.nome = nome;
         this.inimigos = new UnorderedLinkedList<>();
+        this.dano = 0;
     }
-
+    
+    /**
+     * Obter o dano total dos inimigos nesta divisão.
+     * @return dano total
+     */
+    @Override
+    public int getDano() {
+        return dano;
+    }
+    
+    /**
+     * Introduzir dano total dos inimigos nesta divisão.
+     * @param dano total
+     */
+    @Override
+    public void setDano(int dano) {
+        this.dano = dano;
+    }
+    
+    
+    
     /**
      * Obter o nome do inimigo.
      *
      * @return nome do inimigo
      */
+    @Override
     public String getNome() {
         return this.nome;
     }
@@ -38,6 +61,7 @@ public class Divisao implements IDivisao{
      *
      * @return iterator
      */
+    @Override
     public Iterator<Inimigo> getInimigos() {
         return this.inimigos.iterator();
     }
@@ -48,6 +72,7 @@ public class Divisao implements IDivisao{
      * @param inimigo inimigo a ser adicionado
      * @throws NullElementValueException
      */
+    @Override
     public void adicionarInimigo(Inimigo inimigo) throws NullElementValueException {
         if (inimigo == null) {
             throw new NullElementValueException("The element is null!");
