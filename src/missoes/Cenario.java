@@ -44,7 +44,7 @@ public class Cenario implements ICenario{
     }
     
     /**
-     * 
+     * Obter a versão do cenário.
      * @return 
      */
     @Override
