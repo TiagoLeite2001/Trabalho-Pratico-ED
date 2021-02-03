@@ -6,7 +6,7 @@
 package missoes;
 
 /**
- *Esta classe guarda a informação de um alvo
+ *Esta classe guarda a informação de um alvo.
  */
 public class Alvo {
     private Divisao divisao;
