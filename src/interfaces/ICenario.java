@@ -20,21 +20,49 @@ public interface ICenario {
     
     /**
      * Obter a versão do cenário.
-     * @return 
+     * @return versao.
      */
     public int getVersao();
-
+    
+    /**
+     * Obter o grafo do edificio.
+     * @return edificio.
+     */
     public WeightedAdjMatrixGraph<Divisao> getEdificio();
-
+    
+    /**
+     * Obter o iterador das entradas e saidas.
+     * @return iterador.
+     */
     public Iterator<Divisao> getEntradasSaidas();
 
     /**
-     * 
-     * @return 
+     * Obter o alvo do cenário.
+     * @return alvo.
      */
     public Alvo getAlvo();
-
+    
+    /**
+     * Obter a simulação automática.
+     * @return simulação automática.
+     */
     public ISimulacaoAutomatica getSimulacaoAutomatica();
-
+    
+    /**
+     * Obter as simulações manuais.
+     * @return simulações manuais.
+     */
     public Iterator<SimulacaoManual> getSimulacoesManuais();
+    
+    /**
+     * Iniciar uma simulação manual.
+     * @return simulação manual.
+     */
+    public SimulacaoManual iniciarSimulacaoManual();
+    
+    /**
+     * Iniciar uma simulação automática.
+     * @return simulação automática.
+     */
+    public ISimulacaoAutomatica iniciarSimulacaoAutomatica();
 }
