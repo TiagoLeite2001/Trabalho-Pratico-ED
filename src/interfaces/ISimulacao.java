@@ -36,4 +36,10 @@ public interface ISimulacao {
      * @param pontosVida
      */
     public void setPontosVida(int pontosVida);
+    
+    /**
+     * Introduzir a versao da missão.
+     * @param versão. 
+     */
+    public void setVersao(int versao);
 }

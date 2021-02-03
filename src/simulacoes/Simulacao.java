@@ -18,6 +18,7 @@ public abstract class Simulacao implements ISimulacao {
     private UnorderedLinkedList<Divisao> trajeto;
     private boolean sucesso;
     private int pontosVida;
+    protected int versao;
     
     /**
      * Construtor para uma simulacao.
@@ -68,5 +69,13 @@ public abstract class Simulacao implements ISimulacao {
     public void setSucesso(boolean sucesso) {
         this.sucesso = sucesso;
     }
-  
+    
+    /**
+     * Introduzir a versao da missão.
+     * @param versão. 
+     */
+    public void setVersao(int versao) {
+        this.versao = versao;
+    }
+
 }

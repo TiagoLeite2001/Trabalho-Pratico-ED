@@ -37,45 +37,113 @@ public class Cenario implements ICenario{
         this.edificio = edificio;
         this.entradasSaidas = entradasSaidas;
         this.alvo = alvo;
-        this.simulacaoAutomatica = null;
-        this.simulacoesManuais = null;
+        this.simulacaoAutomatica = new SimulacaoAutomatica();
+        this.simulacoesManuais = new OrderedLinkedList<>() ;
     }
     
     /**
      * Obter a versão do cenário.
-     * @return 
+     * @return versao.
      */
     @Override
     public int getVersao() {
         return versao;
     }
-
+    
+    /**
+     * Obter o grafo do edificio.
+     * @return edificio.
+     */
     @Override
     public WeightedAdjMatrixGraph<Divisao> getEdificio() {
         return edificio;
     }
-
+    
+    /**
+     * Obter o iterador das entradas e saidas.
+     * @return iterador.
+     */
     @Override
     public Iterator<Divisao> getEntradasSaidas() {
         return entradasSaidas.iterator();
     }
 
     /**
-     * 
-     * @return 
+     * Obter o alvo do cenário.
+     * @return alvo.
      */
     @Override
     public Alvo getAlvo() {
         return alvo;
     }
-
+    
+    /**
+     * Obter a simulação automática.
+     * @return simulação automática.
+     */
     @Override
     public ISimulacaoAutomatica getSimulacaoAutomatica() {
         return simulacaoAutomatica;
     }
-
+    
+    /**
+     * Obter as simulações manuais.
+     * @return simulações manuais.
+     */
     @Override
     public Iterator<SimulacaoManual> getSimulacoesManuais() {
         return simulacoesManuais.iterator();
+    }
+    
+    /**
+     * Iniciar uma simulação manual.
+     * @return simulação manual.
+     */
+    @Override
+    public SimulacaoManual iniciarSimulacaoManual(){
+        SimulacaoManual sm = new SimulacaoManual();
+        
+        sm.setVersao(this.versao);
+        
+        return sm;
+    }
+    
+    /**
+     * Obter o número de entradas e saídas.
+     * @return número de entradas e saídas.
+     */
+    public int getNumeroEntradasSaidas(){
+        return this.entradasSaidas.size();
+    }
+    
+    /**
+     * Iniciar uma simulação automática.
+     * @return simulação automática.
+     */
+    @Override
+    public ISimulacaoAutomatica iniciarSimulacaoAutomatica(){
+        ISimulacaoAutomatica sm = new SimulacaoAutomatica();
+        
+        sm.setVersao(this.versao);
+        
+        return sm;
+    }
+    
+    /**
+     * Verificar se dois cenários são iguais.
+     *
+     * @return boolean
+     * @return true se os cenários forem iguais.
+     * @return false se os cenários forem diferentes.
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (obj != null && obj instanceof Cenario) {
+            Cenario temp = (Cenario) obj;
+            if (this.getVersao() == temp.getVersao()) {
+                return true;
+            }
+        }
+        return false;
     }
 }
