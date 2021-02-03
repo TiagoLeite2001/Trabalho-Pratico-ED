@@ -65,4 +65,20 @@ public interface ICenario {
      * @return simulação automática.
      */
     public ISimulacaoAutomatica iniciarSimulacaoAutomatica();
+    
+    /**
+     * Verificar se dois cenários são iguais.
+     *
+     * @return boolean
+     * @return true se os cenários forem iguais.
+     * @return false se os cenários forem diferentes.
+     */
+    @Override
+    public boolean equals(Object obj);
+    
+    /**
+     * Obter o número de entradas e saídas.
+     * @return número de entradas e saídas.
+     */
+    public int getNumeroEntradasSaidas();
 }

@@ -111,6 +111,14 @@ public class Cenario implements ICenario{
     }
     
     /**
+     * Obter o número de entradas e saídas.
+     * @return número de entradas e saídas.
+     */
+    public int getNumeroEntradasSaidas(){
+        return this.entradasSaidas.size();
+    }
+    
+    /**
      * Iniciar uma simulação automática.
      * @return simulação automática.
      */
@@ -121,5 +129,23 @@ public class Cenario implements ICenario{
         sm.setVersao(this.versao);
         
         return sm;
+    }
+    
+    /**
+     * Verificar se dois cenários são iguais.
+     *
+     * @return boolean
+     * @return true se os cenários forem iguais.
+     * @return false se os cenários forem diferentes.
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (obj != null && obj instanceof Cenario) {
+            Cenario temp = (Cenario) obj;
+            if (this.getVersao() == temp.getVersao()) {
+                return true;
+            }
+        }
+        return false;
     }
 }
