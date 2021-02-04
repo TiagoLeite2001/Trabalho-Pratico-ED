@@ -68,6 +68,7 @@ public abstract class Simulacao implements ISimulacao {
      *
      * @param sucesso
      */
+    @Override
     public void setSucesso(boolean sucesso) {
         this.sucesso = sucesso;
     }
@@ -92,4 +93,13 @@ public abstract class Simulacao implements ISimulacao {
         this.trajeto = trajeto;
     }
 
+    /**
+     * Obter a versão da missão.
+     * @return versão.
+     */
+    public int getVersao() {
+        return versao;
+    }
+
+    
 }

@@ -5,12 +5,34 @@
  */
 package simulacoes;
 
+import interfaces.IDivisao;
 import interfaces.ISimulacaoAutomatica;
+import java.util.Iterator;
 
 /**
  *
  * @author tiago
  */
 public class SimulacaoAutomatica extends Simulacao implements ISimulacaoAutomatica{
+    
+    public SimulacaoAutomatica(){
+        super();
+    }
+    
+    @Override
+    public String toString(){
+        String info="Simulação Automática:";
+        info+="\n Pontos de Vida: " + this.getPontosVida() + "\n Missão Sucedida: "+this.missaoSucedida()+
+                "\n Versão: " + this.getVersao();
+        
+        Iterator<IDivisao> trajeto=this.getTrajeto();
+        info+="\n Trajeto: ";
+        while(trajeto.hasNext()){
+            info+=trajeto.next().toString()+" . ";
+        }
+        return info;
+    }
+    
+    
     
 }
