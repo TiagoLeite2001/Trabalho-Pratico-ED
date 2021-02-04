@@ -5,11 +5,17 @@
  */
 package missoes;
 
+import exceptions.ElementNotFoundException;
+import exceptions.NoPathAvailableException;
+import exceptions.NullElementValueException;
 import graph.WeightedAdjMatrixDiGraph;
+import heap.LinkedHeap;
 import interfaces.ICenario;
 import interfaces.IDivisao;
 import interfaces.ISimulacaoAutomatica;
 import java.util.Iterator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import linkedListSentinela.OrderedLinkedList;
 import linkedListSentinela.UnorderedLinkedList;
 import simulacoes.SimulacaoAutomatica;
@@ -128,8 +134,17 @@ public class Cenario implements ICenario{
     @Override
     public ISimulacaoAutomatica iniciarSimulacaoAutomatica(){
         ISimulacaoAutomatica sa = new SimulacaoAutomatica();
+       
+        Iterator<IDivisao> it=this.getEntradasSaidas();
+        LinkedHeap<Iterator<IDivisao>> custoMinimo=new LinkedHeap<>();
         
-        sa.setVersao(this.versao);
+        while(it.hasNext()){
+            try {
+                custoMinimo.addElement(this.edificio.shortestPathWeight(it.next(),this.alvo.getDivisao()));
+            } catch (NullElementValueException | ElementNotFoundException | NoPathAvailableException ex) {}
+        }
+         
+        
         
         return sa;
     }
