@@ -94,7 +94,11 @@ public class JsonImporter {
             for (int i = 0; i < jEdificio.size(); i++) {
                 IDivisao divisao = new Divisao(jEdificio.get(i).toString());
                 divisaoParaIterator = divisao;
-
+                
+                if(jInimigos.size() == 0){
+                    throw new InvalidDocumentException("There are no enemies in this building");
+                }
+                
                 for (int j = 0; j < jInimigos.size(); j++) {
                     JSONObject jInimigo = (JSONObject) jInimigos.get(j);
 
@@ -102,6 +106,11 @@ public class JsonImporter {
 
                     if (divisao.equals(divisaoInimigo)) {
                         Inimigo inimigo = new Inimigo(jInimigo.get("nome").toString(), (int) ((long) jInimigo.get("poder")));
+                        
+                        if(((long) jInimigo.get("poder"))<1){
+                            throw new InvalidDocumentException("The enemy power must be greater than 0!");
+                        }
+                        
                         int dano = divisao.getDano() + (int) ((long) jInimigo.get("poder"));
                         divisao.setDano(dano);
                         divisao.adicionarInimigo(inimigo);
@@ -136,10 +145,19 @@ public class JsonImporter {
             ICenario cenario = new Cenario((int) jVersao, edificio, entradasSaidas, alvo);
 
             missao.adicionarVersão(cenario);
+            
+            validateJSONFile(missao);
 
         } catch (ClassCastException e) {
             throw new InvalidDocumentException("File values are not correct!");
         }
+        catch(NullPointerException e){
+            throw new InvalidDocumentException("File fields are missing!");
+        }
+        catch(IndexOutOfBoundsException e){
+            throw new InvalidDocumentException("File connections are missing!");
+        }
+        
         return missao;
     }
 
@@ -149,12 +167,15 @@ public class JsonImporter {
      * @return true if document is correct.
      * @return false if document does not follow base structure.
      */
-    private boolean validateJSONFile(IMissao missao) throws InvalidDocumentException, InvalidOperationException {
+    private boolean validateJSONFile(IMissao missao) throws InvalidDocumentException, InvalidOperationException, VersionAlreadyExistException, NullElementValueException {
 
         if (missao.getNumeroVersoes() == 0) {
             throw new InvalidDocumentException("There is none map in the document!");
         }
-        ICenario cenario = missao.getListVersoes().removeFirst();
+        
+        Iterator<ICenario> iterador = missao.getListVersoes().iterator();
+        
+        ICenario cenario = iterador.next();
 
         if ( cenario.getEdificio().size() < 1
                 || cenario.getAlvo().getDivisao() == null
@@ -168,18 +189,23 @@ public class JsonImporter {
         }
 
         Iterator<IDivisao> iterator = cenario.getEntradasSaidas();
+        
+        if(cenario.getNumeroEntradasSaidas()<1){
+            throw new InvalidDocumentException("The building does not have entries or exits!");
+        }
 
         while (iterator.hasNext()) {
             try {
                 cenario.getEdificio().getVertex(iterator.next());
             } catch (NullElementValueException | ElementNotFoundException ex) {
-                throw new InvalidDocumentException("The entries and exits do  not exist in the building!");
+                throw new InvalidDocumentException("The entries and exits do not exist in the building!");
             }
         }
-
+        
         try {
             cenario.getEdificio().getVertex(cenario.getAlvo().getDivisao());
         } catch (NullElementValueException | ElementNotFoundException ex) {
+            
             throw new InvalidDocumentException("The division of the target does not exist in the building!");
         }
 

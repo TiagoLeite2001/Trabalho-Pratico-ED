@@ -34,9 +34,6 @@ public class Demo {
             int i=9;
         } catch (IOException | ParseException |InvalidDocumentException| NullElementValueException | RepeatedElementException | ElementNotFoundException | InvalidWeightValueException | InvalidOperationException | VersionAlreadyExistException ex) {
             System.out.println(ex);}  
-        
-        
-        
 
     }
 }
