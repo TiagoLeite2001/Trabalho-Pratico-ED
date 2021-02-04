@@ -60,8 +60,8 @@ public class Inimigo {
      * @return informação
      */
     public String toString() {
-        String info = "\n Inimigo: ";
-        info += "\n Nome: " + this.getNome() + "\n Poder: " + this.getPoder();
+        String info = "\n";
+        info += "\n Nome: " + this.getNome() + "\n Poder: " + this.getPoder()+"\n";
         return info;
     }
 

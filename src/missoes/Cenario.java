@@ -133,16 +133,18 @@ public class Cenario implements ICenario{
      * @return simulação automática.
      */
     @Override
-    public ISimulacaoAutomatica iniciarSimulacaoAutomatica() throws InvalidOperationException, NullElementValueException, ElementNotFoundException, NoPathAvailableException {
+    public ISimulacaoAutomatica iniciarSimulacaoAutomatica() throws InvalidOperationException, NullElementValueException, 
+            ElementNotFoundException, NoPathAvailableException {
         ISimulacaoAutomatica sa = new SimulacaoAutomatica();
 
-        Iterator<IDivisao> it = this.getEntradasSaidas();
+        Iterator<IDivisao> entradasSaidas = this.getEntradasSaidas();
         LinkedHeap<CustoTrajeto> custoMinimo = new LinkedHeap<>();
 
         //Calcular o custo minimo dos caminhos entre todas as entradas/saidas e o alvo
-        while (it.hasNext()) {
-            IDivisao divisaoAtual = this.edificio.getVertex(it.next());
-            CustoTrajeto trajetoAtual = new CustoTrajeto(divisaoAtual.getDano() +(int) this.edificio.shortestPathWeightCost(divisaoAtual, this.alvo.getDivisao()),
+        while (entradasSaidas.hasNext()) {
+            IDivisao divisaoAtual = this.edificio.getVertex(entradasSaidas.next());
+            CustoTrajeto trajetoAtual = new CustoTrajeto(divisaoAtual.getDano() 
+                    +(int) this.edificio.shortestPathWeightCost(divisaoAtual, this.alvo.getDivisao()),
                     this.edificio.shortestPathWeight(divisaoAtual, this.alvo.getDivisao()));
             custoMinimo.addElement(trajetoAtual);
         }
@@ -202,8 +204,6 @@ public class Cenario implements ICenario{
         return numSimulacoesManuais;
     }
     
-    
-    
     @Override
     public String toString(){
         String info = "\n Cenario: ";
@@ -215,8 +215,7 @@ public class Cenario implements ICenario{
         while (it.hasNext()) {
             info += "\n" + it.next().toString();
         }
-        
-        
+
         return info;
     }
 

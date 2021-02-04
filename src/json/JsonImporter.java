@@ -142,10 +142,26 @@ public class JsonImporter {
 
             IDivisao alvoDivisao = new Divisao(jAlvo.get("divisao").toString());
             Alvo alvo = new Alvo(alvoDivisao, jAlvo.get("tipo").toString());
+
+            for (int j = 0; j < jInimigos.size(); j++) {
+                JSONObject jInimigo = (JSONObject) jInimigos.get(j);
+
+                IDivisao divisaoInimigo = new Divisao(jInimigo.get("divisao").toString());
+
+                if (alvo.getDivisao().equals(divisaoInimigo)) {
+                    Inimigo inimigo = new Inimigo(jInimigo.get("nome").toString(),
+                            (int) ((long) jInimigo.get("poder")));
+
+                    int dano = alvo.getDivisao().getDano() + (int) ((long) jInimigo.get("poder"));
+                    alvo.getDivisao().setDano(dano);
+                    alvo.getDivisao().adicionarInimigo(inimigo);
+                }
+            }
+
             ICenario cenario = new Cenario((int) jVersao, edificio, entradasSaidas, alvo);
 
             missao.adicionarVersão(cenario);
-            
+
             validateJSONFile(missao);
 
         } catch (ClassCastException e) {

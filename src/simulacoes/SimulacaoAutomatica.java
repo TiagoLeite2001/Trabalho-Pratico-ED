@@ -26,9 +26,10 @@ public class SimulacaoAutomatica extends Simulacao implements ISimulacaoAutomati
                 "\n Versão: " + this.getVersao();
         
         Iterator<IDivisao> trajeto=this.getTrajeto();
-        info+="\n Trajeto: ";
+        info+="\n Trajeto: \n";
         while(trajeto.hasNext()){
-            info+=trajeto.next().toString()+" . ";
+            info+=trajeto.next().toString();         
+            if(trajeto.hasNext())info+=" --> ";
         }
         return info;
     }

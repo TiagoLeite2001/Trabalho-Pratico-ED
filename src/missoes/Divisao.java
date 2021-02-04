@@ -107,15 +107,8 @@ public class Divisao implements IDivisao{
      */
     @Override
     public String toString() {
-        String info = "\n Edificio: ";
-        info += "\n Nome: " + this.nome;
-
-        Iterator<Inimigo> it = this.getInimigos();
-
-        while (it.hasNext()) {
-            info += "\n Inimigos:";
-            info += "\n " + it.next().toString();
-        }
+        String info = "";
+        info += this.nome;
         return info;
     }
 }
