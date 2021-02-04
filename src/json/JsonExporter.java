@@ -51,44 +51,4 @@ public class JsonExporter {
         String result = jDoc.toJSONString();
         return result;
     }
-
 }
-//
-//JSONObject jDocOrders = new JSONObject();
-//        JSONArray jOrders = new JSONArray();
-//        for(int i=0;i<this.orders.getNumOrders();i++){
-//            IOrder[] orders=this.orders.getOrders();
-//            JSONObject jOrder = new JSONObject();
-//            jOrder.put("IDOrder",orders[i].getID());
-//            IPackage[] packages=orders[i].getPackages();
-//            JSONArray jPackages=new JSONArray();
-//            for(int j=0;j<orders[i].getNumbPackages();j++){
-//                JSONObject jPackageMode=new JSONObject();
-//                jPackageMode.put("ID",packages[j].getID());
-//                jPackageMode.put("Size",packages[j].getSize().toString());
-//                double[] mode=modeWeightItemsperPackage(packages[j]);
-//                DecimalFormat df = new DecimalFormat("0.00");
-//                if(mode[0]==0) {
-//                    jPackageMode.put("Mode", "There is no Mode! ");
-//                }
-//                else{
-//                    int count=0;
-//                    JSONArray modaValues=new JSONArray();
-//                    while(mode[count]>0){
-//                        modaValues.add(df.format(mode[count]));
-//                        count++;
-//                    }
-//                    jPackageMode.put("Mode weight",modaValues);
-//                }
-//                jPackages.add(jPackageMode);
-//                jOrder.put("Packages",jPackages);
-//            }
-//            jOrders.add(jOrder);
-//        }
-//        jDocOrders.put("Orders",jOrders);
-//
-//        try (FileWriter file = new FileWriter("relatorios/"+"Estatistica_ModaPeso "+this.orders.getID()+".json")){
-//            file.write(jDocOrders.toJSONString());
-//        }
-//        String result=jOrders.toJSONString();
-//        return result;
