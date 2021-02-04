@@ -112,7 +112,6 @@
     ],
     "inimigos": [
         {
-            "nome": "badguy1",
             "poder": 5,
             "divisao": "Heliporto"
         },
