@@ -6,6 +6,10 @@
 
 package interfaces;
 
+import exceptions.ElementNotFoundException;
+import exceptions.InvalidOperationException;
+import exceptions.NoPathAvailableException;
+import exceptions.NullElementValueException;
 import graph.WeightedAdjMatrixDiGraph;
 import java.util.Iterator;
 import missoes.Alvo;
@@ -65,7 +69,8 @@ public interface ICenario {
      * Iniciar uma simulação automática.
      * @return simulação automática.
      */
-    public ISimulacaoAutomatica iniciarSimulacaoAutomatica();
+    public ISimulacaoAutomatica iniciarSimulacaoAutomatica() throws InvalidOperationException, 
+            NullElementValueException, ElementNotFoundException, NoPathAvailableException;
     
     /**
      * Verificar se dois cenários são iguais.

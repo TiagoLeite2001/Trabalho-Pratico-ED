@@ -6,6 +6,7 @@
 package missoes;
 
 import exceptions.ElementNotFoundException;
+import exceptions.InvalidOperationException;
 import exceptions.NoPathAvailableException;
 import exceptions.NullElementValueException;
 import graph.WeightedAdjMatrixDiGraph;
@@ -14,10 +15,9 @@ import interfaces.ICenario;
 import interfaces.IDivisao;
 import interfaces.ISimulacaoAutomatica;
 import java.util.Iterator;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import linkedListSentinela.OrderedLinkedList;
 import linkedListSentinela.UnorderedLinkedList;
+import simulacoes.CustoTrajeto;
 import simulacoes.SimulacaoAutomatica;
 import simulacoes.SimulacaoManual;
 
@@ -129,25 +129,48 @@ public class Cenario implements ICenario{
     
     /**
      * Iniciar uma simulação automática.
+     *
      * @return simulação automática.
      */
     @Override
-    public ISimulacaoAutomatica iniciarSimulacaoAutomatica(){
+    public ISimulacaoAutomatica iniciarSimulacaoAutomatica() throws InvalidOperationException, NullElementValueException, ElementNotFoundException, NoPathAvailableException {
         ISimulacaoAutomatica sa = new SimulacaoAutomatica();
-       
-        Iterator<IDivisao> it=this.getEntradasSaidas();
-        LinkedHeap<Iterator<IDivisao>> custoMinimo=new LinkedHeap<>();
-        
-        while(it.hasNext()){
-            try {
-                custoMinimo.addElement(this.edificio.shortestPathWeight(it.next(),this.alvo.getDivisao()));
-            } catch (NullElementValueException | ElementNotFoundException | NoPathAvailableException ex) {}
+
+        Iterator<IDivisao> it = this.getEntradasSaidas();
+        LinkedHeap<CustoTrajeto> custoMinimo = new LinkedHeap<>();
+
+        //Calcular o custo minimo dos caminhos entre todas as entradas/saidas e o alvo
+        while (it.hasNext()) {
+            IDivisao divisaoAtual = it.next();
+            CustoTrajeto trajetoAtual = new CustoTrajeto((int) this.edificio.shortestPathWeightCost(divisaoAtual, this.alvo.getDivisao()),
+                    this.edificio.shortestPathWeight(divisaoAtual, this.alvo.getDivisao()));
+            custoMinimo.addElement(trajetoAtual);
         }
-         
-        
-        
+
+        //Obter caminho do custo minimo
+        CustoTrajeto trajetoIdeal = custoMinimo.removeMin();
+
+        sa.setPontosVida(100 - (trajetoIdeal.getCusto() * 2));
+        sa.setSucesso((sa.getPontosVida() == 100));
+
+        UnorderedLinkedList<IDivisao> trajetoEntradaAlvo = new UnorderedLinkedList<>();
+        Iterator<IDivisao> iterator = trajetoIdeal.getTrajeto();
+        while (iterator.hasNext()) {
+            trajetoEntradaAlvo.addToRear(iterator.next());
+        }
+
+        UnorderedLinkedList<IDivisao> trajetoFinal = new UnorderedLinkedList<>();
+        trajetoEntradaAlvo.removeLast();
+
+        while (!trajetoEntradaAlvo.isEmpty()) {
+            trajetoFinal.addToRear(trajetoEntradaAlvo.removeLast());
+        }
+
+        sa.setTrajeto(trajetoFinal);
+        this.simulacaoAutomatica = sa;
         return sa;
     }
+    
     
     /**
      * Verificar se dois cenários são iguais.

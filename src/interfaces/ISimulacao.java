@@ -1,7 +1,7 @@
-
 package interfaces;
 
 import java.util.Iterator;
+import linkedListSentinela.UnorderedLinkedList;
 import missoes.Divisao;
 
 /**
@@ -14,7 +14,7 @@ public interface ISimulacao {
      *
      * @return
      */
-    public Iterator<Divisao> getTrajeto();
+    public Iterator<IDivisao> getTrajeto();
 
     /**
      * Verificar se uma missão foi bem sucedida.
@@ -36,10 +36,25 @@ public interface ISimulacao {
      * @param pontosVida
      */
     public void setPontosVida(int pontosVida);
-    
+
     /**
      * Introduzir a versao da missão.
-     * @param versão. 
+     *
+     * @param versão.
      */
     public void setVersao(int versao);
+
+    /**
+     * Introduzir se a missão foi bem sucedida ou não.
+     *
+     * @param sucesso
+     */
+    public void setSucesso(boolean sucesso);
+
+    /**
+     * Trajeto efetuado na simulação.
+     *
+     * @param trajeto
+     */
+    public void setTrajeto(UnorderedLinkedList<IDivisao> trajeto);
 }

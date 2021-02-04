@@ -3,10 +3,10 @@ package json;
 import exceptions.NoManualSimulationsException;
 import exceptions.NullElementValueException;
 import interfaces.ICenario;
+import interfaces.IDivisao;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Iterator;
-import missoes.Divisao;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import simulacoes.SimulacaoManual;
@@ -34,7 +34,7 @@ public class JsonExporter {
             jSimulacaoManual.put("PontosVida",current.getPontosVida());
             
             JSONArray trajetoPercorrido=new JSONArray();
-            Iterator<Divisao> divisoes=current.getTrajeto();
+            Iterator<IDivisao> divisoes=current.getTrajeto();
             //Adicionar cada divisao do trajeto percorrido na simulacao
             while(divisoes.hasNext()){
                 trajetoPercorrido.add(divisoes.next().getNome());
