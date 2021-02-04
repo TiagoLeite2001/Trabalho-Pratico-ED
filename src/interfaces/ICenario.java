@@ -82,4 +82,10 @@ public interface ICenario {
      * @return número de entradas e saídas.
      */
     public int getNumeroEntradasSaidas();
+    
+     /**
+     * Obter número de simulações manuais efetuadas neste cenário.
+     * @return Número de Simulações
+     */
+    public int getNumSimulacoesManuais();
 }
