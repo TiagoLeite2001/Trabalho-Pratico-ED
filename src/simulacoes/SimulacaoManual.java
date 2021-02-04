@@ -20,5 +20,4 @@ public class SimulacaoManual extends Simulacao implements ISimulacaoManual,Compa
             return 1;
         }
     }
-    
 }
