@@ -46,7 +46,7 @@ public class JsonImporter {
      * Import JSON file.
      * @return IOrders
      */
-    public IMissao JsonImporter(String path) throws IOException, ParseException, 
+    public IMissao jsonImporter(String path) throws IOException, ParseException, 
             FileNotFoundException, NullElementValueException, RepeatedElementException, 
             ElementNotFoundException, InvalidWeightValueException, InvalidOperationException, 
             VersionAlreadyExistException {
@@ -72,9 +72,9 @@ public class JsonImporter {
         Reader reader = new FileReader(path);
         resultObject = (JSONObject) parser.parse(reader);
         
-        JSONObject jCod = (JSONObject) resultObject.get("cod-missao");
+        String jCod = (String) resultObject.get("cod-missao");
         
-        JSONObject jVersao = (JSONObject) resultObject.get("versao");
+        long jVersao = (long) resultObject.get("versao");
         
         JSONArray jEdificio = (JSONArray) resultObject.get("edificio");
      
@@ -87,7 +87,7 @@ public class JsonImporter {
         JSONObject jAlvo = (JSONObject) resultObject.get("alvo");
                 
        
-        IMissao missao = new Missao(jCod.toString());
+        IMissao missao = new Missao(jCod);
         
         WeightedAdjMatrixDiGraph<IDivisao> edificio = new WeightedAdjMatrixDiGraph<>();
         IDivisao divisaoParaIterator = null;
@@ -102,8 +102,8 @@ public class JsonImporter {
                 IDivisao divisaoInimigo = new Divisao(jInimigo.get("divisao").toString());
                 
                 if(divisao.equals(divisaoInimigo)){
-                    Inimigo inimigo = new Inimigo(jInimigo.get("nome").toString(), (int)jInimigo.get("poder"));
-                    divisao.setDano(divisao.getDano() + (int)jInimigo.get("divisao"));
+                    Inimigo inimigo = new Inimigo(jInimigo.get("nome").toString(), (int)((long)jInimigo.get("poder")));
+                    divisao.setDano(divisao.getDano() + (int)((long)jInimigo.get("poder")));
                     divisao.adicionarInimigo(inimigo);
                 }
             }
@@ -114,8 +114,8 @@ public class JsonImporter {
         for(int i=0; i<jLigacoes.size();i++){
             JSONArray jLigacao = (JSONArray) jLigacoes.get(i);
             
-            JSONObject jVertex1 = (JSONObject) jLigacao.get(0);
-            IDivisao divisao1 = new Divisao(jVertex1.toString());
+            String jVertex1 = (String) jLigacao.get(0);
+            IDivisao divisao1 = new Divisao(jVertex1);
             
             Iterator<IDivisao> iterator1 = edificio.iteratorBFS(divisaoParaIterator);
             
@@ -131,8 +131,8 @@ public class JsonImporter {
                 }
             }
             
-            JSONObject jVertex2 = (JSONObject) jLigacao.get(1);
-            IDivisao divisao2 = new Divisao(jVertex2.toString());
+            String jVertex2 = (String) jLigacao.get(1);
+            IDivisao divisao2 = new Divisao(jVertex2);
             
             Iterator<IDivisao> iterator2 = edificio.iteratorBFS(divisaoParaIterator);
             
@@ -162,7 +162,7 @@ public class JsonImporter {
         
         Alvo alvo = new Alvo(alvoDivisao, jAlvo.get("tipo").toString());
         
-        ICenario cenario = new Cenario( (int)jVersao.get("versao"), edificio, entradasSaidas, alvo);
+        ICenario cenario = new Cenario((int) jVersao, edificio, entradasSaidas, alvo);
         
         missao.adicionarVersão(cenario);
         
