@@ -25,6 +25,7 @@ public class Cenario implements ICenario{
     private Alvo alvo;
     private ISimulacaoAutomatica simulacaoAutomatica;
     private OrderedLinkedList<SimulacaoManual> simulacoesManuais;
+    private int numSimulacoesManuais;
     
     /**
      * Construtor de um cenário.
@@ -41,6 +42,7 @@ public class Cenario implements ICenario{
         this.alvo = alvo;
         this.simulacaoAutomatica = new SimulacaoAutomatica();
         this.simulacoesManuais = new OrderedLinkedList<>() ;
+        this.numSimulacoesManuais=0;
     }
     
     /**
@@ -106,7 +108,7 @@ public class Cenario implements ICenario{
         SimulacaoManual sm = new SimulacaoManual();
         
         sm.setVersao(this.versao);
-        
+        this.numSimulacoesManuais++;
         return sm;
     }
     
@@ -125,11 +127,11 @@ public class Cenario implements ICenario{
      */
     @Override
     public ISimulacaoAutomatica iniciarSimulacaoAutomatica(){
-        ISimulacaoAutomatica sm = new SimulacaoAutomatica();
+        ISimulacaoAutomatica sa = new SimulacaoAutomatica();
         
-        sm.setVersao(this.versao);
+        sa.setVersao(this.versao);
         
-        return sm;
+        return sa;
     }
     
     /**
@@ -149,4 +151,15 @@ public class Cenario implements ICenario{
         }
         return false;
     }
+
+    /**
+     * Obter número de simulações manuais efetuadas neste cenário.
+     * @return Número de Simulações
+     */
+    @Override
+    public int getNumSimulacoesManuais() {
+        return numSimulacoesManuais;
+    }
+    
+    
 }
