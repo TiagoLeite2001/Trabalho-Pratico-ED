@@ -7,10 +7,12 @@ package json;
 
 import exceptions.ElementNotFoundException;
 import exceptions.InvalidDocumentException;
+import exceptions.InvalidOperationException;
 import exceptions.InvalidWeightValueException;
 import exceptions.NullElementValueException;
 import exceptions.RepeatedElementException;
-import graph.WeightedAdjMatrixGraph;
+import exceptions.VersionAlreadyExistException;
+import graph.WeightedAdjMatrixDiGraph;
 import interfaces.ICenario;
 import interfaces.IDivisao;
 import interfaces.IMissao;
@@ -18,10 +20,13 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.util.Iterator;
 import linkedListSentinela.UnorderedLinkedList;
+import list.UnorderedArrayList;
 import missoes.Alvo;
 import missoes.Cenario;
 import missoes.Divisao;
+import missoes.Inimigo;
 import missoes.Missao;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -37,15 +42,18 @@ public class JsonImporter {
     /**
      * Constructor for JsonImporter.
      */
-    public JsonImporter() {}
+    public JsonImporter() {
+    }
 
     /**
      * Import JSON file.
+     *
      * @return IOrders
      */
-    public IMissao JsonImporter(String path) throws IOException, ParseException, 
-            FileNotFoundException, NullElementValueException, RepeatedElementException, 
-            ElementNotFoundException, InvalidWeightValueException {
+    public IMissao jsonImporter(String path) throws IOException, ParseException,
+            FileNotFoundException, NullElementValueException, RepeatedElementException,
+            ElementNotFoundException, InvalidWeightValueException, InvalidOperationException,
+            VersionAlreadyExistException, InvalidDocumentException {
         IMissao missao = null;
         missao = importFile(path);
         return missao;
@@ -53,85 +61,88 @@ public class JsonImporter {
 
     /**
      * Import JSON file.
+     *
      * @return IOrders
      */
-    private IMissao importFile(String path) throws FileNotFoundException, IOException, 
-            ParseException, NullElementValueException, RepeatedElementException, 
-            ElementNotFoundException, InvalidWeightValueException{
-        //String id = numbOrders.toString();
+    private IMissao importFile(String path) throws FileNotFoundException, IOException,
+            ParseException, NullElementValueException, RepeatedElementException,
+            ElementNotFoundException, InvalidWeightValueException, InvalidOperationException,
+            VersionAlreadyExistException, InvalidDocumentException {
         
-
-        JSONObject resultObject;
+        IMissao missao =null;
+        
+        try{
+            JSONObject resultObject;
         JSONParser parser = new JSONParser();
 
         Reader reader = new FileReader(path);
         resultObject = (JSONObject) parser.parse(reader);
-        
-        JSONObject jCod = (JSONObject) resultObject.get("cod-missao");
-        
-        JSONObject jVersao = (JSONObject) resultObject.get("versao");
-        
+
+        String jCod = (String) resultObject.get("cod-missao");
+        long jVersao = (long) resultObject.get("versao");
+
         JSONArray jEdificio = (JSONArray) resultObject.get("edificio");
-     
         JSONArray jLigacoes = (JSONArray) resultObject.get("ligacoes");
-        
         JSONArray jInimigos = (JSONArray) resultObject.get("inimigos");
-        
         JSONArray jEntradasSaidas = (JSONArray) resultObject.get("entradas-saidas");
-        
         JSONObject jAlvo = (JSONObject) resultObject.get("alvo");
-                
-       
-        IMissao missao = new Missao(jCod.toString());
-        
-        WeightedAdjMatrixGraph<IDivisao> edificio = new WeightedAdjMatrixGraph<>();
-        
-        for(int i=0; i<jEdificio.size();i++){
+
+        missao = new Missao(jCod);
+
+        WeightedAdjMatrixDiGraph<IDivisao> edificio = new WeightedAdjMatrixDiGraph<>();
+        IDivisao divisaoParaIterator = null;
+
+        for (int i = 0; i < jEdificio.size(); i++) {
             IDivisao divisao = new Divisao(jEdificio.get(i).toString());
-            
-            edificio.addVertex(divisao);
-        }
-        
-        for(int i=0; i<jLigacoes.size();i++){
-            JSONArray jLigacao = (JSONArray) jLigacoes.get(i);
-            
-            JSONObject jVertex1 = (JSONObject) jLigacao.get(0);
-            IDivisao divisao1 = new Divisao(jVertex1.toString());
-            
-            JSONObject jVertex2 = (JSONObject) jLigacao.get(1);
-            IDivisao divisao2 = new Divisao(jVertex2.toString());
-            
-            int poder=0;
-            
-            for(int j=0; j<jInimigos.size();j++){
-                JSONObject jInimigo = (JSONObject) jInimigos.get(i);
-                
-                IDivisao divisao = new Divisao(jInimigo.get("divisao").toString());
-                if(divisao1.equals(divisao)){
-                    poder += (int)jInimigo.get("poder");
+            divisaoParaIterator = divisao;
+
+            for (int j = 0; j < jInimigos.size(); j++) {
+                JSONObject jInimigo = (JSONObject) jInimigos.get(j);
+
+                IDivisao divisaoInimigo = new Divisao(jInimigo.get("divisao").toString());
+
+                if (divisao.equals(divisaoInimigo)) {
+                    Inimigo inimigo = new Inimigo(jInimigo.get("nome").toString(), (int) ((long) jInimigo.get("poder")));
+                    int dano = divisao.getDano() + (int) ((long) jInimigo.get("poder"));
+                    divisao.setDano(dano);
+                    divisao.adicionarInimigo(inimigo);
                 }
             }
-            
-            edificio.addEdge(divisao1, divisao2);
+            edificio.addVertex(divisao);
         }
-        
+
+        for (int i = 0; i < jLigacoes.size(); i++) {
+            JSONArray jLigacao = (JSONArray) jLigacoes.get(i);
+
+            String jVertex1 = (String) jLigacao.get(0);
+            IDivisao divisao1 = new Divisao(jVertex1);
+
+            String jVertex2 = (String) jLigacao.get(1);
+            IDivisao divisao2 = new Divisao(jVertex2);
+
+            edificio.addEdge(divisao1, divisao2, edificio.getVertex(divisao2).getDano());
+            edificio.addEdge(divisao2, divisao1, edificio.getVertex(divisao1).getDano());
+        }
+
         UnorderedLinkedList<IDivisao> entradasSaidas = new UnorderedLinkedList<>();
-        
-        for(int i=0; i<jEntradasSaidas.size();i++){
-            
+
+        for (int i = 0; i < jEntradasSaidas.size(); i++) {
+
             IDivisao divisao = new Divisao(jEntradasSaidas.get(i).toString());
             entradasSaidas.addToRear(divisao);
         }
-        
+
         IDivisao alvoDivisao = new Divisao(jAlvo.get("divisao").toString());
-        
         Alvo alvo = new Alvo(alvoDivisao, jAlvo.get("tipo").toString());
+        ICenario cenario = new Cenario((int) jVersao, edificio, entradasSaidas, alvo);
         
-        ICenario cenario = new Cenario( (int)jVersao.get("versao"), edificio, entradasSaidas, alvo);
+        missao.adicionarVersão(cenario);
+
         
-        
-        
-        return null;
+        }catch (ClassCastException e){
+            throw new InvalidDocumentException("File values are not correct!");
+        }
+        return missao;
     }
 
     /**

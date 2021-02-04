@@ -152,6 +152,7 @@ public class Cenario implements ICenario{
         return false;
     }
 
+
     /**
      * Obter número de simulações manuais efetuadas neste cenário.
      * @return Número de Simulações
@@ -162,4 +163,21 @@ public class Cenario implements ICenario{
     }
     
     
+    
+    @Override
+    public String toString(){
+        String info = "\n Cenario: ";
+        info += "\n Alvo: " + this.alvo.toString();
+        info += "\n Versão: " + this.versao;
+        info += "\n Edificio: " + this.edificio.toString();
+        
+        Iterator<IDivisao> it = this.getEntradasSaidas();
+        while (it.hasNext()) {
+            info += "\n" + it.next().toString();
+        }
+        
+        
+        return info;
+    }
+
 }

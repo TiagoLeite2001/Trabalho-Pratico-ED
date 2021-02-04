@@ -8,6 +8,18 @@ import missoes.Inimigo;
  *Interface para uma divisao do edificio.
  */
 public interface IDivisao {
+    
+     /**
+     * Obter o dano total dos inimigos nesta divisão.
+     * @return dano total
+     */
+    public int getDano();
+    
+    /**
+     * Introduzir dano total dos inimigos nesta divisão.
+     * @param dano total
+     */
+    public void setDano(int dano);
 
     /**
      * Obter o nome do inimigo.
