@@ -25,18 +25,19 @@ import org.json.simple.parser.ParseException;
  * @author tiago
  */
 public class Demo {
-    public static void main(String[] args) throws IOException, ParseException, FileNotFoundException, NullElementValueException, ElementNotFoundException, InvalidWeightValueException, InvalidOperationException {
-        JsonImporter importer = new JsonImporter();
-        IMissao m = null;
+    public static void main(String[] args)  {
         try {
+            JsonImporter importer = new JsonImporter();
+            IMissao m = null;
             m = importer.jsonImporter("Mapas/exemplo.json");
-        } catch (RepeatedElementException ex) {
-            Logger.getLogger(Demo.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (VersionAlreadyExistException ex) {
-            Logger.getLogger(Demo.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        System.out.println( m.toString());
-        int i=9;
+            System.out.println( m.toString());
+            int i=9;
+        } catch (IOException | ParseException |InvalidDocumentException| NullElementValueException | RepeatedElementException | ElementNotFoundException | InvalidWeightValueException | InvalidOperationException | VersionAlreadyExistException ex) {
+            System.out.println(ex);}  
+        
+        
+        
 
     }
 }
+
