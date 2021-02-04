@@ -141,7 +141,7 @@ public class Cenario implements ICenario{
 
         //Calcular o custo minimo dos caminhos entre todas as entradas/saidas e o alvo
         while (it.hasNext()) {
-            IDivisao divisaoAtual = it.next();
+            IDivisao divisaoAtual = this.edificio.getVertex(it.next());
             CustoTrajeto trajetoAtual = new CustoTrajeto(divisaoAtual.getDano() +(int) this.edificio.shortestPathWeightCost(divisaoAtual, this.alvo.getDivisao()),
                     this.edificio.shortestPathWeight(divisaoAtual, this.alvo.getDivisao()));
             custoMinimo.addElement(trajetoAtual);
@@ -152,9 +152,10 @@ public class Cenario implements ICenario{
 
         UnorderedLinkedList<IDivisao> trajetoEntradaAlvo = new UnorderedLinkedList<>();
         Iterator<IDivisao> iterator = trajetoIdeal.getTrajeto();
+        
         UnorderedLinkedList<IDivisao> trajetoFinal = new UnorderedLinkedList<>();
         while (iterator.hasNext()) {
-            IDivisao div=iterator.next();
+            IDivisao div = iterator.next();
             trajetoEntradaAlvo.addToRear(div);
             trajetoFinal.addToRear(div);
         }
@@ -166,7 +167,7 @@ public class Cenario implements ICenario{
         }
 
         sa.setTrajeto(trajetoFinal);
-        sa.setPontosVida(100 - (trajetoIdeal.getCusto()));
+        sa.setPontosVida(100 - (trajetoIdeal.getCusto())*2+this.alvo.getDivisao().getDano());
         sa.setSucesso((sa.getPontosVida() == 100));
         this.simulacaoAutomatica = sa;
         return sa;
