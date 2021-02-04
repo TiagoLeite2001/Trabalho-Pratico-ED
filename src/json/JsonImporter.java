@@ -22,7 +22,6 @@ import java.io.IOException;
 import java.io.Reader;
 import java.util.Iterator;
 import linkedListSentinela.UnorderedLinkedList;
-import list.UnorderedArrayList;
 import missoes.Alvo;
 import missoes.Cenario;
 import missoes.Divisao;
@@ -68,78 +67,77 @@ public class JsonImporter {
             ParseException, NullElementValueException, RepeatedElementException,
             ElementNotFoundException, InvalidWeightValueException, InvalidOperationException,
             VersionAlreadyExistException, InvalidDocumentException {
-        
-        IMissao missao =null;
-        
-        try{
+
+        IMissao missao = null;
+
+        try {
             JSONObject resultObject;
-        JSONParser parser = new JSONParser();
+            JSONParser parser = new JSONParser();
 
-        Reader reader = new FileReader(path);
-        resultObject = (JSONObject) parser.parse(reader);
+            Reader reader = new FileReader(path);
+            resultObject = (JSONObject) parser.parse(reader);
 
-        String jCod = (String) resultObject.get("cod-missao");
-        long jVersao = (long) resultObject.get("versao");
+            String jCod = (String) resultObject.get("cod-missao");
+            long jVersao = (long) resultObject.get("versao");
 
-        JSONArray jEdificio = (JSONArray) resultObject.get("edificio");
-        JSONArray jLigacoes = (JSONArray) resultObject.get("ligacoes");
-        JSONArray jInimigos = (JSONArray) resultObject.get("inimigos");
-        JSONArray jEntradasSaidas = (JSONArray) resultObject.get("entradas-saidas");
-        JSONObject jAlvo = (JSONObject) resultObject.get("alvo");
+            JSONArray jEdificio = (JSONArray) resultObject.get("edificio");
+            JSONArray jLigacoes = (JSONArray) resultObject.get("ligacoes");
+            JSONArray jInimigos = (JSONArray) resultObject.get("inimigos");
+            JSONArray jEntradasSaidas = (JSONArray) resultObject.get("entradas-saidas");
+            JSONObject jAlvo = (JSONObject) resultObject.get("alvo");
 
-        missao = new Missao(jCod);
+            missao = new Missao(jCod);
 
-        WeightedAdjMatrixDiGraph<IDivisao> edificio = new WeightedAdjMatrixDiGraph<>();
-        IDivisao divisaoParaIterator = null;
+            WeightedAdjMatrixDiGraph<IDivisao> edificio = new WeightedAdjMatrixDiGraph<>();
+            IDivisao divisaoParaIterator = null;
 
-        for (int i = 0; i < jEdificio.size(); i++) {
-            IDivisao divisao = new Divisao(jEdificio.get(i).toString());
-            divisaoParaIterator = divisao;
+            for (int i = 0; i < jEdificio.size(); i++) {
+                IDivisao divisao = new Divisao(jEdificio.get(i).toString());
+                divisaoParaIterator = divisao;
 
-            for (int j = 0; j < jInimigos.size(); j++) {
-                JSONObject jInimigo = (JSONObject) jInimigos.get(j);
+                for (int j = 0; j < jInimigos.size(); j++) {
+                    JSONObject jInimigo = (JSONObject) jInimigos.get(j);
 
-                IDivisao divisaoInimigo = new Divisao(jInimigo.get("divisao").toString());
+                    IDivisao divisaoInimigo = new Divisao(jInimigo.get("divisao").toString());
 
-                if (divisao.equals(divisaoInimigo)) {
-                    Inimigo inimigo = new Inimigo(jInimigo.get("nome").toString(), (int) ((long) jInimigo.get("poder")));
-                    int dano = divisao.getDano() + (int) ((long) jInimigo.get("poder"));
-                    divisao.setDano(dano);
-                    divisao.adicionarInimigo(inimigo);
+                    if (divisao.equals(divisaoInimigo)) {
+                        Inimigo inimigo = new Inimigo(jInimigo.get("nome").toString(), (int) ((long) jInimigo.get("poder")));
+                        int dano = divisao.getDano() + (int) ((long) jInimigo.get("poder"));
+                        divisao.setDano(dano);
+                        divisao.adicionarInimigo(inimigo);
+                    }
                 }
+                edificio.addVertex(divisao);
             }
-            edificio.addVertex(divisao);
-        }
 
-        for (int i = 0; i < jLigacoes.size(); i++) {
-            JSONArray jLigacao = (JSONArray) jLigacoes.get(i);
+            for (int i = 0; i < jLigacoes.size(); i++) {
+                JSONArray jLigacao = (JSONArray) jLigacoes.get(i);
 
-            String jVertex1 = (String) jLigacao.get(0);
-            IDivisao divisao1 = new Divisao(jVertex1);
+                String jVertex1 = (String) jLigacao.get(0);
+                IDivisao divisao1 = new Divisao(jVertex1);
 
-            String jVertex2 = (String) jLigacao.get(1);
-            IDivisao divisao2 = new Divisao(jVertex2);
+                String jVertex2 = (String) jLigacao.get(1);
+                IDivisao divisao2 = new Divisao(jVertex2);
 
-            edificio.addEdge(divisao1, divisao2, edificio.getVertex(divisao2).getDano());
-            edificio.addEdge(divisao2, divisao1, edificio.getVertex(divisao1).getDano());
-        }
+                edificio.addEdge(divisao1, divisao2, edificio.getVertex(divisao2).getDano());
+                edificio.addEdge(divisao2, divisao1, edificio.getVertex(divisao1).getDano());
+            }
 
-        UnorderedLinkedList<IDivisao> entradasSaidas = new UnorderedLinkedList<>();
+            UnorderedLinkedList<IDivisao> entradasSaidas = new UnorderedLinkedList<>();
 
-        for (int i = 0; i < jEntradasSaidas.size(); i++) {
+            for (int i = 0; i < jEntradasSaidas.size(); i++) {
 
-            IDivisao divisao = new Divisao(jEntradasSaidas.get(i).toString());
-            entradasSaidas.addToRear(divisao);
-        }
+                IDivisao divisao = new Divisao(jEntradasSaidas.get(i).toString());
+                entradasSaidas.addToRear(divisao);
+            }
 
-        IDivisao alvoDivisao = new Divisao(jAlvo.get("divisao").toString());
-        Alvo alvo = new Alvo(alvoDivisao, jAlvo.get("tipo").toString());
-        ICenario cenario = new Cenario((int) jVersao, edificio, entradasSaidas, alvo);
-        
-        missao.adicionarVersão(cenario);
+            IDivisao alvoDivisao = new Divisao(jAlvo.get("divisao").toString());
+            Alvo alvo = new Alvo(alvoDivisao, jAlvo.get("tipo").toString());
+            ICenario cenario = new Cenario((int) jVersao, edificio, entradasSaidas, alvo);
 
-        
-        }catch (ClassCastException e){
+            missao.adicionarVersão(cenario);
+
+        } catch (ClassCastException e) {
             throw new InvalidDocumentException("File values are not correct!");
         }
         return missao;
@@ -147,53 +145,45 @@ public class JsonImporter {
 
     /**
      * Validate imported JSON file.
+     *
      * @return true if document is correct.
-     * @return false if document does not follow base struct.
+     * @return false if document does not follow base structure.
      */
-//    private boolean validateJSONFile(Orders orders) {
-//
-//        IOrder[] listaOrders = orders.getOrders();
-//
-//        for (int i = 0; i < orders.getNumOrders(); i++) {
-//            if (listaOrders[i].getID() == null || listaOrders[i].getCostumer() == null || listaOrders[i].getPackages() == null || listaOrders[i].getReceiver() == null) {
-//                return false;
-//            }
-//
-//            ICostumer costumer = listaOrders[i].getCostumer();
-//            if (costumer.getName() == null || costumer.getNif() < 0 || costumer.getNif() > 999999999) {
-//                return false;
-//            }
-//
-//            ICostumer receiver = listaOrders[i].getReceiver();
-//            if (receiver.getName() == null || receiver.getNif() < 0 | costumer.getNif() > 999999999) {
-//                return false;
-//            }
-//
-//            IAddress cAdrress = costumer.getAdress();
-//            if (cAdrress.getCity() == null || cAdrress.getCountry() == null || cAdrress.getNumberDoor() < 0 || cAdrress.getStreet() == null || cAdrress.getPostalCode() == null) {
-//                return false;
-//            }
-//
-//            IAddress rAdrress = receiver.getAdress();
-//            if (rAdrress.getCity() == null || rAdrress.getCountry() == null || rAdrress.getNumberDoor() < 0 || rAdrress.getStreet() == null || rAdrress.getPostalCode() == null) {
-//                return false;
-//            }
-//
-//            IPackage[] listaPackages = listaOrders[i].getPackages();
-//
-//            for (int j = 0; j < listaOrders[i].getNumbPackages(); j++) {
-//                if (listaPackages[j].getID() == null || listaPackages[j].getItems() == null || listaPackages[j].getSize() == null) {
-//                    return false;
-//                }
-//                IItem[] listaItens = listaPackages[j].getItems();
-//                for (int k = 0; k < listaPackages[j].getNumItens(); k++) {
-//                    if (listaItens[k].getReference() == null) {
-//                        return false;
-//                    }
-//                }
-//            }
-//        }
-//        return true;
-//    }
+    private boolean validateJSONFile(IMissao missao) throws InvalidDocumentException, InvalidOperationException {
+
+        if (missao.getNumeroVersoes() == 0) {
+            throw new InvalidDocumentException("There is none map in the document!");
+        }
+        ICenario cenario = missao.getListVersoes().removeFirst();
+
+        if ( cenario.getEdificio().size() < 1
+                || cenario.getAlvo().getDivisao() == null
+                || cenario.getAlvo().getTipo() == null
+                || cenario.getEntradasSaidas() == null) {
+            throw new InvalidDocumentException("There is something wrong in the document!");
+        }
+        
+        if(!cenario.getEdificio().isConnected()){
+            throw new InvalidDocumentException("The building has divisions not connected!");
+        }
+
+        Iterator<IDivisao> iterator = cenario.getEntradasSaidas();
+
+        while (iterator.hasNext()) {
+            try {
+                cenario.getEdificio().getVertex(iterator.next());
+            } catch (NullElementValueException | ElementNotFoundException ex) {
+                throw new InvalidDocumentException("The entries and exits do  not exist in the building!");
+            }
+        }
+
+        try {
+            cenario.getEdificio().getVertex(cenario.getAlvo().getDivisao());
+        } catch (NullElementValueException | ElementNotFoundException ex) {
+            throw new InvalidDocumentException("The division of the target does not exist in the building!");
+        }
+
+        return true;
+    }
 
 }

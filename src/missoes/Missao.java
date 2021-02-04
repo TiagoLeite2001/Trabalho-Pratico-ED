@@ -117,4 +117,9 @@ public class Missao implements IMissao {
         return info;
     }
 
+    @Override
+    public UnorderedLinkedList<ICenario> getListVersoes() {
+        return this.versoes;
+    }
+
 }

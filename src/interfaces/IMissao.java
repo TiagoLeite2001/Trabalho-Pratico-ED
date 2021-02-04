@@ -4,6 +4,7 @@ import exceptions.ElementNotFoundException;
 import exceptions.NullElementValueException;
 import exceptions.VersionAlreadyExistException;
 import java.util.Iterator;
+import linkedListSentinela.UnorderedLinkedList;
 
 /**
  * Interface da missao.
@@ -23,6 +24,13 @@ public interface IMissao {
      * @return Iterador Versões
      */
     public Iterator<ICenario> getVersoes();
+    
+    /**
+     * Retornar uma lista de versões associadas à missão.
+     *
+     * @return UnorderedLinkedList<ICenario> Versões
+     */
+    public UnorderedLinkedList<ICenario> getListVersoes();
 
     /**
      * Adicionar uma versão à missão.
