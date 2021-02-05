@@ -20,7 +20,9 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import json.JsonImporter;
+import missoes.Divisao;
 import org.json.simple.parser.ParseException;
+import simulacoes.SimulacaoManual;
 
 /**
  *
@@ -32,12 +34,10 @@ public class Demo {
             JsonImporter importer = new JsonImporter();
             IMissao m;
             m = importer.jsonImporter("Mapas/exemplo.json");
-            try {
-                ISimulacaoAutomatica t=m.getVersoes().next().iniciarSimulacaoAutomatica();
-                System.out.println(t);
-            } catch (NoPathAvailableException ex) {
-                Logger.getLogger(Demo.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            //ISimulacaoAutomatica t=m.getVersoes().next().iniciarSimulacaoAutomatica();
+            //System.out.println(t);
+            
+            SimulacaoManual sm = m.getVersoes().next().iniciarSimulacaoManual("Heliporto");
             
         } catch (IOException | ParseException |InvalidDocumentException |
                 RepeatedElementException | InvalidWeightValueException | InvalidOperationException | VersionAlreadyExistException ex) {

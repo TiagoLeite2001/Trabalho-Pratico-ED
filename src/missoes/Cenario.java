@@ -15,6 +15,9 @@ import interfaces.ICenario;
 import interfaces.IDivisao;
 import interfaces.ISimulacaoAutomatica;
 import java.util.Iterator;
+import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import linkedListSentinela.OrderedLinkedList;
 import linkedListSentinela.UnorderedLinkedList;
 import simulacoes.CustoTrajeto;
@@ -25,6 +28,7 @@ import simulacoes.SimulacaoManual;
  *Esta classe guarda a toda a informação de uma versão de uma missão.
  */
 public class Cenario implements ICenario{
+    private final int DEFAULT_LIFE =100;
     private int versao;
     private WeightedAdjMatrixDiGraph<IDivisao> edificio;
     private UnorderedLinkedList<IDivisao> entradasSaidas;
@@ -110,10 +114,111 @@ public class Cenario implements ICenario{
      * @return simulação manual.
      */
     @Override
-    public SimulacaoManual iniciarSimulacaoManual(){
+    public SimulacaoManual iniciarSimulacaoManual(String entrada) throws NullElementValueException, 
+            ElementNotFoundException, InvalidOperationException{
         SimulacaoManual sm = new SimulacaoManual();
+       
+        IDivisao divisaoAtual = new Divisao(entrada);
+        divisaoAtual= this.edificio.getVertex(divisaoAtual);
+        IDivisao divisaoIntroduzida = null;
+        
+        if (!this.entradasSaidas.contains(divisaoAtual)) {
+            throw new ElementNotFoundException("The entrie!");
+        }
+        
+        Scanner myObj = new Scanner(System.in,  "latin1");
+        String input;
+        
+        int vidaRestante = DEFAULT_LIFE;
+        boolean exit = false;
+        boolean temAlvo = false;
+        
+        vidaRestante = vidaRestante - divisaoAtual.getDano();
+        
+        UnorderedLinkedList<IDivisao> trajeto = new UnorderedLinkedList<>();
+        
+        System.out.println("\nDivisões do cenário atual: ");
+            
+            Iterator<IDivisao> it = this.edificio.iteratorBFS(divisaoAtual);
+            while(it.hasNext()){
+                System.out.println(it.next());
+            }   
+        
+        while(!exit){
+            
+            
+            
+             System.out.println("\nDivisão onde você se encontra: " + divisaoAtual.getNome() +"\n");
+            
+            
+            
+            System.out.println("Vida: " + vidaRestante);
+            
+            System.out.println("Intoduza a divisão desejada: ");
+            input = myObj.nextLine();
+            
+            try{
+            //Obter ligaçoes entre divisoes
+            
+            
+           
+             
+            divisaoIntroduzida = new Divisao(input);
+            divisaoIntroduzida = this.edificio.getVertex(divisaoIntroduzida);
+            
+            
+
+                if (this.edificio.isNeighbor(divisaoIntroduzida, divisaoAtual)) { 
+                    
+                    trajeto.addToRear(divisaoIntroduzida);
+                    
+                    if(this.alvo.getDivisao().equals(divisaoIntroduzida)){
+                    temAlvo = true;
+                }
+                    vidaRestante = vidaRestante - divisaoIntroduzida.getDano();//retirar a vida ao Tó 
+                    if (vidaRestante > 0) {
+                        divisaoAtual = divisaoIntroduzida;
+
+                        if (this.entradasSaidas.contains(divisaoAtual)) {
+
+                            if (temAlvo) {
+                                System.out.println("Missão concluída com sucesso!!!");
+                                exit = true;
+                            } else {
+                                System.out.println("Chegou a uma saída, deseja concluir a missão?"
+                                        + "S - Sim \n" + "N - Não");
+                                String sairS = "";
+
+                                while (!sairS.equals("N") && !sairS.equals("S")) {
+                                    sairS = myObj.nextLine();
+                                }
+
+                                if (sairS == "S") {
+                                    exit = true;
+                                }
+                            }
+                        }
+                    
+                    System.out.println("Vida: " + vidaRestante);
+                }
+                else{
+                    System.out.println("Tó Cruz ficou sem vida! Missão falhada");
+                    exit = true;
+                }
+            }
+                
+            sm.setPontosVida(vidaRestante);
+            sm.setSucesso(temAlvo && vidaRestante>0);
+            sm.setTrajeto(trajeto);
+            
+            }catch(NullElementValueException | ElementNotFoundException e){
+                System.out.println("A divisão não é valida ou não existe!");
+            }
+            
+        }
         
         sm.setVersao(this.versao);
+        this.simulacoesManuais.add(sm);
         this.numSimulacoesManuais++;
         return sm;
     }
