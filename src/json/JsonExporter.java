@@ -45,7 +45,7 @@ public class JsonExporter {
 
         jDoc.put("Simulacoes", jSimulacoes);
 
-        try (FileWriter file = new FileWriter("CodMissao_"+codMissao+"Versao_"+versao.getVersao()+".json")) {
+        try (FileWriter file = new FileWriter("relatorios/" + "CodMissao_"+codMissao+"Versao_"+versao.getVersao()+".json")) {
             file.write(jDoc.toJSONString());
         }
         String result = jDoc.toJSONString();

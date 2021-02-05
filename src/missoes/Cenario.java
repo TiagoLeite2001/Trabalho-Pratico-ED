@@ -126,8 +126,7 @@ public class Cenario implements ICenario{
             throw new ElementNotFoundException("The entrie!");
         }
         
-        Scanner myObj = new Scanner(System.in,  "latin1");
-        String input;
+        
         
         int vidaRestante = DEFAULT_LIFE;
         boolean exit = false;
@@ -146,7 +145,8 @@ public class Cenario implements ICenario{
         
         while(!exit){
             
-            
+            Scanner myObj = new Scanner(System.in,  "latin1");
+        String input;
             
              System.out.println("\nDivisão onde você se encontra: " + divisaoAtual.getNome() +"\n");
             
@@ -185,15 +185,15 @@ public class Cenario implements ICenario{
                                 System.out.println("Missão concluída com sucesso!!!");
                                 exit = true;
                             } else {
-                                System.out.println("Chegou a uma saída, deseja concluir a missão?"
-                                        + "S - Sim \n" + "N - Não");
+                                System.out.println("Chegou a uma saída, deseja concluir a missão?\n"
+                                        + "S/N ");
                                 String sairS = "";
-
+                                
                                 while (!sairS.equals("N") && !sairS.equals("S")) {
-                                    sairS = myObj.nextLine();
+                                    sairS = (String)myObj.nextLine();
                                 }
 
-                                if (sairS == "S") {
+                                if (sairS.equals("S")) {
                                     exit = true;
                                 }
                             }
