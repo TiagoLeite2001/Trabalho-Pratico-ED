@@ -35,7 +35,7 @@ import simulacoes.SimulacaoManual;
  */
 public class Demo {
 
-    public static void main(String[] args)throws ElementNotFoundException,NullElementValueException, NoManualSimulationsException {
+    public static void main(String[] args)throws ElementNotFoundException,NullElementValueException, NoManualSimulationsException, NoPathAvailableException {
         
         try {
             JsonImporter importer = new JsonImporter();
@@ -45,18 +45,13 @@ public class Demo {
             IMissoes missoes = new Missoes();
             missoes.adicionarMissao(m);
             
-            //ISimulacaoAutomatica t=m.getVersoes().next().iniciarSimulacaoAutomatica();
-            //System.out.println(t);
-            
-            SimulacaoManual sm = m.getVersoes().next().iniciarSimulacaoManual("Heliporto");
-            SimulacaoManual sm2 = m.getVersoes().next().iniciarSimulacaoManual("Heliporto");
-            
-            
+            SimulacaoManual sm = m.iniciarSimulacaoManual(1,"Heliporto");
+            SimulacaoManual sm2 = m.iniciarSimulacaoManual(1,"Garagem");
+                      
             System.out.println(missoes.apresentarResultadosSimulacoesManuais(m));
             
-            
-            //JsonExporter.exportSimulacoesManuais(m.getCodMissao(), m.getVersoes().next());
-            
+            System.out.println("\n **Automatico:"+m.iniciarSimulacaoAutomatica(1));
+     
         } catch (IOException | ParseException |InvalidDocumentException |
                 RepeatedElementException | InvalidWeightValueException | InvalidOperationException | VersionAlreadyExistException ex) {
             System.out.println(ex);}  
