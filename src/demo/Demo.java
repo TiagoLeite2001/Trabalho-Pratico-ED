@@ -31,10 +31,13 @@ import simulacoes.SimulacaoManual;
  * @author tiago
  */
 public class Demo {
+
     public static void main(String[] args)throws ElementNotFoundException,NullElementValueException, NoManualSimulationsException {
+        
         try {
             JsonImporter importer = new JsonImporter();
             IMissao m;
+            System.out.println("asfassadfasfsadfgasdfsFASSDFASFDASDFSADF");
             m = importer.jsonImporter("Mapas/exemplo.json");
             //ISimulacaoAutomatica t=m.getVersoes().next().iniciarSimulacaoAutomatica();
             //System.out.println(t);

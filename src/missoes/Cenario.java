@@ -14,6 +14,7 @@ import heap.LinkedHeap;
 import interfaces.ICenario;
 import interfaces.IDivisao;
 import interfaces.ISimulacaoAutomatica;
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.Scanner;
 import java.util.logging.Level;
@@ -99,82 +100,66 @@ public class Cenario implements ICenario{
     public ISimulacaoAutomatica getSimulacaoAutomatica() {
         return simulacaoAutomatica;
     }
-    
+
     /**
      * Obter as simulações manuais.
+     *
      * @return simulações manuais.
      */
     @Override
     public Iterator<SimulacaoManual> getSimulacoesManuais() {
         return simulacoesManuais.iterator();
     }
-    
+
     /**
      * Iniciar uma simulação manual.
+     *
      * @return simulação manual.
      */
     @Override
-    public SimulacaoManual iniciarSimulacaoManual(String entrada) throws NullElementValueException, 
-            ElementNotFoundException, InvalidOperationException{
+    public SimulacaoManual iniciarSimulacaoManual(String entrada) throws NullElementValueException,
+            ElementNotFoundException, InvalidOperationException {
         SimulacaoManual sm = new SimulacaoManual();
-       
+
         IDivisao divisaoAtual = new Divisao(entrada);
-        divisaoAtual= this.edificio.getVertex(divisaoAtual);
+        divisaoAtual = this.edificio.getVertex(divisaoAtual);
         IDivisao divisaoIntroduzida = null;
-        
+
         if (!this.entradasSaidas.contains(divisaoAtual)) {
             throw new ElementNotFoundException("The entrie!");
         }
-        
-        
-        
+
         int vidaRestante = DEFAULT_LIFE;
         boolean exit = false;
         boolean temAlvo = false;
-        
-        vidaRestante = vidaRestante - divisaoAtual.getDano();
-        
-        UnorderedLinkedList<IDivisao> trajeto = new UnorderedLinkedList<>();
-        
-        System.out.println("\nDivisões do cenário atual: ");
-            
-            Iterator<IDivisao> it = this.edificio.iteratorBFS(divisaoAtual);
-            while(it.hasNext()){
-                System.out.println(it.next());
-            }   
-        
-        while(!exit){
-            
-            Scanner myObj = new Scanner(System.in,  "latin1");
-        String input;
-            
-             System.out.println("\nDivisão onde você se encontra: " + divisaoAtual.getNome() +"\n");
-            
-            
-            
-            System.out.println("Vida: " + vidaRestante);
-            
-            System.out.println("Intoduza a divisão desejada: ");
-            input = myObj.nextLine();
-            
-            try{
-            //Obter ligaçoes entre divisoes
-            
-            
-           
-             
-            divisaoIntroduzida = new Divisao(input);
-            divisaoIntroduzida = this.edificio.getVertex(divisaoIntroduzida);
-            
-            
 
-                if (this.edificio.isNeighbor(divisaoIntroduzida, divisaoAtual)) { 
-                    
+        vidaRestante = vidaRestante - divisaoAtual.getDano();
+        UnorderedLinkedList<IDivisao> trajeto = new UnorderedLinkedList<>();
+        System.out.println(this.mostrarMapa());
+
+        while (!exit) {
+            Scanner myObj = new Scanner(System.in, "latin1");
+            String input;
+            System.out.println("---------------------------------------------------");
+            System.out.println("\nO alvo encontra-se em: "+this.alvo.getDivisao());    
+            System.out.println("\nDivisão onde você se encontra: " + divisaoAtual.getNome());
+            System.out.println("\nVida: " + vidaRestante);
+            System.out.println("\nIntoduza a divisão desejada: ");
+            
+            input = myObj.nextLine();
+
+            try {
+                //Obter ligaçoes entre divisoes
+                divisaoIntroduzida = new Divisao(input);
+                divisaoIntroduzida = this.edificio.getVertex(divisaoIntroduzida);
+
+                if (this.edificio.isNeighbor(divisaoIntroduzida, divisaoAtual)) {
+
                     trajeto.addToRear(divisaoIntroduzida);
-                    
-                    if(this.alvo.getDivisao().equals(divisaoIntroduzida)){
-                    temAlvo = true;
-                }
+
+                    if (this.alvo.getDivisao().equals(divisaoIntroduzida)) {
+                        temAlvo = true;
+                    }
                     vidaRestante = vidaRestante - divisaoIntroduzida.getDano();//retirar a vida ao Tó 
                     if (vidaRestante > 0) {
                         divisaoAtual = divisaoIntroduzida;
@@ -188,35 +173,30 @@ public class Cenario implements ICenario{
                                 System.out.println("Chegou a uma saída, deseja concluir a missão?\n"
                                         + "S/N ");
                                 String sairS = "";
-                                
+
                                 while (!sairS.equals("N") && !sairS.equals("S")) {
-                                    sairS = (String)myObj.nextLine();
+                                    sairS = (String) myObj.nextLine();
                                 }
 
-                                if (sairS.equals("S")) {
-                                    exit = true;
-                                }
+                                if (sairS.equals("S")) {exit = true;}
                             }
                         }
-                    
-                    System.out.println("Vida: " + vidaRestante);
+
+                        System.out.println("Vida: " + vidaRestante);
+                    } else {
+                        System.out.println("Tó Cruz ficou sem vida! Missão falhada");
+                        exit = true;
+                    }
                 }
-                else{
-                    System.out.println("Tó Cruz ficou sem vida! Missão falhada");
-                    exit = true;
-                }
-            }
-                
-            sm.setPontosVida(vidaRestante);
-            sm.setSucesso(temAlvo && vidaRestante>0);
-            sm.setTrajeto(trajeto);
-            
-            }catch(NullElementValueException | ElementNotFoundException e){
+                sm.setPontosVida(vidaRestante);
+                sm.setSucesso(temAlvo && vidaRestante > 0);
+                sm.setTrajeto(trajeto);
+
+            } catch (NullElementValueException | ElementNotFoundException e) {
                 System.out.println("A divisão não é valida ou não existe!");
             }
-            
         }
-        
+
         sm.setVersao(this.versao);
         this.simulacoesManuais.add(sm);
         this.numSimulacoesManuais++;
@@ -307,6 +287,22 @@ public class Cenario implements ICenario{
     @Override
     public int getNumSimulacoesManuais() {
         return numSimulacoesManuais;
+    }
+    
+    public String mostrarMapa() throws NullElementValueException, ElementNotFoundException{
+        String mapa="**********************************Edificio**********************************"
+                + "\n Divisao Origem --Dano do inimigo da divisão de destino--> Divisao Destino";
+        for(int i=0;i<this.edificio.size();i++){
+             IDivisao origin=this.edificio.getVertex(i);
+            for(int j=0;j<this.edificio.size();j++){
+                IDivisao destiny=this.edificio.getVertex(j);                   
+                if(this.edificio.isNeighbor(origin,destiny)){
+                    mapa+="\n" +origin.getNome()+" -- "+this.edificio.getEdgeCost(origin, destiny)+" --> "+destiny.getNome();
+                }
+            }
+        }
+        mapa+="\n**********************************Edificio**********************************";
+        return mapa;
     }
     
     @Override
