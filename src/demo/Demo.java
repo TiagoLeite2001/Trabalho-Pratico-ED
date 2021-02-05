@@ -17,7 +17,10 @@ import exceptions.VersionAlreadyExistException;
 import interfaces.IMissoes;
 import java.io.IOException;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import json.JsonImporter;
+import menus.Menu;
 import missoes.Missoes;
 import org.json.simple.parser.ParseException;
 import simulacoes.SimulacaoManual;
@@ -30,12 +33,23 @@ public class Demo {
 
     public static void main(String[] args)throws ElementNotFoundException,NullElementValueException, NoManualSimulationsException, NoPathAvailableException {
         
-        System.out.println("\nTrabalho Prático de Estrutura de Dados"
-                + "\n     Realizado por: "
-                + "\n     João Lopes - 8190228"
-                + "\n     Tiago Leite - 8190338\n");
-        
-        Scanner myObj = new Scanner(System.in, "latin1");
+        try {
+            Menu.menuPrincipal();
+        } catch (RepeatedElementException ex) {
+            Logger.getLogger(Demo.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InvalidWeightValueException ex) {
+            Logger.getLogger(Demo.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(Demo.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
+            Logger.getLogger(Demo.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (VersionAlreadyExistException ex) {
+            Logger.getLogger(Demo.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InvalidOperationException ex) {
+            Logger.getLogger(Demo.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InvalidDocumentException ex) {
+            Logger.getLogger(Demo.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
     }
 }

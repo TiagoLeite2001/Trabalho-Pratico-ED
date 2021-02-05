@@ -55,6 +55,7 @@ public class Missoes implements IMissoes {
         }
         else{
             this.missoes.addToRear(missao);
+            this.numMissoes++;
         }
     }
     
