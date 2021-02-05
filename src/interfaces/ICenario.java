@@ -3,95 +3,101 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package interfaces;
 
-import exceptions.ElementNotFoundException;
-import exceptions.InvalidOperationException;
-import exceptions.NoPathAvailableException;
 import exceptions.NullElementValueException;
 import graph.WeightedAdjMatrixDiGraph;
 import java.util.Iterator;
+import linkedListSentinela.UnorderedLinkedList;
 import missoes.Alvo;
-import missoes.Divisao;
+import simulacoes.SimulacaoAutomatica;
 import simulacoes.SimulacaoManual;
-
 
 /**
  *
  * @author JoaoLopes 8190221
  */
 public interface ICenario {
-    
+
     /**
      * Obter a versão do cenário.
+     *
      * @return versao.
      */
     public int getVersao();
-    
+
     /**
      * Obter o grafo do edificio.
+     *
      * @return edificio.
      */
     public WeightedAdjMatrixDiGraph<IDivisao> getEdificio();
-    
+
     /**
      * Obter o iterador das entradas e saidas.
+     *
      * @return iterador.
      */
     public Iterator<IDivisao> getEntradasSaidas();
 
     /**
      * Obter o alvo do cenário.
+     *
      * @return alvo.
      */
     public Alvo getAlvo();
-    
+
     /**
      * Obter a simulação automática.
+     *
      * @return simulação automática.
      */
     public ISimulacaoAutomatica getSimulacaoAutomatica();
-    
+
     /**
      * Obter as simulações manuais.
+     *
      * @return simulações manuais.
      */
     public Iterator<SimulacaoManual> getSimulacoesManuais();
-    
-    /**
-     * Iniciar uma simulação manual.
-     * @return simulação manual.
-     */
-    public SimulacaoManual iniciarSimulacaoManual(String entrada) throws NullElementValueException, 
-            ElementNotFoundException, InvalidOperationException;
-    
-    /**
-     * Iniciar uma simulação automática.
-     * @return simulação automática.
-     */
-    public ISimulacaoAutomatica iniciarSimulacaoAutomatica() throws InvalidOperationException, 
-            NullElementValueException, ElementNotFoundException, NoPathAvailableException;
-    
-    /**
-     * Verificar se dois cenários são iguais.
-     *
-     * @return boolean
-     * @return true se os cenários forem iguais.
-     * @return false se os cenários forem diferentes.
-     */
+
     @Override
     public boolean equals(Object obj);
-    
+
     /**
      * Obter o número de entradas e saídas.
+     *
      * @return número de entradas e saídas.
      */
     public int getNumeroEntradasSaidas();
-    
-     /**
+
+    /**
      * Obter número de simulações manuais efetuadas neste cenário.
+     *
      * @return Número de Simulações
      */
     public int getNumSimulacoesManuais();
+
+    /**
+     * Obter lista entradas e saidas.
+     *
+     * @return Lista entradas e saidas
+     */
+    public UnorderedLinkedList<IDivisao> getListaEntradasSaidas();
+
+    /**
+     * Adicionar uma simulacao manual ao cenário.
+     *
+     * @param sim
+     * @throws NullElementValueException
+     */
+    public void adicionarSimulacaoManual(SimulacaoManual sim) throws NullElementValueException;
+
+    /**
+     * Adicionar uma simulacao automática ao cenário.
+     *
+     * @param sim
+     * @throws NullElementValueException
+     */
+     public void adicionarSimulacaoAutomatica(SimulacaoAutomatica sim) throws NullElementValueException;
 }

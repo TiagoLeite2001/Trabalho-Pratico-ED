@@ -32,21 +32,15 @@ import simulacoes.SimulacaoManual;
  */
 public class Demo {
 
-    public static void main(String[] args)throws ElementNotFoundException,NullElementValueException, NoManualSimulationsException {
+    public static void main(String[] args)throws ElementNotFoundException,NullElementValueException, NoManualSimulationsException, NoPathAvailableException {
         
         try {
             JsonImporter importer = new JsonImporter();
             IMissao m;
-            System.out.println("asfassadfasfsadfgasdfsFASSDFASFDASDFSADF");
             m = importer.jsonImporter("Mapas/exemplo.json");
-            //ISimulacaoAutomatica t=m.getVersoes().next().iniciarSimulacaoAutomatica();
-            //System.out.println(t);
             
-            SimulacaoManual sm = m.getVersoes().next().iniciarSimulacaoManual("Heliporto");
-            SimulacaoManual sm2 = m.getVersoes().next().iniciarSimulacaoManual("Garagem");
-            
-            JsonExporter.exportSimulacoesManuais(m.getCodMissao(), m.getVersoes().next());
-            
+            System.out.println(m.iniciarSimulacaoAutomatica(1));
+     
         } catch (IOException | ParseException |InvalidDocumentException |
                 RepeatedElementException | InvalidWeightValueException | InvalidOperationException | VersionAlreadyExistException ex) {
             System.out.println(ex);}  
