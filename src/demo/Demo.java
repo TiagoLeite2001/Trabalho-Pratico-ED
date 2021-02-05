@@ -14,17 +14,10 @@ import exceptions.NoPathAvailableException;
 import exceptions.NullElementValueException;
 import exceptions.RepeatedElementException;
 import exceptions.VersionAlreadyExistException;
-import interfaces.ICenario;
-import interfaces.IMissao;
 import interfaces.IMissoes;
-import interfaces.ISimulacaoAutomatica;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import json.JsonExporter;
+import java.util.Scanner;
 import json.JsonImporter;
-import missoes.Divisao;
-import missoes.Missao;
 import missoes.Missoes;
 import org.json.simple.parser.ParseException;
 import simulacoes.SimulacaoManual;
@@ -37,25 +30,13 @@ public class Demo {
 
     public static void main(String[] args)throws ElementNotFoundException,NullElementValueException, NoManualSimulationsException, NoPathAvailableException {
         
-        try {
-            JsonImporter importer = new JsonImporter();
-            IMissao m;
-            m = importer.jsonImporter("Mapas/exemplo.json");
-            
-            IMissoes missoes = new Missoes();
-            missoes.adicionarMissao(m);
-            
-            SimulacaoManual sm = m.iniciarSimulacaoManual(1,"Heliporto");
-            SimulacaoManual sm2 = m.iniciarSimulacaoManual(1,"Garagem");
-                      
-            System.out.println(missoes.apresentarResultadosSimulacoesManuais(m));
-            
-            System.out.println("\n **Automatico:"+m.iniciarSimulacaoAutomatica(1));
-     
-        } catch (IOException | ParseException |InvalidDocumentException |
-                RepeatedElementException | InvalidWeightValueException | InvalidOperationException | VersionAlreadyExistException ex) {
-            System.out.println(ex);}  
-
+        System.out.println("\nTrabalho Prático de Estrutura de Dados"
+                + "\n     Realizado por: "
+                + "\n     João Lopes - 8190228"
+                + "\n     Tiago Leite - 8190338\n");
+        
+        Scanner myObj = new Scanner(System.in, "latin1");
+        
     }
 }
 

@@ -2,13 +2,22 @@
 package missoes;
 
 import exceptions.ElementNotFoundException;
+import exceptions.InvalidDocumentException;
+import exceptions.InvalidOperationException;
+import exceptions.InvalidWeightValueException;
 import exceptions.NullElementValueException;
+import exceptions.RepeatedElementException;
+import exceptions.VersionAlreadyExistException;
 import interfaces.ICenario;
 import interfaces.IMissao;
 import interfaces.IMissoes;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Iterator;
+import json.JsonImporter;
 import linkedListSentinela.OrderedLinkedList;
 import linkedListSentinela.UnorderedLinkedList;
+import org.json.simple.parser.ParseException;
 import simulacoes.SimulacaoManual;
 
 /**
@@ -23,6 +32,30 @@ public class Missoes implements IMissoes {
      */
     public Missoes(){ 
         this.missoes = new UnorderedLinkedList<>();
+    }
+    
+    /**
+     * 
+     */
+    @Override
+    public void importarMissao(String path) throws IOException, FileNotFoundException, 
+            NullElementValueException, ElementNotFoundException, RepeatedElementException, 
+            InvalidWeightValueException, InvalidOperationException, ParseException, VersionAlreadyExistException, InvalidDocumentException{
+        IMissao missao = JsonImporter.jsonImporter(path);
+        
+        if(this.missoes.contains(missao)){
+            ICenario cenario = missao.getVersoes().next();
+            
+            if(!this.missoes.getElement(missao).getListVersoes().contains(cenario)){
+               this.missoes.getElement(missao).getListVersoes().addToRear(cenario);
+            }
+            else{
+                throw new RepeatedElementException("The version of the mission already exists!");
+            }
+        }
+        else{
+            this.missoes.addToRear(missao);
+        }
     }
     
     /**

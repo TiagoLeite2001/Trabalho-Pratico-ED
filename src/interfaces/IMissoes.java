@@ -2,14 +2,26 @@
 package interfaces;
 
 import exceptions.ElementNotFoundException;
+import exceptions.InvalidDocumentException;
+import exceptions.InvalidOperationException;
+import exceptions.InvalidWeightValueException;
 import exceptions.NullElementValueException;
+import exceptions.RepeatedElementException;
+import exceptions.VersionAlreadyExistException;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Iterator;
+import org.json.simple.parser.ParseException;
 import simulacoes.SimulacaoManual;
 
 /**
  * Interface das missões armazenadas.
  */
 public interface IMissoes {
+    
+    public void importarMissao(String path) throws IOException, FileNotFoundException, 
+            NullElementValueException, ElementNotFoundException, RepeatedElementException, 
+            InvalidWeightValueException, InvalidOperationException, ParseException, VersionAlreadyExistException, InvalidDocumentException;
     
     /**
      * Apresentar, para uma missão selecionada, os resultados das simulações manuais realizadas.

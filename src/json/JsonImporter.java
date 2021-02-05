@@ -49,7 +49,7 @@ public class JsonImporter {
      *
      * @return IOrders
      */
-    public IMissao jsonImporter(String path) throws IOException, ParseException,
+    public static IMissao jsonImporter(String path) throws IOException, ParseException,
             FileNotFoundException, NullElementValueException, RepeatedElementException,
             ElementNotFoundException, InvalidWeightValueException, InvalidOperationException,
             VersionAlreadyExistException, InvalidDocumentException {
@@ -63,7 +63,7 @@ public class JsonImporter {
      *
      * @return IOrders
      */
-    private IMissao importFile(String path) throws FileNotFoundException, IOException,
+    private static IMissao importFile(String path) throws FileNotFoundException, IOException,
             ParseException, NullElementValueException, RepeatedElementException,
             ElementNotFoundException, InvalidWeightValueException, InvalidOperationException,
             VersionAlreadyExistException, InvalidDocumentException {
@@ -183,7 +183,7 @@ public class JsonImporter {
      * @return true if document is correct.
      * @return false if document does not follow base structure.
      */
-    private boolean validateJSONFile(IMissao missao) throws InvalidDocumentException, InvalidOperationException, VersionAlreadyExistException, NullElementValueException {
+    private static boolean validateJSONFile(IMissao missao) throws InvalidDocumentException, InvalidOperationException, VersionAlreadyExistException, NullElementValueException {
 
         if (missao.getNumeroVersoes() == 0) {
             throw new InvalidDocumentException("There is none map in the document!");

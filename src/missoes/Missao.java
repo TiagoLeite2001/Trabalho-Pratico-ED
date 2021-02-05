@@ -304,4 +304,14 @@ public class Missao implements IMissao {
         mapa += "\n**********************************Edificio**********************************";
         return mapa;
     }
+    
+    @Override
+    public boolean equals(Object obj){
+        if(obj instanceof Missao){
+            if(this.codMissao.equals(((Missao) obj).codMissao)){
+                return true;
+            }
+        }
+        return false;
+    }
 }
