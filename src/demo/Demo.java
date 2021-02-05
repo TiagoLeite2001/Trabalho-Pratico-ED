@@ -16,6 +16,7 @@ import exceptions.RepeatedElementException;
 import exceptions.VersionAlreadyExistException;
 import interfaces.ICenario;
 import interfaces.IMissao;
+import interfaces.IMissoes;
 import interfaces.ISimulacaoAutomatica;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -23,6 +24,8 @@ import java.util.logging.Logger;
 import json.JsonExporter;
 import json.JsonImporter;
 import missoes.Divisao;
+import missoes.Missao;
+import missoes.Missoes;
 import org.json.simple.parser.ParseException;
 import simulacoes.SimulacaoManual;
 
@@ -37,15 +40,22 @@ public class Demo {
         try {
             JsonImporter importer = new JsonImporter();
             IMissao m;
-            System.out.println("asfassadfasfsadfgasdfsFASSDFASFDASDFSADF");
             m = importer.jsonImporter("Mapas/exemplo.json");
+            
+            IMissoes missoes = new Missoes();
+            missoes.adicionarMissao(m);
+            
             //ISimulacaoAutomatica t=m.getVersoes().next().iniciarSimulacaoAutomatica();
             //System.out.println(t);
             
             SimulacaoManual sm = m.getVersoes().next().iniciarSimulacaoManual("Heliporto");
-            SimulacaoManual sm2 = m.getVersoes().next().iniciarSimulacaoManual("Garagem");
+            SimulacaoManual sm2 = m.getVersoes().next().iniciarSimulacaoManual("Heliporto");
             
-            JsonExporter.exportSimulacoesManuais(m.getCodMissao(), m.getVersoes().next());
+            
+            System.out.println(missoes.apresentarResultadosSimulacoesManuais(m));
+            
+            
+            //JsonExporter.exportSimulacoesManuais(m.getCodMissao(), m.getVersoes().next());
             
         } catch (IOException | ParseException |InvalidDocumentException |
                 RepeatedElementException | InvalidWeightValueException | InvalidOperationException | VersionAlreadyExistException ex) {

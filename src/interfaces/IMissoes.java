@@ -4,12 +4,25 @@ package interfaces;
 import exceptions.ElementNotFoundException;
 import exceptions.NullElementValueException;
 import java.util.Iterator;
+import simulacoes.SimulacaoManual;
 
 /**
  * Interface das missões armazenadas.
  */
 public interface IMissoes {
+    
+    /**
+     * Apresentar, para uma missão selecionada, os resultados das simulações manuais realizadas.
+     * @return Iterador das simulações.
+     */
+    public Iterator<SimulacaoManual> apresentarMissoesManuais(IMissao missao) throws NullElementValueException, ElementNotFoundException;
 
+     /**
+     * Apresentar, para uma missão selecionada, os resultados das simulações manuais realizadas.
+     * @return String das simulações manuais.
+     */
+    public String apresentarResultadosSimulacoesManuais(IMissao missao) throws NullElementValueException, ElementNotFoundException;
+    
     /**
      * Retorna um iterador com todas as missões.
      *

@@ -1,7 +1,9 @@
 
 package simulacoes;
 
+import interfaces.IDivisao;
 import interfaces.ISimulacaoManual;
+import java.util.Iterator;
 
 /**
  * 
@@ -20,4 +22,20 @@ public class SimulacaoManual extends Simulacao implements ISimulacaoManual,Compa
             return 1;
         }
     }
+    
+    @Override
+    public String toString(){
+        String info="\nSimulação Manual: ";
+        info+="\n Pontos de Vida: " + this.getPontosVida() + "\n Missão Sucedida: "+this.missaoSucedida()+
+                "\n Versão: " + this.getVersao();
+        
+        Iterator<IDivisao> trajeto=this.getTrajeto();
+        info+="\n Trajeto: \n";
+        while(trajeto.hasNext()){
+            info+=trajeto.next().toString();         
+            if(trajeto.hasNext())info+=" --> ";
+        }
+        return info;
+    }
+    
 }

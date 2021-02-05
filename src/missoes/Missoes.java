@@ -3,10 +3,13 @@ package missoes;
 
 import exceptions.ElementNotFoundException;
 import exceptions.NullElementValueException;
+import interfaces.ICenario;
 import interfaces.IMissao;
 import interfaces.IMissoes;
 import java.util.Iterator;
+import linkedListSentinela.OrderedLinkedList;
 import linkedListSentinela.UnorderedLinkedList;
+import simulacoes.SimulacaoManual;
 
 /**
  *Esta classe guarda todas as missões.
@@ -18,7 +21,51 @@ public class Missoes implements IMissoes {
     /**
      * Construtor para as missões.
      */
-    public Missoes(){        
+    public Missoes(){ 
+        this.missoes = new UnorderedLinkedList<>();
+    }
+    
+    /**
+     * Apresentar, para uma missão selecionada, os resultados das simulações manuais realizadas.
+     * @return iterador das simulações manuais.
+     */
+    @Override
+    public Iterator<SimulacaoManual> apresentarMissoesManuais(IMissao missao) throws NullElementValueException, ElementNotFoundException{
+        
+        if(missao == null || !this.missoes.contains(missao)){
+            throw new ElementNotFoundException("The mission introduced is not valid or does not exist!");
+        }
+        
+        OrderedLinkedList<SimulacaoManual> listaSimulacoes = new OrderedLinkedList<>();
+        
+        Iterator<ICenario> cenarios = missao.getVersoes();
+        while(cenarios.hasNext()){
+            ICenario cenarioTemp = cenarios.next();
+            
+            Iterator<SimulacaoManual> simulacoes = cenarioTemp.getSimulacoesManuais();
+            while(simulacoes.hasNext()){
+                listaSimulacoes.add(simulacoes.next());
+            }
+        }
+        
+        return listaSimulacoes.iterator();
+    }
+    
+    /**
+     * Apresentar, para uma missão selecionada, os resultados das simulações manuais realizadas.
+     * @return String das simulações manuais.
+     */
+    @Override
+    public String apresentarResultadosSimulacoesManuais(IMissao missao) throws NullElementValueException, ElementNotFoundException{
+        
+        String resultado = " ***** SIMULAÇÕES MANUAIS DA MISSÃO: " + missao.getCodMissao() +" ******\n";
+        
+        Iterator<SimulacaoManual> simulacoes = apresentarMissoesManuais(missao);
+        while(simulacoes.hasNext()){
+            resultado += simulacoes.next().toString();
+        }
+        
+        return resultado;
     }
 
     /**

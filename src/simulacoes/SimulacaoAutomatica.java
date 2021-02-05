@@ -21,7 +21,7 @@ public class SimulacaoAutomatica extends Simulacao implements ISimulacaoAutomati
     
     @Override
     public String toString(){
-        String info="Simulação Automática:";
+        String info="\nSimulação Automática:";
         info+="\n Pontos de Vida: " + this.getPontosVida() + "\n Missão Sucedida: "+this.missaoSucedida()+
                 "\n Versão: " + this.getVersao();
         
