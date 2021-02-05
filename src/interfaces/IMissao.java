@@ -10,7 +10,7 @@ import linkedListSentinela.UnorderedLinkedList;
  * Interface da missao.
  */
 public interface IMissao {
-
+String getCodMissao();
     /**
      * Introduzir o código da missão.
      *

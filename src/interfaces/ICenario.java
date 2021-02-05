@@ -63,7 +63,8 @@ public interface ICenario {
      * Iniciar uma simulação manual.
      * @return simulação manual.
      */
-    public SimulacaoManual iniciarSimulacaoManual();
+    public SimulacaoManual iniciarSimulacaoManual(String entrada) throws NullElementValueException, 
+            ElementNotFoundException, InvalidOperationException;
     
     /**
      * Iniciar uma simulação automática.

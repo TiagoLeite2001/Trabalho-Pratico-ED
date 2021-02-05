@@ -25,6 +25,12 @@ public class Missao implements IMissao {
         this.versoes = new UnorderedLinkedList<>();
     }
 
+    public String getCodMissao() {
+        return codMissao;
+    }
+    
+    
+
     /**
      * Construtor para uma missao.
      *
