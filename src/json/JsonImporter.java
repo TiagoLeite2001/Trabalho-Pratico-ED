@@ -89,38 +89,19 @@ public class JsonImporter {
             missao = new Missao(jCod);
 
             WeightedAdjMatrixDiGraph<IDivisao> edificio = new WeightedAdjMatrixDiGraph<>();
-            IDivisao divisaoParaIterator = null;
 
+            //Importar inimigos para as divisões
             for (int i = 0; i < jEdificio.size(); i++) {
-                IDivisao divisao = new Divisao(jEdificio.get(i).toString());
-                divisaoParaIterator = divisao;
-                
-                if(jInimigos.size() == 0){
-                    throw new InvalidDocumentException("There are no enemies in this building");
-                }
-                
-                for (int j = 0; j < jInimigos.size(); j++) {
-                    JSONObject jInimigo = (JSONObject) jInimigos.get(j);
-
-                    IDivisao divisaoInimigo = new Divisao(jInimigo.get("divisao").toString());
-
-                    if (divisao.equals(divisaoInimigo)) {
-                        Inimigo inimigo = new Inimigo(jInimigo.get("nome").toString(), (int) ((long) jInimigo.get("poder")));
-                        
-                        if(((long) jInimigo.get("poder"))<1){
-                            throw new InvalidDocumentException("The enemy power must be greater than 0!");
-                        }
-                        
-                        int dano = divisao.getDano() + (int) ((long) jInimigo.get("poder"));
-                        divisao.setDano(dano);
-                        divisao.adicionarInimigo(inimigo);
-                    }
-                }
+                IDivisao divisao = new Divisao(jEdificio.get(i).toString());               
+                divisao=JsonImporter.importarDivisao(jInimigos, divisao);
                 edificio.addVertex(divisao);
             }
 
+
             try{
-                for (int i = 0; i < jLigacoes.size(); i++) {
+            //Inserir ligacoes entre divisões
+            for (int i = 0; i < jLigacoes.size(); i++) {
+
                 JSONArray jLigacao = (JSONArray) jLigacoes.get(i);
 
                 String jVertex1 = (String) jLigacao.get(0);
@@ -139,33 +120,19 @@ public class JsonImporter {
             UnorderedLinkedList<IDivisao> entradasSaidas = new UnorderedLinkedList<>();
 
             for (int i = 0; i < jEntradasSaidas.size(); i++) {
-
                 IDivisao divisao = new Divisao(jEntradasSaidas.get(i).toString());
                 entradasSaidas.addToRear(divisao);
             }
 
+            //Importar alvo
             IDivisao alvoDivisao = new Divisao(jAlvo.get("divisao").toString());
             Alvo alvo = new Alvo(alvoDivisao, jAlvo.get("tipo").toString());
-
-            for (int j = 0; j < jInimigos.size(); j++) {
-                JSONObject jInimigo = (JSONObject) jInimigos.get(j);
-
-                IDivisao divisaoInimigo = new Divisao(jInimigo.get("divisao").toString());
-
-                if (alvo.getDivisao().equals(divisaoInimigo)) {
-                    Inimigo inimigo = new Inimigo(jInimigo.get("nome").toString(),
-                            (int) ((long) jInimigo.get("poder")));
-
-                    int dano = alvo.getDivisao().getDano() + (int) ((long) jInimigo.get("poder"));
-                    alvo.getDivisao().setDano(dano);
-                    alvo.getDivisao().adicionarInimigo(inimigo);
-                }
-            }
+            
+            alvo=JsonImporter.importarAlvo(jInimigos, alvo);
 
             ICenario cenario = new Cenario((int) jVersao, edificio, entradasSaidas, alvo);
 
             missao.adicionarVersão(cenario);
-
             validateJSONFile(missao);
 
         } catch (ClassCastException e) {
@@ -187,8 +154,8 @@ public class JsonImporter {
      * @return true if document is correct.
      * @return false if document does not follow base structure.
      */
-    private static boolean validateJSONFile(IMissao missao) throws InvalidDocumentException, InvalidOperationException, VersionAlreadyExistException, NullElementValueException {
-
+    private static boolean validateJSONFile(IMissao missao) throws InvalidDocumentException, 
+            InvalidOperationException, VersionAlreadyExistException, NullElementValueException {
         if (missao.getNumeroVersoes() == 0) {
             throw new InvalidDocumentException("There is none map in the document!");
         }
@@ -231,5 +198,64 @@ public class JsonImporter {
 
         return true;
     }
+    
+    /**
+     * Inserir inimigos na divisão se existirem.
+     * @param jInimigos
+     * @param divisao
+     * @return Divisao
+     * @throws InvalidDocumentException
+     * @throws NullElementValueException 
+     */
+    private static IDivisao importarDivisao(JSONArray jInimigos,IDivisao divisao) throws InvalidDocumentException, NullElementValueException{
+                if(jInimigos.isEmpty()){
+                    throw new InvalidDocumentException("There are no enemies in this building");
+                }
+                
+                for (int j = 0; j < jInimigos.size(); j++) {
+                    JSONObject jInimigo = (JSONObject) jInimigos.get(j);
 
+                    IDivisao divisaoInimigo = new Divisao(jInimigo.get("divisao").toString());
+
+                    if (divisao.equals(divisaoInimigo)) {
+                        Inimigo inimigo = new Inimigo(jInimigo.get("nome").toString(),
+                                (int) ((long) jInimigo.get("poder")));
+                        
+                        if(((long) jInimigo.get("poder"))<1){
+                            throw new InvalidDocumentException("The enemy power must be greater than 0!");
+                        }
+                        
+                        int dano = divisao.getDano() + (int) ((long) jInimigo.get("poder"));
+                        divisao.setDano(dano);
+                        divisao.adicionarInimigo(inimigo);
+                    }
+                }
+                return divisao;
+    }
+    
+    /**
+     * Importar alvo do ficheiro Json.
+     * @param jInimigos
+     * @param alvo
+     * @return Alvo
+     * @throws NullElementValueException 
+     */
+    private static Alvo importarAlvo(JSONArray jInimigos,Alvo alvo) throws NullElementValueException{
+        for (int j = 0; j < jInimigos.size(); j++) {
+                JSONObject jInimigo = (JSONObject) jInimigos.get(j);
+
+                IDivisao divisaoInimigo = new Divisao(jInimigo.get("divisao").toString());
+
+                if (alvo.getDivisao().equals(divisaoInimigo)) {
+                    Inimigo inimigo = new Inimigo(jInimigo.get("nome").toString(),
+                            (int) ((long) jInimigo.get("poder")));
+
+                    int dano = alvo.getDivisao().getDano() + (int) ((long) jInimigo.get("poder"));
+                    alvo.getDivisao().setDano(dano);
+                    alvo.getDivisao().adicionarInimigo(inimigo);
+                }
+            }
+        return alvo;
+    }
+    
 }
