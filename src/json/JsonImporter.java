@@ -119,7 +119,8 @@ public class JsonImporter {
                 edificio.addVertex(divisao);
             }
 
-            for (int i = 0; i < jLigacoes.size(); i++) {
+            try{
+                for (int i = 0; i < jLigacoes.size(); i++) {
                 JSONArray jLigacao = (JSONArray) jLigacoes.get(i);
 
                 String jVertex1 = (String) jLigacao.get(0);
@@ -131,7 +132,10 @@ public class JsonImporter {
                 edificio.addEdge(divisao1, divisao2, edificio.getVertex(divisao2).getDano());
                 edificio.addEdge(divisao2, divisao1, edificio.getVertex(divisao1).getDano());
             }
-
+            }catch (ElementNotFoundException ex){
+                throw new ElementNotFoundException("Ligações Inválidas.Divisão não existe no edificio!");
+            }
+            
             UnorderedLinkedList<IDivisao> entradasSaidas = new UnorderedLinkedList<>();
 
             for (int i = 0; i < jEntradasSaidas.size(); i++) {

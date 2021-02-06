@@ -16,7 +16,6 @@ import java.io.IOException;
 import java.util.Iterator;
 import json.JsonImporter;
 import linkedListSentinela.OrderedLinkedList;
-import linkedListSentinela.UnorderedLinkedList;
 import org.json.simple.parser.ParseException;
 import simulacoes.SimulacaoManual;
 
@@ -24,18 +23,29 @@ import simulacoes.SimulacaoManual;
  *Esta classe guarda todas as missões.
  */
 public class Missoes implements IMissoes {
-    private UnorderedLinkedList<IMissao> missoes;
+    private OrderedLinkedList<IMissao> missoes;
     private int numMissoes;
     
     /**
      * Construtor para as missões.
      */
     public Missoes(){ 
-        this.missoes = new UnorderedLinkedList<>();
+        this.missoes = new OrderedLinkedList<>();
     }
     
     /**
-     * 
+     * Validar e importar uma missão de um ficheiro do tipo JSON.
+     * @param path Caminho do ficheiro JSON.
+     * @throws IOException
+     * @throws FileNotFoundException
+     * @throws NullElementValueException
+     * @throws ElementNotFoundException
+     * @throws RepeatedElementException
+     * @throws InvalidWeightValueException
+     * @throws InvalidOperationException
+     * @throws ParseException
+     * @throws VersionAlreadyExistException
+     * @throws InvalidDocumentException 
      */
     @Override
     public void importarMissao(String path) throws IOException, FileNotFoundException, 
@@ -47,24 +57,25 @@ public class Missoes implements IMissoes {
             ICenario cenario = missao.getVersoes().next();
             
             if(!this.missoes.getElement(missao).getListVersoes().contains(cenario)){
-               this.missoes.getElement(missao).getListVersoes().addToRear(cenario);
+               this.missoes.getElement(missao).getListVersoes().add(cenario);
             }
             else{
                 throw new RepeatedElementException("The version of the mission already exists!");
             }
         }
         else{
-            this.missoes.addToRear(missao);
+            this.missoes.add(missao);
             this.numMissoes++;
         }
     }
     
     /**
-     * Apresentar, para uma missão selecionada, os resultados das simulações manuais realizadas.
+     * Apresentar para uma missão selecionada, os resultados das simulações manuais realizadas em cada versão, 
+     * por ordem descendente de pontos de vida.
      * @return iterador das simulações manuais.
      */
     @Override
-    public Iterator<SimulacaoManual> apresentarMissoesManuais(IMissao missao) throws NullElementValueException, ElementNotFoundException{
+    public Iterator<SimulacaoManual> resultadosSimulacoesManuais(IMissao missao) throws NullElementValueException, ElementNotFoundException{
         
         if(missao == null || !this.missoes.contains(missao)){
             throw new ElementNotFoundException("The mission introduced is not valid or does not exist!");
@@ -86,7 +97,8 @@ public class Missoes implements IMissoes {
     }
     
     /**
-     * Apresentar, para uma missão selecionada, os resultados das simulações manuais realizadas.
+     * Apresentar, para uma missão selecionada, os resultados das simulações manuais realizadas por ordem 
+     * decrescente de pontos de vida restante.
      * @return String das simulações manuais.
      */
     @Override
@@ -94,7 +106,7 @@ public class Missoes implements IMissoes {
         
         String resultado = " ***** SIMULAÇÕES MANUAIS DA MISSÃO: " + missao.getCodMissao() +" ******\n";
         
-        Iterator<SimulacaoManual> simulacoes = apresentarMissoesManuais(missao);
+        Iterator<SimulacaoManual> simulacoes = resultadosSimulacoesManuais(missao);
         while(simulacoes.hasNext()){
             resultado += simulacoes.next().toString();
         }
@@ -128,7 +140,7 @@ public class Missoes implements IMissoes {
     @Override
     public void adicionarMissao(IMissao missao) throws NullElementValueException{
         if(missao==null) throw new NullElementValueException("The mission value is null");
-        this.missoes.addToRear(missao);
+        this.missoes.add(missao);
     }
     
     /**
@@ -145,6 +157,67 @@ public class Missoes implements IMissoes {
         return removed;
     }
     
+    /**
+     * Apresenta as missões armazenadas ordenadas pelo código de missão e as suas versões por ordem decrescente
+     * de vida restante resultante da simulação automática.
+     * @return Informação das missões
+     */
+    @Override
+    public String apresentarMissoes()throws NullElementValueException,InvalidOperationException{
+        if(this.numMissoes==0){
+            return "Não há missões armazenadas.";
+        }
+        OrderedLinkedList<IMissao> missoesOrdenadas=new OrderedLinkedList<>();
+        Iterator<IMissao> it=this.missoes.iterator();
+        while(it.hasNext()){
+            IMissao missao=it.next();
+            OrderedLinkedList<ICenario> listaAtual=missao.getListVersoes();
+            OrderedLinkedList<ICenario> listaOrdenada=new OrderedLinkedList<>();
+            while(!listaAtual.isEmpty()){
+                listaOrdenada.add(listaAtual.removeLast());
+            }
+            missao.setVersoes(listaOrdenada);
+            missoesOrdenadas.add(missao);
+        }
+        this.missoes=missoesOrdenadas;
+        return this.toString();
+    } 
     
+    /**
+     * Obter uma missão com basa no seu código de missão.
+     * @param codMissao
+     * @return Missao 
+     * @throws NullElementValueException
+     * @throws ElementNotFoundException 
+     */
+    @Override
+    public IMissao obterMissao(String codMissao) throws NullElementValueException, ElementNotFoundException{
+        if(codMissao==null){
+            throw new NullElementValueException("Mission code has null value");
+        }
+        if(!this.missoes.contains(new Missao(codMissao)))
+            throw new ElementNotFoundException("Invalid mission code");
+        
+        return this.missoes.getElement(new Missao(codMissao));
+    }  
     
+    /**
+     * Apresentação dos resultados obtidos em todas as simulações efetuadas.
+     * @return Informação das missões
+     */
+    @Override
+    public String toString(){
+        String info="\nMissões:";
+        Iterator<IMissao> resultados=this.missoes.iterator();
+        
+        while(resultados.hasNext()){
+            IMissao atual=resultados.next();
+            info+="\n\n---------------------------"+"Cod.Missão: "+atual.getCodMissao()+"---------------------------------";
+            Iterator<ICenario> cenarios=atual.getVersoes();
+            while(cenarios.hasNext()){
+                info+="\n"+cenarios.next().toString();
+            }
+        }
+        return info;
+    }
 }

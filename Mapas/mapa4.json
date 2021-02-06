@@ -1,0 +1,96 @@
+{
+    "cod-missao": "missao impossivel 1",
+    "versao": 3,
+    "edificio": [
+        "Sotao",
+        "Sala de jogos",
+        "Quarto 3",
+        "Quarto",
+        "Sala de estar",
+        "Corredor 3",
+        "Corredor 2",
+        "WC",
+        "Sala",
+        "Sala de reuniao",
+        "Corredor 1"
+    ],
+    "ligacoes": [
+        [
+            "Sotao",
+            "Sala de estar"
+        ],
+        [
+            "Sotao",
+            "Sala de jogos"
+        ],
+        [
+            "Sala de estar",
+            "Corredor 3"
+        ],
+        [
+            "Corredor 3",
+            "Corredor 2"
+        ],
+        [
+            "WC",
+            "Corredor 2"
+        ],
+        [
+            "WC",
+            "Sala"
+        ],
+        [
+            "WC",
+            "Sala de reuniao"
+        ],
+        [
+            "Corredor 1",
+            "Sala de reuniao"
+        ],
+        [
+            "Sala",
+            "Quarto 3"
+        ],
+        [
+            "Quarto 3",
+            "Quarto"
+        ],
+        [
+            "Quarto 3",
+            "Sala de jogos"
+        ],
+        [
+            "Quarto 3",
+            "Sala de estar"
+        ],
+        [
+            "Sala",
+            "Corredor 1"
+        ]
+    ],
+    "inimigos": [
+        {
+            "nome": "badguy1",
+            "poder": 1,
+            "divisao": "Quarto 3"
+        },
+        {
+            "nome": "badguy2",
+            "poder": 3,
+            "divisao": "Corredor 1"
+        },
+        {
+            "nome": "badguy3",
+            "poder": 5,
+            "divisao": "Corredor 2"
+        }
+    ],
+    "entradas-saidas": [
+        "Sala de reuniao",
+        "Corredor 2"
+    ],
+    "alvo": {
+        "divisao": "Sotao",
+        "tipo": "quimico"
+    }
+}

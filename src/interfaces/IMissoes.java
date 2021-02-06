@@ -27,7 +27,7 @@ public interface IMissoes {
      * Apresentar, para uma missão selecionada, os resultados das simulações manuais realizadas.
      * @return Iterador das simulações.
      */
-    public Iterator<SimulacaoManual> apresentarMissoesManuais(IMissao missao) throws NullElementValueException, ElementNotFoundException;
+    public Iterator<SimulacaoManual> resultadosSimulacoesManuais(IMissao missao) throws NullElementValueException, ElementNotFoundException;
 
      /**
      * Apresentar, para uma missão selecionada, os resultados das simulações manuais realizadas.
@@ -66,4 +66,20 @@ public interface IMissoes {
      * @throws NullElementValueException
      */
     public IMissao removerMissao(IMissao missao) throws ElementNotFoundException, NullElementValueException;
+    
+        /**
+     * Obter uma missão com basa no seu código de missão.
+     * @param codMissao
+     * @return Missao 
+     * @throws NullElementValueException
+     * @throws ElementNotFoundException 
+     */
+    public IMissao obterMissao(String codMissao) throws NullElementValueException, ElementNotFoundException;
+    
+     /**
+     * Apresenta as missões armazenadas ordenadas pelo código de missão e as suas versões por ordem decrescente
+     * de vida restante resultante da simulação automática.
+     * @return Informação das missões
+     */
+    public String apresentarMissoes()throws NullElementValueException,InvalidOperationException;
 }

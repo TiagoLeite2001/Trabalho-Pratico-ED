@@ -26,8 +26,8 @@ public class SimulacaoManual extends Simulacao implements ISimulacaoManual,Compa
     @Override
     public String toString(){
         String info="\nSimulação Manual: ";
-        info+="\n Pontos de Vida: " + this.getPontosVida() + "\n Missão Sucedida: "+this.missaoSucedida()+
-                "\n Versão: " + this.getVersao();
+        info+="\n  *Pontos de Vida: " + this.getPontosVida() + "\n  *Missão Sucedida: "+this.missaoSucedida()+
+                "\n  *Versão: " + this.getVersao();
         
         Iterator<IDivisao> trajeto=this.getTrajeto();
         info+="\n Trajeto: \n";

@@ -22,11 +22,11 @@ public class SimulacaoAutomatica extends Simulacao implements ISimulacaoAutomati
     @Override
     public String toString(){
         String info="\nSimulação Automática:";
-        info+="\n Pontos de Vida: " + this.getPontosVida() + "\n Missão Sucedida: "+this.missaoSucedida()+
-                "\n Versão: " + this.getVersao();
+        info+="\n  *Pontos de Vida: " + this.getPontosVida() + "\n  *Missão Sucedida: "+this.missaoSucedida()+
+                "\n  *Versão: " + this.getVersao();
         
         Iterator<IDivisao> trajeto=this.getTrajeto();
-        info+="\n Trajeto: \n";
+        info+="\n  *Trajeto: \n";
         while(trajeto.hasNext()){
             info+=trajeto.next().toString();         
             if(trajeto.hasNext())info+=" --> ";

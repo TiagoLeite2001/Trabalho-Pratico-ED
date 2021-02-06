@@ -6,6 +6,7 @@ import exceptions.NoPathAvailableException;
 import exceptions.NullElementValueException;
 import exceptions.VersionAlreadyExistException;
 import java.util.Iterator;
+import linkedListSentinela.OrderedLinkedList;
 import linkedListSentinela.UnorderedLinkedList;
 import simulacoes.SimulacaoManual;
 
@@ -37,9 +38,9 @@ public interface IMissao {
     /**
      * Retornar uma lista de versões associadas à missão.
      *
-     * @return UnorderedLinkedList<ICenario> Versões
+     * @return OrderedLinkedList<ICenario> Versões
      */
-    public UnorderedLinkedList<ICenario> getListVersoes();
+    public OrderedLinkedList<ICenario> getListVersoes();
 
     /**
      * Adicionar uma versão à missão.
@@ -90,6 +91,8 @@ public interface IMissao {
     @Override
     public String toString();
 
+    @Override
     public boolean equals(Object obj);
     
+    public void setVersoes(OrderedLinkedList<ICenario> versoes);
 }

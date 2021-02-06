@@ -47,9 +47,8 @@ public class Alvo {
     @Override
     public String toString(){
         String info = "";
-        info += "\nAlvo " +
-                "\n Divisão: " + this.divisao.getNome()+
-                "\n Tipo: " + this.tipo;
+        info += "\n  *Divisão: " + this.divisao.getNome()+
+                "\n  *Tipo: " + this.tipo;
         
         return info;
     }

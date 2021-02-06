@@ -20,6 +20,7 @@ public abstract class Simulacao implements ISimulacao {
      * Construtor para uma simulação.
      */
     public Simulacao() {
+
     }
 
     /**
@@ -29,7 +30,9 @@ public abstract class Simulacao implements ISimulacao {
      */
     @Override
     public Iterator<IDivisao> getTrajeto() {
-        return this.trajeto.iterator();
+        if(this.trajeto==null)
+            return null;
+        else return this.trajeto.iterator();
     }
 
     /**

@@ -1,0 +1,82 @@
+{
+    "cod-missao": "missao impossivel 2",
+    "versao": 2,
+    "edificio": [
+        "Edificio A",
+        "Edificio B",
+        "Edificio C",
+        "Edificio D",
+        "Edificio E",
+        "Edificio F",
+        "Edificio G",
+        "Edificio H",
+        "Edificio I",
+        "Edificio J"
+    ],
+    "ligacoes": [
+        [
+            "Edificio A",
+            "Edificio I"
+        ],
+        [
+            "Edificio A",
+            "Edificio F"
+        ],
+        [
+            "Edificio B",
+            "Edificio I"
+        ],
+        [
+            "Edificio B",
+            "Edificio C"
+        ],
+        [
+            "Edificio C",
+            "Edificio E"
+        ],
+        [
+            "Edificio C",
+            "Edificio D"
+        ],
+        [
+            "Edificio D",
+            "Edificio H"
+        ],
+        [
+            "Edificio E",
+            "Edificio H"
+        ],
+        [
+            "Edificio E",
+            "Edificio J"
+        ],
+        [
+            "Edificio F",
+            "Edificio G"
+        ],
+        [
+            "Edificio F",
+            "Edificio G"
+        ]
+    ],
+    "inimigos": [
+        {
+            "nome": "badguy1",
+            "poder": 7,
+            "divisao": "Edifico A"
+        },
+        {
+            "nome": "badguy2",
+            "poder": 1,
+            "divisao": "Edifico H"
+        }
+    ],
+    "entradas-saidas": [
+        "Edificio H",
+        "Edificio B"
+    ],
+    "alvo": {
+        "divisao": "Edificio F",
+        "tipo": "quimico"
+    }
+}

@@ -17,9 +17,9 @@ import simulacoes.SimulacaoAutomatica;
 import simulacoes.SimulacaoManual;
 
 /**
- *Esta classe guarda a toda a informação de uma versão de uma missão.
+ *Esta classe guarda a toda a informação relativamente a uma versão de uma missão.
  */
-public class Cenario implements ICenario{
+public class Cenario implements ICenario,Comparable<ICenario>{
     private int versao;
     private WeightedAdjMatrixDiGraph<IDivisao> edificio;
     private UnorderedLinkedList<IDivisao> entradasSaidas;
@@ -159,20 +159,24 @@ public class Cenario implements ICenario{
     }
     
     @Override
-    public String toString(){
-        String info = "\n Cenario: ";
+    public String toString() {
+        String info = "\n *******Versão: "+this.versao+"*******";
         info += "\n Alvo: " + this.alvo.toString();
-        info += "\n Versão: " + this.versao;
-        info += "\n Edificio: " + this.edificio.toString();
-        
-        Iterator<IDivisao> it = this.getEntradasSaidas();
-        while (it.hasNext()) {
-            info += "\n" + it.next().toString();
+
+        if (this.numSimulacoesManuais != 0) {
+            info += this.simulacoesManuais.toString();
+        } else {
+            info += "\nSimulação Manual: Sem simulações até ao momento.";
         }
 
+        if (this.simulacaoAutomatica.getTrajeto() != null) {
+            info += this.simulacaoAutomatica.toString();
+        } else {
+            info += "\nSimulação Automática: Sem simulações até ao momento.";
+        }
         return info;
     }
-    
+
      /**
      * Adicionar uma simulacao manual ao cenário.
      * @param sim
@@ -191,8 +195,27 @@ public class Cenario implements ICenario{
      */
     @Override
     public void adicionarSimulacaoAutomatica(SimulacaoAutomatica sim) throws NullElementValueException{
+        sim.setVersao(this.versao);
         this.simulacaoAutomatica=sim;
         this.numSimulacoesManuais++;
+    }
+
+    /**
+     * Compara-se com outro cenário através da vida restante resultante da sua simulação automática.
+     * @param o
+     * @return 1 se a sua vida restante é maior que a vida restante do outro cenário
+     * @return 0 se a sua vida restante é igual à vida restante do outro cenário.
+     * @return 0 se a sua vida restante é menor que a vida restante do outro cenário.
+     */
+    @Override
+    public int compareTo(ICenario o) {
+        if(this.simulacaoAutomatica.getPontosVida()<o.getSimulacaoAutomatica().getPontosVida())
+            return 1;
+        else if(this.simulacaoAutomatica.getPontosVida()==o.getSimulacaoAutomatica().getPontosVida())
+            return 0;
+        else{
+            return -1;
+        }
     }
 
 }

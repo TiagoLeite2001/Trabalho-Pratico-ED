@@ -12,6 +12,7 @@ import interfaces.IMissao;
 import interfaces.ISimulacaoAutomatica;
 import java.util.Iterator;
 import java.util.Scanner;
+import linkedListSentinela.OrderedLinkedList;
 import linkedListSentinela.UnorderedLinkedList;
 import simulacoes.CustoTrajeto;
 import simulacoes.SimulacaoAutomatica;
@@ -20,10 +21,10 @@ import simulacoes.SimulacaoManual;
 /**
  * Esta classe guarda toda a informação relativa a uma missão.
  */
-public class Missao implements IMissao {
+public class Missao implements IMissao,Comparable<IMissao> {
     private final int DEFAULT_LIFE =100;
     private String codMissao;
-    private UnorderedLinkedList<ICenario> versoes;
+    private OrderedLinkedList<ICenario> versoes;
 
     /**
      * Construtor para uma missao.
@@ -32,25 +33,23 @@ public class Missao implements IMissao {
      */
     public Missao(String cod) {
         this.codMissao = cod;
-        this.versoes = new UnorderedLinkedList<>();
+        this.versoes = new OrderedLinkedList<>();
     }
 
-    @Override
-    public String getCodMissao() {
-        return codMissao;
-    }
-    
-    
-
-    /**
+      /**
      * Construtor para uma missao.
      *
      * @param cod Código da missão.
      * @param versoes Lista das Versões relativa à missão.
      */
-    public Missao(String cod, UnorderedLinkedList<ICenario> versoes) {
+    public Missao(String cod, OrderedLinkedList<ICenario> versoes) {
         this.codMissao = cod;
         this.versoes = versoes;
+    }
+    
+    @Override
+    public String getCodMissao() {
+        return codMissao;
     }
 
     /**
@@ -73,6 +72,10 @@ public class Missao implements IMissao {
         return versoes.iterator();
     }
 
+    public void setVersoes(OrderedLinkedList<ICenario> versoes) {
+        this.versoes = versoes;
+    }
+
     /**
      * Adicionar uma versão à missão.
      *
@@ -89,7 +92,7 @@ public class Missao implements IMissao {
             throw new VersionAlreadyExistException("The version already exist in this mission");
         }
 
-        this.versoes.addToRear(versao);
+        this.versoes.add(versao);
     }
 
     /**
@@ -135,7 +138,7 @@ public class Missao implements IMissao {
     }
 
     @Override
-    public UnorderedLinkedList<ICenario> getListVersoes() {
+    public OrderedLinkedList<ICenario> getListVersoes() {
         return this.versoes;
     }
 
@@ -305,6 +308,11 @@ public class Missao implements IMissao {
         return mapa;
     }
     
+    /**
+     * Compara-se com outro objeto e verica a sua igualdade com base no código de missão.
+     * @param obj
+     * @return Boolean
+     */
     @Override
     public boolean equals(Object obj){
         if(obj instanceof Missao){
@@ -314,4 +322,16 @@ public class Missao implements IMissao {
         }
         return false;
     }
+
+    /**
+     * Compara duas missão pelo código de missão.
+     * @param o
+     * @return 
+     */
+    @Override
+    public int compareTo(IMissao o) {
+        return (this.codMissao.compareTo(o.getCodMissao()));
+    }
+    
+    
 }
