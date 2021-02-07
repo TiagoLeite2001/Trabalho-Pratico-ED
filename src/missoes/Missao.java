@@ -72,6 +72,7 @@ public class Missao implements IMissao,Comparable<IMissao> {
         return versoes.iterator();
     }
 
+    @Override
     public void setVersoes(OrderedLinkedList<ICenario> versoes) {
         this.versoes = versoes;
     }
@@ -170,7 +171,7 @@ public class Missao implements IMissao,Comparable<IMissao> {
         vidaRestante = vidaRestante - divisaoAtual.getDano();
         UnorderedLinkedList<IDivisao> trajeto = new UnorderedLinkedList<>();
         System.out.println(this.mostrarMapa(versao));
-
+        trajeto.addToRear(divisaoAtual);
         while (!exit) {
             Scanner myObj = new Scanner(System.in, "latin1");
             String input;
@@ -304,7 +305,7 @@ public class Missao implements IMissao,Comparable<IMissao> {
                 }
             }
         }
-        mapa += "\n**********************************Edificio**********************************";
+        mapa += "\n***************************************************************************";
         return mapa;
     }
     

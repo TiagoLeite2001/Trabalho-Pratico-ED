@@ -55,20 +55,20 @@
             "Edificio G"
         ],
         [
-            "Edificio F",
-            "Edificio G"
+            "Edificio G",
+            "Edificio E"
         ]
     ],
     "inimigos": [
         {
             "nome": "badguy1",
             "poder": 7,
-            "divisao": "Edifico A"
+            "divisao": "Edificio A"
         },
         {
             "nome": "badguy2",
             "poder": 1,
-            "divisao": "Edifico H"
+            "divisao": "Edificio H"
         }
     ],
     "entradas-saidas": [

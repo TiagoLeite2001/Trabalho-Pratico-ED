@@ -120,16 +120,17 @@ public class Cenario implements ICenario,Comparable<ICenario>{
     public Iterator<SimulacaoManual> getSimulacoesManuais() {
         return simulacoesManuais.iterator();
     }
-    
+
     /**
      * Obter o número de entradas e saídas.
+     *
      * @return número de entradas e saídas.
      */
     @Override
-    public int getNumeroEntradasSaidas(){
+    public int getNumeroEntradasSaidas() {
         return this.entradasSaidas.size();
     }
-   
+
     /**
      * Verificar se dois cenários são iguais.
      *
@@ -148,42 +149,44 @@ public class Cenario implements ICenario,Comparable<ICenario>{
         return false;
     }
 
-
     /**
      * Obter número de simulações manuais efetuadas neste cenário.
+     *
      * @return Número de Simulações
      */
     @Override
     public int getNumSimulacoesManuais() {
         return numSimulacoesManuais;
     }
-    
+
     @Override
     public String toString() {
-        String info = "\n *******Versão: "+this.versao+"*******";
+        String info = "\n *******Versão: " + this.versao + "*******";
         info += "\n Alvo: " + this.alvo.toString();
 
         if (this.numSimulacoesManuais != 0) {
-            info += this.simulacoesManuais.toString();
+            info+="Simulações Manuais:";
+            info += "\n  " + this.simulacoesManuais.toString();
         } else {
             info += "\nSimulação Manual: Sem simulações até ao momento.";
         }
 
         if (this.simulacaoAutomatica.getTrajeto() != null) {
-            info += this.simulacaoAutomatica.toString();
+            info += "\n" + this.simulacaoAutomatica.toString();
         } else {
             info += "\nSimulação Automática: Sem simulações até ao momento.";
         }
         return info;
     }
 
-     /**
+    /**
      * Adicionar uma simulacao manual ao cenário.
+     *
      * @param sim
-     * @throws NullElementValueException 
+     * @throws NullElementValueException
      */
     @Override
-    public void adicionarSimulacaoManual(SimulacaoManual sim) throws NullElementValueException{
+    public void adicionarSimulacaoManual(SimulacaoManual sim) throws NullElementValueException {
         this.simulacoesManuais.add(sim);
         this.numSimulacoesManuais++;
     }

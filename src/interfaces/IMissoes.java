@@ -81,5 +81,5 @@ public interface IMissoes {
      * de vida restante resultante da simulação automática.
      * @return Informação das missões
      */
-    public String apresentarMissoes()throws NullElementValueException,InvalidOperationException;
+    public String apresentarResultadosMissoes()throws NullElementValueException,InvalidOperationException;
 }

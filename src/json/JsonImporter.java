@@ -96,8 +96,7 @@ public class JsonImporter {
                 divisao=JsonImporter.importarDivisao(jInimigos, divisao);
                 edificio.addVertex(divisao);
             }
-
-
+            
             try{
             //Inserir ligacoes entre divisões
             for (int i = 0; i < jLigacoes.size(); i++) {

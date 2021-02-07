@@ -86,7 +86,9 @@ public class Missoes implements IMissoes {
         Iterator<ICenario> cenarios = missao.getVersoes();
         while(cenarios.hasNext()){
             ICenario cenarioTemp = cenarios.next();
-            
+            if(cenarioTemp.getNumSimulacoesManuais()==0){
+                return null;
+            }
             Iterator<SimulacaoManual> simulacoes = cenarioTemp.getSimulacoesManuais();
             while(simulacoes.hasNext()){
                 listaSimulacoes.add(simulacoes.next());
@@ -103,9 +105,10 @@ public class Missoes implements IMissoes {
      */
     @Override
     public String apresentarResultadosSimulacoesManuais(IMissao missao) throws NullElementValueException, ElementNotFoundException{
-        
-        String resultado = " ***** SIMULAÇÕES MANUAIS DA MISSÃO: " + missao.getCodMissao() +" ******\n";
-        
+        String resultado = "\n***** Simulações manuais da missão: " + missao.getCodMissao() +" ******\n";
+        if(resultadosSimulacoesManuais(missao)==null){
+            return resultado+="\n Sem simulações até ao momento.";
+        }
         Iterator<SimulacaoManual> simulacoes = resultadosSimulacoesManuais(missao);
         while(simulacoes.hasNext()){
             resultado += simulacoes.next().toString();
@@ -158,12 +161,12 @@ public class Missoes implements IMissoes {
     }
     
     /**
-     * Apresenta as missões armazenadas ordenadas pelo código de missão e as suas versões por ordem decrescente
+     * Apresenta toda a informação das missões armazenadas ordenadas pelo código de missão e as suas versões por ordem decrescente
      * de vida restante resultante da simulação automática.
      * @return Informação das missões
      */
     @Override
-    public String apresentarMissoes()throws NullElementValueException,InvalidOperationException{
+    public String apresentarResultadosMissoes()throws NullElementValueException,InvalidOperationException{
         if(this.numMissoes==0){
             return "Não há missões armazenadas.";
         }
@@ -218,6 +221,7 @@ public class Missoes implements IMissoes {
                 info+="\n"+cenarios.next().toString();
             }
         }
+
         return info;
     }
 }

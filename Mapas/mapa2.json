@@ -48,27 +48,27 @@
         {
             "nome": "badguy1",
             "poder": 3,
-            "divisao": "Edifico B"
+            "divisao": "Edificio B"
         },
         {
             "nome": "badguy2",
             "poder": 3,
-            "divisao": "Edifico D"
+            "divisao": "Edificio D"
         },
         {
             "nome": "badguy3",
             "poder": 6,
-            "divisao": "Edifico D"
+            "divisao": "Edificio D"
         },
         {
             "nome": "badguy4",
             "poder": 1,
-            "divisao": "Edifico D"
+            "divisao": "Edificio D"
         },
         {
             "nome": "badguy5",
             "poder": 1,
-            "divisao": "Edifico D"
+            "divisao": "Edificio D"
         }
     ],
     "entradas-saidas": [

@@ -73,17 +73,17 @@
         {
             "nome": "badguy1",
             "poder": 4,
-            "divisao": "Edifico F"
+            "divisao": "Edificio F"
         },
         {
             "nome": "badguy2",
             "poder": 5,
-            "divisao": "Edifico I"
+            "divisao": "Edificio I"
         },
         {
             "nome": "badguy3",
             "poder": 1,
-            "divisao": "Edifico J"
+            "divisao": "Edificio J"
         }
     ],
     "entradas-saidas": [
