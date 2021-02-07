@@ -5,6 +5,7 @@ import exceptions.ElementNotFoundException;
 import exceptions.InvalidDocumentException;
 import exceptions.InvalidOperationException;
 import exceptions.InvalidWeightValueException;
+import exceptions.NoManualSimulationsException;
 import exceptions.NullElementValueException;
 import exceptions.RepeatedElementException;
 import exceptions.VersionAlreadyExistException;
@@ -14,6 +15,7 @@ import interfaces.IMissoes;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Iterator;
+import json.JsonExporter;
 import json.JsonImporter;
 import linkedListSentinela.OrderedLinkedList;
 import org.json.simple.parser.ParseException;
@@ -226,5 +228,33 @@ public class Missoes implements IMissoes {
         }
 
         return info;
+    }
+    
+    /**
+     * Exportar todas as simulacoes manuais de todas as versoes de uma missao.
+     * @param codMissao
+     * @return Representação dos ficheiros JSON gerados na exportação
+     * @throws NullElementValueException
+     * @throws ElementNotFoundException
+     * @throws NoManualSimulationsException
+     * @throws IOException 
+     */
+    @Override
+    public String exportarSimulacoesManuais(String codMissao) throws NullElementValueException,
+            ElementNotFoundException, NoManualSimulationsException, IOException{
+        if(codMissao==null){
+            throw new NullElementValueException("Mission code has null value");
+        }
+        
+        Missao missaoAtual=new Missao(codMissao);
+        if(!this.missoes.contains(missaoAtual))
+            throw new ElementNotFoundException("Invalid mission code");
+        
+        Iterator<ICenario> versoes=this.missoes.getElement(missaoAtual).getVersoes();
+        String simulacoesManuais="Ficheiros JSON gerados:";
+        while(versoes.hasNext()){
+            simulacoesManuais+="\n"+JsonExporter.exportSimulacoesManuais(codMissao, versoes.next());
+        }
+        return simulacoesManuais;
     }
 }

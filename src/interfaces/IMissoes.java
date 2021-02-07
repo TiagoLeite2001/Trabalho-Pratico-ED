@@ -5,6 +5,7 @@ import exceptions.ElementNotFoundException;
 import exceptions.InvalidDocumentException;
 import exceptions.InvalidOperationException;
 import exceptions.InvalidWeightValueException;
+import exceptions.NoManualSimulationsException;
 import exceptions.NullElementValueException;
 import exceptions.RepeatedElementException;
 import exceptions.VersionAlreadyExistException;
@@ -82,4 +83,16 @@ public interface IMissoes {
      * @return Informação das missões
      */
     public String apresentarResultadosMissoes()throws NullElementValueException,InvalidOperationException;
+    
+    /**
+     * Exportar todas as simulacoes manuais de todas as versoes de uma missao.
+     * @param codMissao
+     * @return Representação dos ficheiros JSON gerados na exportação
+     * @throws NullElementValueException
+     * @throws ElementNotFoundException
+     * @throws NoManualSimulationsException
+     * @throws IOException 
+     */
+    public String exportarSimulacoesManuais(String codMissao) throws NullElementValueException,
+            ElementNotFoundException, NoManualSimulationsException, IOException;
 }
