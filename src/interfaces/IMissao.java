@@ -20,6 +20,15 @@ public interface IMissao {
      * @return Código da missão.
      */
     String getCodMissao();
+    
+    /**
+     * Obter um cenário
+     * @param versao versão do cenário
+     * @return cenario
+     * @throws ElementNotFoundException se não existir o cenário
+     * @throws NullElementValueException se o input for null
+     */
+    public ICenario obterCenario(int versao) throws ElementNotFoundException, NullElementValueException;
 
     /**
      * Introduzir o código da missão.

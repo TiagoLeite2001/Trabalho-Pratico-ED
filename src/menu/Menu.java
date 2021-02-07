@@ -50,7 +50,6 @@ public class Menu {
             System.out.println("\n"
                     + "\nImprobable Mission Force - Mission simulator"
                     + "\n"
-                    + "\nBem vindo!!"
                     + "\n"
                     + "\n 1 - Carregar um mapa de uma missão."
                     + "\n"
@@ -58,7 +57,11 @@ public class Menu {
                     + "\n "
                     + "\n 3 - Simulações."
                     + "\n"
-                    + "\n 4 - Visualizar o manual de instruções."
+                    + "\n 4 - Visualizar mapas das missões carregadas."
+                    + "\n"
+                    + "\n 5 - Visualizar resultados de simuluções manuais."
+                    + "\n"
+                    + "\n 7 - Visualizar o manual de instruções."
                     + "\n"
                     + "\n 0 - Sair");
 
@@ -76,6 +79,10 @@ public class Menu {
                 case (3):
                     simulacoes();
                 case (4):
+                    visualizarMapasCarregados();
+                case (5):
+                    visualizarSimulacoesManuais();
+                case (7):
                     intrucoes();
             }
 
@@ -115,7 +122,6 @@ public class Menu {
                     erro = true;
                 } else {
                     System.out.println("Introduza novamente o caminho(path) onde se encontra o mapa a adicionar.");
-                    path = inputS.nextLine();
                 }
             }
         }
@@ -168,7 +174,6 @@ public class Menu {
                     erro = true;
                 } else {
                     System.out.println("Introduza novamente o nome da missão a remover.");
-                    missaoo = inputS.nextLine();
                 }
             }
         }
@@ -181,12 +186,78 @@ public class Menu {
         }
     }
 
-    private static void intrucoes() {
+    public void visualizarMapasCarregados() {
+
+        if (this.missoes.getNumMissoes() > 0) {
+
+            System.out.println("\nMissões disponíveis:");
+
+            Iterator<IMissao> itMissoes = missoes.getMissoes();
+
+            while (itMissoes.hasNext()) {
+                System.out.println(itMissoes.next());
+            }
+        } else {
+            System.out.println("Não existem missões carregadas!");
+        }
+    }
+
+    public void visualizarSimulacoesManuais() {
+        if (this.missoes.getNumMissoes() > 0) {
+
+            System.out.println("\nMissões disponíveis:");
+
+            Iterator<IMissao> itMissoes = missoes.getMissoes();
+
+            while (itMissoes.hasNext()) {
+                System.out.println(itMissoes.next().getCodMissao());
+            }
+
+            System.out.println("Escolha a missão introduzindo o seu cod name");
+
+            Scanner inputS = new Scanner(System.in, "latin1");
+
+            String missaoo = "";
+            String answer = "";
+
+            boolean apresentado = false;
+            boolean erro = false;
+
+            while (!apresentado) {
+                try {
+                    missaoo = inputS.nextLine();
+                    IMissao missao = new Missao(missaoo);
+                    
+                    this.missoes.apresentarResultadosSimulacoesManuais(missao);
+                    
+                    System.out.println(this.missoes.apresentarResultadosSimulacoesManuais(missao));
+                    
+                    apresentado = true;
+                } catch (NullElementValueException | ElementNotFoundException e) {
+                    System.out.println("Erro no cod nome da missão!"
+                            + "\nDeseja tentar novamente? (S/N)");
+                    answer = inputS.nextLine();
+
+                    if (answer.equals("N")) {
+                        apresentado = true;
+                        erro = true;
+                    } else {
+                        System.out.println("Introduza novamente o cod nome da missão a remover.");
+                    }
+                }
+            }
+
+        } else {
+            System.out.println("Não existem missões carregadas!");
+        }
+    }
+
+    private void intrucoes() {
 
     }
 
     private void simulacoes() {
-        System.out.println("\nEscolher tipo de simulação e o cenário da missão desejado");
+        System.out.println("\nEscolher tipo de simulação e o cenário da missão desejada");
 
         System.out.println("\nCenários disponíveis:");
 

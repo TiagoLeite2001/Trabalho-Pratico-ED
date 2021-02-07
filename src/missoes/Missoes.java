@@ -105,11 +105,14 @@ public class Missoes implements IMissoes {
      */
     @Override
     public String apresentarResultadosSimulacoesManuais(IMissao missao) throws NullElementValueException, ElementNotFoundException{
-        String resultado = "\n***** Simulações manuais da missão: " + missao.getCodMissao() +" ******\n";
-        if(resultadosSimulacoesManuais(missao)==null){
+        
+        IMissao mmissao = this.missoes.getElement(missao);
+        
+        String resultado = "\n***** Simulações manuais da missão: " + mmissao.getCodMissao() +" ******\n";
+        if(resultadosSimulacoesManuais(mmissao)==null){
             return resultado+="\n Sem simulações até ao momento.";
         }
-        Iterator<SimulacaoManual> simulacoes = resultadosSimulacoesManuais(missao);
+        Iterator<SimulacaoManual> simulacoes = resultadosSimulacoesManuais(mmissao);
         while(simulacoes.hasNext()){
             resultado += simulacoes.next().toString();
         }

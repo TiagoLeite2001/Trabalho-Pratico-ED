@@ -61,6 +61,23 @@ public class Missao implements IMissao,Comparable<IMissao> {
     public void setCodMissao(String codMissao) {
         this.codMissao = codMissao;
     }
+    
+    /**
+     * Obter um cenário
+     * @param versao versão do cenário
+     * @return cenario
+     * @throws ElementNotFoundException se não existir o cenário
+     * @throws NullElementValueException se o input for null
+     */
+    @Override
+    public ICenario obterCenario(int versao) throws ElementNotFoundException, NullElementValueException {
+        ICenario cenario = new Cenario(versao);
+
+        if (this.versoes.contains(cenario)) {
+            return this.versoes.getElement(cenario);
+        }
+      throw new ElementNotFoundException("Version does not exist!");
+    }
 
     /**
      * Retornar iterador dos conjunto de versões associadas à missão.
