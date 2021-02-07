@@ -13,12 +13,14 @@ import exceptions.NullElementValueException;
 import exceptions.RepeatedElementException;
 import exceptions.VersionAlreadyExistException;
 import interfaces.ICenario;
+import interfaces.IDivisao;
 import interfaces.IMissao;
 import interfaces.IMissoes;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.Scanner;
+import missoes.Divisao;
 import missoes.Missao;
 import org.json.simple.parser.ParseException;
 
@@ -61,6 +63,8 @@ public class Menu {
                     + "\n"
                     + "\n 5 - Visualizar resultados de simuluções manuais."
                     + "\n"
+                    + "\n 6 - Visualizar resultados de simulações automáticas."
+                    + "\n"
                     + "\n 7 - Visualizar o manual de instruções."
                     + "\n"
                     + "\n 0 - Sair");
@@ -81,7 +85,10 @@ public class Menu {
                 case (4):
                     visualizarMapasCarregados();
                 case (5):
+
                     visualizarSimulacoesManuais();
+                case (6):
+                    visualizarSimulacoesAutomaticas();
                 case (7):
                     intrucoes();
             }
@@ -227,11 +234,11 @@ public class Menu {
                 try {
                     missaoo = inputS.nextLine();
                     IMissao missao = new Missao(missaoo);
-                    
+
                     this.missoes.apresentarResultadosSimulacoesManuais(missao);
-                    
+
                     System.out.println(this.missoes.apresentarResultadosSimulacoesManuais(missao));
-                    
+
                     apresentado = true;
                 } catch (NullElementValueException | ElementNotFoundException e) {
                     System.out.println("Erro no cod nome da missão!"
@@ -252,27 +259,145 @@ public class Menu {
         }
     }
 
+    public void visualizarSimulacoesAutomaticas() {
+        System.out.println("Resultados Simulações Automáticas das missões carregadas");
+
+        try {
+            this.missoes.apresentarResultadosMissoes();
+        } catch (NullElementValueException | InvalidOperationException ex) {
+        }
+    }
+
     private void intrucoes() {
 
     }
 
     private void simulacoes() {
-        System.out.println("\nEscolher tipo de simulação e o cenário da missão desejada");
+        System.out.println("\nEscolher tipo de simulação a realizar");
 
-        System.out.println("\nCenários disponíveis:");
+        System.out.println(" 1 - Simulação Automática"
+                + "\n"
+                + "\n 2 - Simulação Manual"
+                + "\n"
+                + "\n 0 - Voltar");
 
-        Iterator<IMissao> itMissoes = missoes.getMissoes();
+        Scanner inputS = new Scanner(System.in, "latin1");
 
-        while (itMissoes.hasNext()) {
+        int input = inputS.nextInt();
 
-            IMissao missaoTemp = itMissoes.next();
-
-            Iterator<ICenario> itCenarios = missaoTemp.getVersoes();
-
-            while (itCenarios.hasNext()) {
-                System.out.println(itCenarios.next().toString());
-            }
+        while (input < 0 || input > 3) {
+            System.out.println(" O número correspondente a uma das simulções está incorreto!"
+                    + "\n Tente outra vez. (0 Para voltar)");
+            input = inputS.nextInt();
         }
+
+        switch (input) {
+            case (1):
+                simulacaoAutomatica();
+            case (2):
+                simulacaoManual();
+            case (0):
+                break;
+        }
+
+    }
+
+    private void simulacaoManual() {
+
+            System.out.println("\n Missões disponíveis:");
+
+            Iterator<IMissao> itMissoes = missoes.getMissoes();
+
+            while (itMissoes.hasNext()) {
+                System.out.println(itMissoes.next().getCodMissao());
+            }
+
+            System.out.println("Escolha a missão introduzindo o seu cod name");
+
+            Scanner inputS = new Scanner(System.in, "latin1");
+
+            String missaoo = "";
+            String answer = "";
+
+            boolean apresentado = false;
+            boolean erro = false;
+
+            while (!apresentado) {
+                try {
+                    missaoo = inputS.nextLine();
+
+                    IMissao missao = this.missoes.obterMissao(missaoo);
+
+                    System.out.println("Versões disponiveis para a missão: " + missaoo);
+
+                    Iterator it = missao.getVersoes();
+
+                    while (it.hasNext()) {
+                        System.out.println(it.next().toString());
+                    }
+
+                    System.out.println("Escolher uma versão:");
+                    
+                    Scanner input2 = new Scanner(System.in, "latin1");
+                    
+                    int versao = input2.nextInt();
+
+                    ICenario cenario = missao.obterCenario(versao);
+
+                    if (missao.getListVersoes().contains(cenario)) {
+                        try {
+                            String entrada = "";
+
+                            System.out.println("Entradas disponiveis para a versão escolhida");
+
+                            cenario = missao.obterCenario(versao);
+
+                            System.out.println(cenario.getListaEntradasSaidas().toString());
+
+                            System.out.println("Introduza a entrada: ");
+                            
+                            Scanner input3 = new Scanner(System.in, "latin1");
+                            
+                            entrada = input3.nextLine();
+
+                            IDivisao dEntrada = new Divisao(entrada);
+
+                            boolean contains = false;
+
+                            while (contains) {
+                                if (cenario.getListaEntradasSaidas().contains(dEntrada)) {
+                                    contains = true;
+                                    missao.iniciarSimulacaoManual(versao, entrada);
+                                } else {
+                                    System.out.println("A divisão não existe!");
+                                    entrada = input3.nextLine();
+                                    dEntrada = new Divisao(entrada);
+                                }
+                            }
+                            
+                        } catch (InvalidOperationException ex) {
+                        }
+                    }
+
+                    apresentado = true;
+                } catch (NullElementValueException | ElementNotFoundException e) {
+                    System.out.println("Erro no cod nome da missão!"
+                            + "\nDeseja tentar novamente? (S/N)");
+                    answer = inputS.nextLine();
+
+                    if (answer.equals("N")) {
+                        apresentado = true;
+                        erro = true;
+                    } else {
+                        System.out.println("Introduza novamente o cod nome da missão a remover.");
+                    }
+                }
+            }
+
+
+    }
+
+    private void simulacaoAutomatica() {
 
     }
 
