@@ -135,7 +135,7 @@ public class Missoes implements IMissoes {
      */
     @Override
     public int getNumMissoes() {
-        return this.missoes.size();
+        return this.numMissoes;
     }
     
     /**
@@ -227,4 +227,7 @@ public class Missoes implements IMissoes {
 
         return info;
     }
+    
+ 
+    
 }

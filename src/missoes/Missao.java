@@ -178,7 +178,7 @@ public class Missao implements IMissao,Comparable<IMissao> {
         IDivisao divisaoIntroduzida = null;
 
         if (!target.getListaEntradasSaidas().contains(divisaoAtual)) {
-            throw new ElementNotFoundException("The entrie!");
+            throw new ElementNotFoundException("The entrie does not exist!");
         }
 
         int vidaRestante = DEFAULT_LIFE;
@@ -306,12 +306,14 @@ public class Missao implements IMissao,Comparable<IMissao> {
             target.adicionarSimulacaoAutomatica(sa); 
          return sa;
     }
-
+    
+    @Override
     public String mostrarMapa(int versao) throws NullElementValueException, ElementNotFoundException {
         ICenario target = new Cenario(versao);
         target = this.versoes.getElement(target);
 
-        String mapa = "**********************************Edificio**********************************"
+        String mapa = "Versão: " + target.getVersao()
+                + "\n**********************************Edificio**********************************"
                 + "\n Divisao Origem --Dano do inimigo da divisão de destino--> Divisao Destino";
         for (int i = 0; i < target.getEdificio().size(); i++) {
             IDivisao origin = target.getEdificio().getVertex(i);

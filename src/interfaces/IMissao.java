@@ -104,4 +104,6 @@ public interface IMissao {
     public boolean equals(Object obj);
     
     public void setVersoes(OrderedLinkedList<ICenario> versoes);
+    
+    public String mostrarMapa(int versao) throws NullElementValueException, ElementNotFoundException;
 }
