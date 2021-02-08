@@ -95,4 +95,12 @@ public interface IMissoes {
      */
     public String exportarSimulacoesManuais(String codMissao) throws NullElementValueException,
             ElementNotFoundException, NoManualSimulationsException, IOException;
+    
+     /**
+     * Apresenta toda a informação das simulacoes automaticas armazenadas de uma
+     * missao especifica.
+     *
+     * @return Informação das simulacoes automaticas
+     */
+    public String apresentarResultadosSimulacoesAutomaticas() throws NullElementValueException, InvalidOperationException;
 }

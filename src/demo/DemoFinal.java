@@ -12,13 +12,8 @@ import exceptions.InvalidWeightValueException;
 import exceptions.NullElementValueException;
 import exceptions.RepeatedElementException;
 import exceptions.VersionAlreadyExistException;
-import interfaces.IMissao;
-import interfaces.IMissoes;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import menu.Menu;
-import missoes.Missoes;
 import org.json.simple.parser.ParseException;
 
 /**
@@ -28,7 +23,6 @@ import org.json.simple.parser.ParseException;
 public class DemoFinal {
 
     public static void main(String[] args) {
-
         Menu menu = new Menu();
         
         try {

@@ -123,6 +123,31 @@ public class Missoes implements IMissoes {
     }
 
     /**
+     * Apresenta toda a informação das simulacoes automaticas armazenadas de todas as missões.
+     *
+     * @return Informação das simulacoes automaticas
+     */
+    @Override
+    public String apresentarResultadosSimulacoesAutomaticas() throws NullElementValueException, InvalidOperationException {
+        if (this.numMissoes == 0) {
+            return "Não há missões armazenadas.";
+        }
+        String resultado = "\n Simulacoes Automáticas:";
+        Iterator<IMissao> missoes = this.missoes.iterator();
+        while (missoes.hasNext()){
+            IMissao missaoAtual=missoes.next();
+            resultado+="\n\n Cod.Missao: "+missaoAtual.getCodMissao();
+            Iterator<ICenario> cenarios=missaoAtual.getVersoes();
+            while(cenarios.hasNext()){
+                ICenario cenario=cenarios.next();
+                resultado+="\n Versão: "+cenario.getVersao();
+                resultado+="\n" + cenario.getSimulacaoAutomatica().toString();
+            }
+        }
+        return resultado;
+    }
+    
+    /**
      * Retorna um iterador com todas as missões.
      * @return Iterador com as missões
      */

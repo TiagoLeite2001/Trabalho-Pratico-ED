@@ -9,6 +9,7 @@ import exceptions.ElementNotFoundException;
 import exceptions.InvalidDocumentException;
 import exceptions.InvalidOperationException;
 import exceptions.InvalidWeightValueException;
+import exceptions.NoManualSimulationsException;
 import exceptions.NoPathAvailableException;
 import exceptions.NullElementValueException;
 import exceptions.RepeatedElementException;
@@ -44,7 +45,7 @@ public class Menu {
         this.missoes = new Missoes();
     }
 
-    /**
+/**
      * Menu principal.
      */
     public void menuPrincipal() throws NullElementValueException, RepeatedElementException,
@@ -73,9 +74,13 @@ public class Menu {
                     + "\n"
                     + "\n 4 - Visualizar mapas das missões carregadas."
                     + "\n"
-                    + "\n 5 - Visualizar resultados de simuluções manuais."
+                    + "\n 5 - Visualizar resultados de simulações manuais."
                     + "\n"
                     + "\n 6 - Visualizar resultados de simulações automáticas."
+                    + "\n"
+                    + "\n 7 - Visualizar resultados de todas as missões."
+                    + "\n"
+                    + "\n 8 - Exportar resultados de simulações manuais."
                     + "\n"
                     + "\n 0 - Sair");
 
@@ -102,10 +107,63 @@ public class Menu {
                 case (6):
                     visualizarSimulacoesAutomaticas();
                     break;
+                case (7):
+                    visualizarResultadosMissoes();
+                    break;    
+                case (8):
+                    visualizarExportarSimulacoesManuais();
+                    break;
             }
         }
     }
 
+    private void visualizarExportarSimulacoesManuais() {
+        Iterator<IMissao> itMissoes = missoes.getMissoes();
+        if (!itMissoes.hasNext()) {
+            System.out.println("Não existem missões importadas.");
+        } else {
+            System.out.println("\nMissões existentes:");
+            while (itMissoes.hasNext()) {
+                System.out.println(itMissoes.next().getCodMissao());
+            }
+
+            System.out.println("Introduza a missão: ");
+            Scanner inputS = new Scanner(System.in, "latin1");
+
+            boolean adicionado = false;
+            boolean erro = false;
+            String answer;
+            while (!adicionado) {
+                String codMissao = inputS.nextLine();
+                try {
+                    this.missoes.exportarSimulacoesManuais(codMissao);
+                    adicionado=true;
+                } catch (NullElementValueException | ElementNotFoundException | NoManualSimulationsException | IOException ex) {
+                    System.out.println(ex);
+
+                    System.out.println("Erro ao exportar simulações!"
+                            + "\nDeseja tentar novamente? (S/N)");
+                    answer = inputS.nextLine();
+
+                    if (answer.equals("N")) {
+                        adicionado = true;
+                        erro = true;
+                    } else {
+                        System.out.println("Introduza novamente a missão.");
+                    }
+                }
+            }
+
+            if (erro == false) {
+                System.out.println("\n Simulações exportadas com sucesso!");
+            } else {
+
+                System.out.println("Nenhuma simulação foi exportada!");
+            }
+        }
+
+    }
+   
     /**
      * Menu carregar missão.
      */
@@ -133,6 +191,7 @@ public class Menu {
                     | RepeatedElementException | InvalidWeightValueException
                     | InvalidOperationException | ParseException | VersionAlreadyExistException
                     | InvalidDocumentException ex) {
+            	System.out.println(ex);
                 System.out.println("Erro ao carregar missão!"
                         + "\nDeseja tentar novamente? (S/N)");
                 answer = inputS.nextLine();
@@ -165,7 +224,7 @@ public class Menu {
 
         while (itMissoes.hasNext()) {
 
-            System.out.println(itMissoes.next().toString());
+            System.out.println(itMissoes.next().getCodMissao());
 
         }
 
@@ -188,6 +247,7 @@ public class Menu {
                 this.missoes.removerMissao(missao);
                 removido = true;
             } catch (NullElementValueException | ElementNotFoundException e) {
+            	System.out.println(e);
                 System.out.println("\nErro ao remover missão!"
                         + "\nDeseja tentar novamente? (S/N)");
                 answer = inputS.nextLine();
@@ -232,6 +292,7 @@ public class Menu {
                     try {
                         System.out.println("\n"+missao.mostrarMapa(cenarioTemp.getVersao()));
                     } catch (NullElementValueException | ElementNotFoundException ex) {
+                    	System.out.println(ex);
                     }
                 }
             }
@@ -275,6 +336,7 @@ public class Menu {
 
                     apresentado = true;
                 } catch (NullElementValueException | ElementNotFoundException e) {
+                	System.out.println(e);
                     System.out.println("\nErro no cod nome da missão!"
                             + "\nDeseja tentar novamente? (S/N)");
                     answer = inputS.nextLine();
@@ -301,8 +363,23 @@ public class Menu {
         System.out.println("\nResultados Simulações Automáticas das missões carregadas");
 
         try {
+            System.out.println(this.missoes.apresentarResultadosSimulacoesAutomaticas());
+        } catch (NullElementValueException | InvalidOperationException ex) {
+        	System.out.println(ex);
+        }
+    }
+    
+    /**
+     * Menu visualizar resultados de todas as missões.
+     */
+    private void visualizarResultadosMissoes() {
+        
+        System.out.println("\nResultados de todas as missões carregadas");
+
+        try {
             System.out.println(this.missoes.apresentarResultadosMissoes());
         } catch (NullElementValueException | InvalidOperationException ex) {
+        	System.out.println(ex);
         }
     }
 
@@ -406,6 +483,7 @@ public class Menu {
                                     ISimulacaoManual sm = missao.iniciarSimulacaoManual(versao, entrada);
                                     System.out.println(sm.toString());
                                 } catch (InvalidOperationException ex) {
+                                	System.out.println(ex);
                                 }
                                 contains = true;
 
@@ -419,6 +497,7 @@ public class Menu {
 
                     apresentado = true;
                 } catch (NullElementValueException | ElementNotFoundException e) {
+                	System.out.println(e);
                     System.out.println("\nErro no cod nome da missão!"
                             + "\nDeseja tentar novamente? (S/N)");
                     answer = inputS.nextLine();
@@ -435,6 +514,8 @@ public class Menu {
 
     }
 
+    
+    
     /**
      * Menu simulação automática.
      */
@@ -492,11 +573,13 @@ public class Menu {
                             existeCenario = true;
                             System.out.println(sa.toString());
                         } catch (InvalidOperationException | NoPathAvailableException ex) {
+                        	System.out.println(ex);
                             System.out.println("\n Versão não existe, introduza novamente a versão!");
                         }
                     }
 
                 } catch (NullElementValueException | ElementNotFoundException e) {
+                	System.out.println(e);
                     System.out.println("\nErro no cod nome da missão!"
                             + "\nDeseja tentar novamente? (S/N)");
                     answer = inputS.nextLine();
@@ -511,4 +594,5 @@ public class Menu {
         }
     }
 
+    
 }
