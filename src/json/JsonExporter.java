@@ -11,8 +11,20 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import simulacoes.SimulacaoManual;
 
+/**
+ * Esta classe exporta simulações manuais para um ficheiro json.
+ */
 public class JsonExporter {
-
+    
+    /**
+     * Esporta todas as simulações manuais de uma versão de uma missão.
+     * @param codMissao da missão
+     * @param versao da missão
+     * @return String das simulações manuais exportadas.
+     * @throws NullElementValueException
+     * @throws NoManualSimulationsException
+     * @throws IOException 
+     */
     public static String exportSimulacoesManuais(String codMissao, ICenario versao) throws NullElementValueException, NoManualSimulationsException, IOException {
         if(codMissao==null || versao==null)
             throw new NullElementValueException("Invalid Arguments");

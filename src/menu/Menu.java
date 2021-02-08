@@ -45,7 +45,7 @@ public class Menu {
         this.missoes = new Missoes();
     }
 
-/**
+    /**
      * Menu principal.
      */
     public void menuPrincipal() throws NullElementValueException, RepeatedElementException,
@@ -116,7 +116,10 @@ public class Menu {
             }
         }
     }
-
+    
+    /**
+     * Menu exportar simulações manuais.
+     */
     private void visualizarExportarSimulacoesManuais() {
         Iterator<IMissao> itMissoes = missoes.getMissoes();
         if (!itMissoes.hasNext()) {

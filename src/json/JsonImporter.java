@@ -33,8 +33,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 /**
- *
- * @author tiago
+ *Classe onde será feita a importação de uma missão em ficheiro json.
  */
 public class JsonImporter {
 
@@ -46,7 +45,6 @@ public class JsonImporter {
 
     /**
      * Import JSON file.
-     *
      * @return IOrders
      */
     public static IMissao jsonImporter(String path) throws IOException, ParseException,
@@ -60,7 +58,6 @@ public class JsonImporter {
 
     /**
      * Import JSON file.
-     *
      * @return IOrders
      */
     private static IMissao importFile(String path) throws FileNotFoundException, IOException,

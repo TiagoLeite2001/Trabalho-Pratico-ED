@@ -23,21 +23,18 @@ public interface IDivisao {
 
     /**
      * Obter o nome do inimigo.
-     *
      * @return nome do inimigo
      */
     public String getNome();
 
     /**
      * Obter o iterator dos inimigos existentes na divisao.
-     *
      * @return iterator
      */
     public Iterator<Inimigo> getInimigos();
 
     /**
      * Adicionar um inimigo na divisao.
-     *
      * @param inimigo inimigo a ser adicionado
      * @throws NullElementValueException
      */
@@ -45,14 +42,12 @@ public interface IDivisao {
 
     /**
      * Verificar se duas divisões são iguais.
-     *
      * @return boolean
      */
     public boolean equals(Object obj);
 
     /**
      * Obter a informação do edificio.
-     *
      * @return informação do edificio
      */
     public String toString();

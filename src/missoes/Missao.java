@@ -54,7 +54,6 @@ public class Missao implements IMissao,Comparable<IMissao> {
 
     /**
      * Introduzir o código da missão.
-     *
      * @param codMissao Código da missão
      */
     @Override
@@ -81,14 +80,17 @@ public class Missao implements IMissao,Comparable<IMissao> {
 
     /**
      * Retornar iterador dos conjunto de versões associadas à missão.
-     *
      * @return Iterador Versões
      */
     @Override
     public Iterator<ICenario> getVersoes() {
         return versoes.iterator();
     }
-
+    
+    /**
+     * Introduzir versões na missão
+     * @param versoes versões a introduzir.
+     */
     @Override
     public void setVersoes(OrderedLinkedList<ICenario> versoes) {
         this.versoes = versoes;
@@ -115,7 +117,6 @@ public class Missao implements IMissao,Comparable<IMissao> {
 
     /**
      * Remover uma versão,se existir, da lista de versões da missão.
-     *
      * @param versao
      * @throws ElementNotFoundException
      * @throws NullElementValueException
@@ -196,7 +197,7 @@ public class Missao implements IMissao,Comparable<IMissao> {
             System.out.println("\nO alvo encontra-se em: " + target.getAlvo().getDivisao());
             System.out.println("\nDivisão onde você se encontra: " + divisaoAtual.getNome());
             System.out.println("\nVida: " + vidaRestante);
-            System.out.println("\nIntoduza a divisão desejada: ");
+            System.out.println("\nIntroduza a divisão desejada: ");
 
             input = myObj.nextLine();
 
@@ -258,7 +259,6 @@ public class Missao implements IMissao,Comparable<IMissao> {
 
     /**
      * Iniciar uma simulação automática.
-     *
      * @return simulação automática.
      */
     @Override
@@ -307,6 +307,11 @@ public class Missao implements IMissao,Comparable<IMissao> {
          return sa;
     }
     
+    /**
+     * Mostrar um mapa de uma versão de uma missão.
+     * @param versao versão da missão.
+     * @return String com o mapa
+     */
     @Override
     public String mostrarMapa(int versao) throws NullElementValueException, ElementNotFoundException {
         ICenario target = new Cenario(versao);
@@ -314,7 +319,7 @@ public class Missao implements IMissao,Comparable<IMissao> {
 
         String mapa = "Versão: " + target.getVersao()
                 + "\n**********************************Edificio**********************************"
-                + "\n Divisao Origem --Dano do inimigo da divisão de destino--> Divisao Destino";
+                + "\n Divisao Origem -- Dano do inimigo da divisão de destino --> Divisao Destino";
         for (int i = 0; i < target.getEdificio().size(); i++) {
             IDivisao origin = target.getEdificio().getVertex(i);
             for (int j = 0; j < target.getEdificio().size(); j++) {
@@ -329,9 +334,8 @@ public class Missao implements IMissao,Comparable<IMissao> {
     }
     
     /**
-     * Compara-se com outro objeto e verica a sua igualdade com base no código de missão.
-     * @param obj
-     * @return Boolean
+     * Compara-se com outro objeto e verifica a sua igualdade com base no código de missão.
+     * @param obj objeto a verificar
      */
     @Override
     public boolean equals(Object obj){
@@ -345,8 +349,7 @@ public class Missao implements IMissao,Comparable<IMissao> {
 
     /**
      * Compara duas missão pelo código de missão.
-     * @param o
-     * @return 
+     * @param o missão a comparar
      */
     @Override
     public int compareTo(IMissao o) {

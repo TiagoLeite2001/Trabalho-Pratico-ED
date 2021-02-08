@@ -2,7 +2,6 @@ package interfaces;
 
 import java.util.Iterator;
 import linkedListSentinela.UnorderedLinkedList;
-import missoes.Divisao;
 
 /**
  * Interface para uma simulacao de uma missão.

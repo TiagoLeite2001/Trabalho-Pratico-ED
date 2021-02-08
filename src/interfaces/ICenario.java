@@ -14,49 +14,42 @@ import simulacoes.SimulacaoAutomatica;
 import simulacoes.SimulacaoManual;
 
 /**
- *
- * @author JoaoLopes 8190221
+ *Interface de um cenário
  */
 public interface ICenario {
 
     /**
      * Obter a versão do cenário.
-     *
      * @return versao.
      */
     public int getVersao();
 
     /**
      * Obter o grafo do edificio.
-     *
      * @return edificio.
      */
     public WeightedAdjMatrixDiGraph<IDivisao> getEdificio();
 
     /**
      * Obter o iterador das entradas e saidas.
-     *
      * @return iterador.
      */
     public Iterator<IDivisao> getEntradasSaidas();
 
     /**
      * Obter o alvo do cenário.
-     *
      * @return alvo.
      */
     public Alvo getAlvo();
 
     /**
      * Obter a simulação automática.
-     *
      * @return simulação automática.
      */
     public ISimulacaoAutomatica getSimulacaoAutomatica();
 
     /**
      * Obter as simulações manuais.
-     *
      * @return simulações manuais.
      */
     public Iterator<SimulacaoManual> getSimulacoesManuais();
@@ -66,37 +59,32 @@ public interface ICenario {
 
     /**
      * Obter o número de entradas e saídas.
-     *
      * @return número de entradas e saídas.
      */
     public int getNumeroEntradasSaidas();
 
     /**
      * Obter número de simulações manuais efetuadas neste cenário.
-     *
      * @return Número de Simulações
      */
     public int getNumSimulacoesManuais();
 
     /**
      * Obter lista entradas e saidas.
-     *
      * @return Lista entradas e saidas
      */
     public UnorderedLinkedList<IDivisao> getListaEntradasSaidas();
 
     /**
      * Adicionar uma simulacao manual ao cenário.
-     *
-     * @param sim
+     * @param sim simulação manual
      * @throws NullElementValueException
      */
     public void adicionarSimulacaoManual(SimulacaoManual sim) throws NullElementValueException;
 
     /**
      * Adicionar uma simulacao automática ao cenário.
-     *
-     * @param sim
+     * @param sim simulação manual
      * @throws NullElementValueException
      */
      public void adicionarSimulacaoAutomatica(SimulacaoAutomatica sim) throws NullElementValueException;

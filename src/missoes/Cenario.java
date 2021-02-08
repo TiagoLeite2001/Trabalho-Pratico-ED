@@ -46,6 +46,10 @@ public class Cenario implements ICenario,Comparable<ICenario>{
         this.numSimulacoesManuais=0;
     }
     
+    /**
+     * Contrutor de um cenário.
+     * @param versao versão de uma missão.
+     */
     public Cenario(int versao){
         this.versao=versao;
         this.edificio = new WeightedAdjMatrixDiGraph<>();
@@ -113,7 +117,6 @@ public class Cenario implements ICenario,Comparable<ICenario>{
 
     /**
      * Obter as simulações manuais.
-     *
      * @return simulações manuais.
      */
     @Override
@@ -123,7 +126,6 @@ public class Cenario implements ICenario,Comparable<ICenario>{
 
     /**
      * Obter o número de entradas e saídas.
-     *
      * @return número de entradas e saídas.
      */
     @Override
@@ -151,7 +153,6 @@ public class Cenario implements ICenario,Comparable<ICenario>{
 
     /**
      * Obter número de simulações manuais efetuadas neste cenário.
-     *
      * @return Número de Simulações
      */
     @Override
@@ -181,8 +182,7 @@ public class Cenario implements ICenario,Comparable<ICenario>{
 
     /**
      * Adicionar uma simulacao manual ao cenário.
-     *
-     * @param sim
+     * @param sim simulação manual
      * @throws NullElementValueException
      */
     @Override
@@ -193,7 +193,7 @@ public class Cenario implements ICenario,Comparable<ICenario>{
     
      /**
      * Adicionar uma simulacao automática ao cenário.
-     * @param sim
+     * @param sim simulação manual
      * @throws NullElementValueException 
      */
     @Override
@@ -205,7 +205,7 @@ public class Cenario implements ICenario,Comparable<ICenario>{
 
     /**
      * Compara-se com outro cenário através da vida restante resultante da sua simulação automática.
-     * @param o
+     * @param o cenário a comparar
      * @return 1 se a sua vida restante é maior que a vida restante do outro cenário
      * @return 0 se a sua vida restante é igual à vida restante do outro cenário.
      * @return 0 se a sua vida restante é menor que a vida restante do outro cenário.

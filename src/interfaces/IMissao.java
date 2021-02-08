@@ -7,7 +7,6 @@ import exceptions.NullElementValueException;
 import exceptions.VersionAlreadyExistException;
 import java.util.Iterator;
 import linkedListSentinela.OrderedLinkedList;
-import linkedListSentinela.UnorderedLinkedList;
 import simulacoes.SimulacaoManual;
 
 /**
@@ -32,28 +31,24 @@ public interface IMissao {
 
     /**
      * Introduzir o código da missão.
-     *
      * @param codMissao Código da missão
      */
     public void setCodMissao(String codMissao);
 
     /**
      * Retornar iterador dos conjunto de versões associadas à missão.
-     *
      * @return Iterador Versões
      */
     public Iterator<ICenario> getVersoes();
 
     /**
      * Retornar uma lista de versões associadas à missão.
-     *
      * @return OrderedLinkedList<ICenario> Versões
      */
     public OrderedLinkedList<ICenario> getListVersoes();
 
     /**
      * Adicionar uma versão à missão.
-     *
      * @param versao Versão a adicionar.
      * @throws VersionAlreadyExistException
      * @throws NullElementValueException
@@ -62,7 +57,6 @@ public interface IMissao {
 
     /**
      * Remover uma versão,se existir, da lista de versões da missão.
-     *
      * @param versao
      * @throws ElementNotFoundException
      * @throws NullElementValueException
@@ -71,14 +65,12 @@ public interface IMissao {
 
     /**
      * Retornar o número de versões associadas à missão.
-     *
      * @return Número de versões da missão.
      */
     public int getNumeroVersoes();
 
     /**
      * Iniciar uma simulação manual.
-     *
      * @return simulação manual.
      */
     public SimulacaoManual iniciarSimulacaoManual(int versao, String entrada) throws NullElementValueException,
@@ -86,7 +78,6 @@ public interface IMissao {
 
     /**
      * Iniciar uma simulação automática.
-     *
      * @return simulação automática.
      */
     public ISimulacaoAutomatica iniciarSimulacaoAutomatica(int versao) throws InvalidOperationException,
@@ -94,16 +85,28 @@ public interface IMissao {
 
     /**
      * Retornar a informação da missão.
-     *
      * @return Informação da missão.
      */
     @Override
     public String toString();
-
+    
+    /**
+     * Compara-se com outro objeto e verifica a sua igualdade com base no código de missão.
+     * @param obj objeto a verificar
+     */
     @Override
     public boolean equals(Object obj);
     
+    /**
+     * Introduzir versões na missão
+     * @param versoes versões a introduzir.
+     */
     public void setVersoes(OrderedLinkedList<ICenario> versoes);
     
+    /**
+     * Mostrar um mapa de uma versão de uma missão.
+     * @param versao versão da missão.
+     * @return String com o mapa
+     */
     public String mostrarMapa(int versao) throws NullElementValueException, ElementNotFoundException;
 }

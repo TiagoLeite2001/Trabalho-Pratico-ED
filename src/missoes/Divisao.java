@@ -17,7 +17,6 @@ public class Divisao implements IDivisao{
 
     /**
      * Contrutor para uma divisao.
-     *
      * @param nome
      */
     public Divisao(String nome) {
@@ -48,7 +47,6 @@ public class Divisao implements IDivisao{
     
     /**
      * Obter o nome do inimigo.
-     *
      * @return nome do inimigo
      */
     @Override
@@ -58,7 +56,6 @@ public class Divisao implements IDivisao{
 
     /**
      * Obter o iterator dos inimigos existentes na divisao.
-     *
      * @return iterator
      */
     @Override
@@ -68,7 +65,6 @@ public class Divisao implements IDivisao{
 
     /**
      * Adicionar um inimigo na divisao.
-     *
      * @param inimigo inimigo a ser adicionado
      * @throws NullElementValueException
      */
@@ -84,8 +80,6 @@ public class Divisao implements IDivisao{
 
     /**
      * Verificar se duas divisões são iguais.
-     *
-     * @return boolean
      * @return true se as divisões forem iguais.
      * @return false se as divisões forem diferentes.
      */
@@ -102,7 +96,6 @@ public class Divisao implements IDivisao{
 
     /**
      * Obter a informação do edificio.
-     *
      * @return informação do edificio
      */
     @Override
