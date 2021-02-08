@@ -17,8 +17,7 @@ import missoes.Missoes;
 import org.json.simple.parser.ParseException;
 
 /**
- *
- * @author tiago
+ *Demo sem menus.
  */
 public class Demo {
 

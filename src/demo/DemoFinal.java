@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package demo;
 
 import exceptions.ElementNotFoundException;
@@ -17,8 +12,7 @@ import menu.Menu;
 import org.json.simple.parser.ParseException;
 
 /**
- *
- * @author tiago
+ *Demo do projeto.
  */
 public class DemoFinal {
 
