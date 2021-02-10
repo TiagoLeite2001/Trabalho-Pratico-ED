@@ -36,25 +36,26 @@ public class Demo {
         missoes.obterMissao("pata de coelho").iniciarSimulacaoAutomatica(1);
         missoes.obterMissao("missao impossivel 1").iniciarSimulacaoAutomatica(1);
         missoes.obterMissao("missao impossivel 1").iniciarSimulacaoAutomatica(2);
-        missoes.obterMissao("missao impossivel 1").iniciarSimulacaoAutomatica(3);
-        missoes.obterMissao("missao impossivel 2").iniciarSimulacaoAutomatica(1);
-        missoes.obterMissao("missao impossivel 2").iniciarSimulacaoAutomatica(2);
+//        missoes.obterMissao("missao impossivel 1").iniciarSimulacaoAutomatica(3);
+//        missoes.obterMissao("missao impossivel 2").iniciarSimulacaoAutomatica(1);
+//        missoes.obterMissao("missao impossivel 2").iniciarSimulacaoAutomatica(2);
+//        missoes.obterMissao("missao impossivel 2").iniciarSimulacaoAutomatica(2);
 
         //Executar simulacoes manuais de cada em cada versao de uma missao
 //        missoes.obterMissao("pata de coelho").iniciarSimulacaoManual(1, "Heliporto");
 //        missoes.obterMissao("pata de coelho").iniciarSimulacaoManual(1, "Heliporto");
 //        missoes.obterMissao("pata de coelho").iniciarSimulacaoManual(1, "Heliporto");
-        missoes.obterMissao("missao impossivel 1").iniciarSimulacaoManual(1, "Edificio A");
-        missoes.obterMissao("missao impossivel 1").iniciarSimulacaoManual(2, "Edificio 7");
-        missoes.obterMissao("missao impossivel 1").iniciarSimulacaoManual(3, "Sala de reuniao");
+//        missoes.obterMissao("missao impossivel 1").iniciarSimulacaoManual(1, "Edificio A");
+//        missoes.obterMissao("missao impossivel 1").iniciarSimulacaoManual(2, "Edificio 7");
+//        missoes.obterMissao("missao impossivel 1").iniciarSimulacaoManual(3, "Sala de reuniao");
 //        missoes.obterMissao("missao impossivel 2").iniciarSimulacaoManual(1, "Edificio C");
 //        missoes.obterMissao("missao impossivel 2").iniciarSimulacaoManual(2, "Edificio H");
 //        missoes.obterMissao("missao impossivel 2").iniciarSimulacaoManual(2, "Edificio B");
 //        missoes.obterMissao("missao impossivel 2").iniciarSimulacaoManual(2, "Edificio B");
 
-        System.out.println(missoes.apresentarResultadosMissoes());
+//        System.out.println(missoes.apresentarResultadosMissoes());
         System.out.println("\n");
-        System.out.println(missoes.exportarSimulacoesManuais("missao impossivel 1"));
+        System.out.println(missoes.apresentarResultadosSimulacoesAutomaticas());
     }
 }
 

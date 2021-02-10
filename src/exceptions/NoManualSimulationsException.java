@@ -8,9 +8,6 @@ package exceptions;
 
 /**
  * 
- *  Nome:João Carlos Abreu Lopes 
-    Número:8190221
-    Turma:T1
  */
 public class NoManualSimulationsException extends Exception {
 

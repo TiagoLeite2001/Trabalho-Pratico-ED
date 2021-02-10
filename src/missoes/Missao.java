@@ -47,6 +47,10 @@ public class Missao implements IMissao,Comparable<IMissao> {
         this.versoes = versoes;
     }
     
+    /**
+     * Obter o código da missão.
+     * @return Código da missão.
+     */
     @Override
     public String getCodMissao() {
         return codMissao;
@@ -156,6 +160,10 @@ public class Missao implements IMissao,Comparable<IMissao> {
         return info;
     }
 
+    /**
+     * Obter a lista de versões de uma missão.
+     * @return Lista de versões.
+     */
     @Override
     public OrderedLinkedList<ICenario> getListVersoes() {
         return this.versoes;

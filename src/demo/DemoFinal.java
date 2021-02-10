@@ -25,7 +25,6 @@ public class DemoFinal {
                 InvalidWeightValueException | ElementNotFoundException | 
                 IOException | ParseException | VersionAlreadyExistException | 
                 InvalidOperationException | InvalidDocumentException ex) {
-        }
+        }     
     }
-
 }

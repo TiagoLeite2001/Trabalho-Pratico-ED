@@ -20,12 +20,12 @@ import interfaces.IMissao;
 import interfaces.IMissoes;
 import interfaces.ISimulacaoAutomatica;
 import interfaces.ISimulacaoManual;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.InputMismatchException;
 import java.util.Iterator;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import missoes.Divisao;
 import missoes.Missao;
 import missoes.Missoes;
@@ -56,11 +56,11 @@ public class Menu {
                 + "\n     João Lopes  - 8190221"
                 + "\n     Tiago Leite - 8190338\n");
 
-        Scanner inputS = new Scanner(System.in, "latin1");
         int input = -1;
 
         while (input != 0) {
-
+            Scanner inputS = new Scanner(System.in, "latin1");
+            
             System.out.println("\n-------------------------------------------------------------"
                     + "\n"
                     + "\nImprobable Mission Force - Mission simulator"
@@ -84,7 +84,13 @@ public class Menu {
                     + "\n"
                     + "\n 0 - Sair");
 
-            input = inputS.nextInt();
+            System.out.println("\n Selecione a opção:");
+
+            try {
+                input = inputS.nextInt();
+            } catch (InputMismatchException ex) {
+                System.out.println("Introduza valores entre 0-8");
+            }
 
             switch (input) {
                 case (0):
@@ -174,10 +180,16 @@ public class Menu {
 
         Scanner inputS = new Scanner(System.in, "latin1");
 
-        System.out.println("\n*Adicionar nova missão*"
-                + "\n"
-                + "\nIntroduza o caminho(path) onde se encontra o mapa a adicionar."
-                + "\n Exempo: Mapas/mapaEnunciado.json");
+        System.out.println("\n Mapas disponiveis para carregar:");
+        File arquivo = new File("Mapas");
+        File[] files = arquivo.listFiles(); 
+       
+        for (File file : files) {
+            System.out.println("    "+file);
+        }
+        
+        System.out.println("\n"
+                + "\nIntroduza o caminho(path) onde se encontra o mapa a carregar:");
 
         String path = "";
         String answer = "";
@@ -348,7 +360,7 @@ public class Menu {
                         apresentado = true;
                         erro = true;
                     } else {
-                        System.out.println("\nIntroduza novamente o cod nome da missão a remover.");
+                        System.out.println("\nIntroduza novamente o cod nome da missão.");
                     }
                 }
             }
@@ -516,8 +528,6 @@ public class Menu {
         }
 
     }
-
-    
     
     /**
      * Menu simulação automática.

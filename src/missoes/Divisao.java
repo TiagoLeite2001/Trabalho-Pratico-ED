@@ -43,8 +43,6 @@ public class Divisao implements IDivisao{
         this.dano = dano;
     }
     
-    
-    
     /**
      * Obter o nome do inimigo.
      * @return nome do inimigo

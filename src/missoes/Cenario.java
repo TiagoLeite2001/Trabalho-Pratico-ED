@@ -32,7 +32,7 @@ public class Cenario implements ICenario,Comparable<ICenario>{
      * Construtor de um cenário.
      * @param versao versão de uma missão.
      * @param edificio grafo do edificio do cenário.
-     * @param entradasEsaidas lista das entradas e saídas do cenário.
+     * @param entradasSaidas lista das entradas e saídas do cenário.
      * @param alvo alvo do cenário.
      */
     public Cenario(int versao, WeightedAdjMatrixDiGraph<IDivisao> edificio,
@@ -160,6 +160,10 @@ public class Cenario implements ICenario,Comparable<ICenario>{
         return numSimulacoesManuais;
     }
 
+    /**
+     * Retorna a informação de um cenário de uma missão.
+     * @return A informação do cenário.
+     */
     @Override
     public String toString() {
         String info = "\n *******Versão: " + this.versao + "*******";

@@ -43,7 +43,6 @@ public interface IMissao {
 
     /**
      * Retornar uma lista de versões associadas à missão.
-     * @return OrderedLinkedList<ICenario> Versões
      */
     public OrderedLinkedList<ICenario> getListVersoes();
 

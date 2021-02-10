@@ -9,7 +9,7 @@ import linkedListSentinela.UnorderedLinkedList;
 public interface ISimulacao {
 
     /**
-     * Õbter o trajeto percorrido numa simulaçao.
+     * Obter o trajeto percorrido numa simulaçao.
      *
      * @return
      */
@@ -39,7 +39,7 @@ public interface ISimulacao {
     /**
      * Introduzir a versao da missão.
      *
-     * @param versão.
+     * @param versao.
      */
     public void setVersao(int versao);
 

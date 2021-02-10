@@ -20,6 +20,20 @@ import simulacoes.SimulacaoManual;
  */
 public interface IMissoes {
     
+    /**
+     * Importar e validar uma missão de um ficheiro JSON.
+     * @param path Caminho do ficheiro a ser importado.
+     * @throws IOException
+     * @throws FileNotFoundException
+     * @throws NullElementValueException
+     * @throws ElementNotFoundException
+     * @throws RepeatedElementException
+     * @throws InvalidWeightValueException
+     * @throws InvalidOperationException
+     * @throws ParseException
+     * @throws VersionAlreadyExistException
+     * @throws InvalidDocumentException 
+     */
     public void importarMissao(String path) throws IOException, FileNotFoundException, 
             NullElementValueException, ElementNotFoundException, RepeatedElementException, 
             InvalidWeightValueException, InvalidOperationException, ParseException, VersionAlreadyExistException, InvalidDocumentException;

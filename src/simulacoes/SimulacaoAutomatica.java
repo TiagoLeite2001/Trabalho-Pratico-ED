@@ -10,26 +10,36 @@ import interfaces.ISimulacaoAutomatica;
 import java.util.Iterator;
 
 /**
- *
- * @author tiago
+ *Esta classe guarda a informação de uma simulação automática.
  */
 public class SimulacaoAutomatica extends Simulacao implements ISimulacaoAutomatica{
     
+    /**
+     * Construtor para uma simulação automática.
+     */
     public SimulacaoAutomatica(){
         super();
     }
     
+    /**
+     * Retorna a informação de uma simulação automática.
+     * @return Informação da simulação automática.
+     */
     @Override
-    public String toString(){
-        String info="\nSimulação Automática:";
-        info+="\n  *Pontos de Vida: " + this.getPontosVida() + "\n  *Missão Sucedida: "+this.missaoSucedida()+
-                "\n  *Versão: " + this.getVersao();
-        
-        Iterator<IDivisao> trajeto=this.getTrajeto();
-        info+="\n  *Trajeto: \n";
-        while(trajeto.hasNext()){
-            info+=trajeto.next().toString();         
-            if(trajeto.hasNext())info+=" --> ";
+    public String toString() {
+        String info = "\nSimulação Automática:";
+        info += "\n  *Pontos de Vida: " + this.getPontosVida() + "\n  *Missão Sucedida: " + this.missaoSucedida()
+                + "\n  *Versão: " + this.getVersao();
+
+        if (this.getTrajeto() != null) {
+            Iterator<IDivisao> trajeto = this.getTrajeto();
+            info += "\n  *Trajeto: \n";
+            while (trajeto.hasNext()) {
+                info += trajeto.next().toString();
+                if (trajeto.hasNext()) {
+                    info += " --> ";
+                }
+            }
         }
         return info;
     }

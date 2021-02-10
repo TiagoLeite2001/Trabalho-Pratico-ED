@@ -79,7 +79,7 @@ public abstract class Simulacao implements ISimulacao {
     /**
      * Introduzir a versao da missão.
      *
-     * @param versão.
+     * @param versao.
      */
     @Override
     public void setVersao(int versao) {

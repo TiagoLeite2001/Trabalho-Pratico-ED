@@ -54,6 +54,11 @@ public interface ICenario {
      */
     public Iterator<SimulacaoManual> getSimulacoesManuais();
 
+    /**
+     *Verifica se dois objetos são iguais.
+     * @param obj Objeto para ser comparado.
+     * @return boolean
+     */
     @Override
     public boolean equals(Object obj);
 
@@ -78,7 +83,6 @@ public interface ICenario {
     /**
      * Adicionar uma simulacao manual ao cenário.
      * @param sim simulação manual
-     * @throws NullElementValueException
      */
     public void adicionarSimulacaoManual(SimulacaoManual sim) throws NullElementValueException;
 

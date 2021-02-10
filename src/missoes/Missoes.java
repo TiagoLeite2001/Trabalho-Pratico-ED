@@ -134,14 +134,18 @@ public class Missoes implements IMissoes {
         }
         String resultado = "\n Simulacoes Automáticas:";
         Iterator<IMissao> missoes = this.missoes.iterator();
-        while (missoes.hasNext()){
-            IMissao missaoAtual=missoes.next();
-            resultado+="\n\n Cod.Missao: "+missaoAtual.getCodMissao();
-            Iterator<ICenario> cenarios=missaoAtual.getVersoes();
-            while(cenarios.hasNext()){
-                ICenario cenario=cenarios.next();
-                resultado+="\n Versão: "+cenario.getVersao();
-                resultado+="\n" + cenario.getSimulacaoAutomatica().toString();
+        while (missoes.hasNext()) {
+            IMissao missaoAtual = missoes.next();
+            resultado += "\n\n Cod.Missao: " + missaoAtual.getCodMissao();
+            Iterator<ICenario> cenarios = missaoAtual.getVersoes();
+            while (cenarios.hasNext()) {
+                ICenario cenario = cenarios.next();
+                resultado += "\n Versão: " + cenario.getVersao();
+                if (cenario.getSimulacaoAutomatica().getTrajeto() == null) {
+                    resultado += "\n Sem simulações até ao momento.";
+                } else {
+                    resultado += "\n" + cenario.getSimulacaoAutomatica().toString();
+                }
             }
         }
         return resultado;

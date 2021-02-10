@@ -7,7 +7,6 @@ package exceptions;
 
 /**
  *
- * @author tiago
  */
 public class InvalidDocumentException extends Exception{
     
